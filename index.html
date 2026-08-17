@@ -12,7 +12,7 @@
   --bg:#080c14;--bg2:#0b111d;--panel:#0e1626;--panel2:#111b2e;
   --line:rgba(120,150,200,.14);--line2:rgba(120,150,200,.09);
   --ink:#e9eef7;--muted:#93a1bd;--muted2:#6b7a97;
-  --blue:#5b9dff;--purple:#d06dff;--ok:#37d39b;
+  --blue:#5b9dff;--purple:#d06dff;--ok:#37d39b;--warn:#f0b03a;
   --grad:linear-gradient(135deg,#5b9dff,#d06dff);
   --font-ui:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
   --font-disp:'Space Grotesk',var(--font-ui);--font-mono:'IBM Plex Mono',ui-monospace,monospace;
@@ -359,6 +359,88 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
   .view-design .designpane{display:block;padding:20px 16px 90px}
 }
 
+
+/* ===== MOBILE WIZARD ===== */
+#wzTop,#wzBar,#wzWelcome{display:none}
+.more-fields>summary{list-style:none;cursor:pointer;font-size:13px;color:var(--blue);font-weight:600;display:inline-flex;align-items:center;gap:7px;padding:8px 0 4px}
+.more-fields>summary::-webkit-details-marker{display:none}
+.more-fields>summary::before{content:"+";font-weight:700;font-size:15px;width:16px;height:16px;border-radius:5px;background:rgba(91,157,255,.14);display:inline-grid;place-items:center}
+.more-fields[open]>summary::before{content:"–"}
+@keyframes wzIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
+@media(max-width:900px){
+  body.mw{overflow:hidden}
+  body.mw .app{height:100dvh}
+  body.mw .topbar{display:none}
+  body.mw .mobtab{display:none!important}
+  body.mw #viewport{display:flex;flex-direction:column;flex:1;min-height:0}
+  body.mw #viewport>.rail{display:none}
+  body.mw .mobsel{display:none}
+  /* top */
+  body.mw #wzTop{display:block;flex:none;padding:14px 18px 12px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--bg2),transparent)}
+  body.mw #wzTop .wz-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  body.mw #wzTop .wz-step{font-family:var(--font-mono);font-size:11px;color:var(--muted2);letter-spacing:.06em;text-transform:uppercase}
+  body.mw #wzTop .wz-quality{font-size:11.5px;color:var(--muted)}
+  body.mw #wzTop .wz-quality b{color:var(--blue);font-weight:700}
+  body.mw #wzTop .wz-bar{height:5px;border-radius:5px;background:rgba(120,150,200,.16);overflow:hidden}
+  body.mw #wzTop .wz-bar i{display:block;height:100%;background:var(--grad);width:0;transition:width .5s cubic-bezier(.4,0,.2,1)}
+  body.mw #wzTop h2{font-family:var(--font-disp);font-size:21px;margin:13px 0 4px;letter-spacing:-.015em}
+  body.mw #wzTop .wz-coach{font-size:13px;color:var(--muted);line-height:1.45;display:flex;gap:8px;align-items:flex-start}
+  body.mw #wzTop .wz-coach svg{width:16px;height:16px;color:var(--blue);flex:none;margin-top:2px}
+  /* content blocks */
+  body.mw .editor,body.mw .designpane,body.mw .preview,body.mw #wzWelcome{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;display:none;height:auto}
+  body.mw.mw-sec .editor{display:block}
+  body.mw.mw-welcome #wzWelcome{display:flex;flex-direction:column}
+  body.mw.mw-design .designpane{display:block}
+  body.mw.mw-final .preview{display:flex}
+  body.mw .editor{padding:18px 16px 26px}
+  body.mw .editor .sec{display:none;margin:0}
+  body.mw .editor .sec.wz-on{display:block;animation:wzIn .32s ease}
+  body.mw .editor .sec>.sec-head,body.mw .editor .sec>.sec-sub{display:none}
+  /* welcome hides chrome */
+  body.mw.mw-welcome #wzTop,body.mw.mw-welcome #wzBar{display:none}
+  /* bottom bar */
+  body.mw #wzBar{display:flex;flex:none;gap:11px;padding:12px 16px calc(14px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:rgba(8,12,20,.97);backdrop-filter:blur(12px)}
+  body.mw #wzBar .btn{justify-content:center;padding:15px;font-size:15px;border-radius:13px}
+  body.mw #wzBar .btn.back{flex:1}
+  body.mw #wzBar .btn.primary{flex:2.2}
+  /* bigger inputs */
+  body.mw input,body.mw select,body.mw textarea{padding:14px 15px;font-size:16px;border-radius:13px}
+  body.mw .field{gap:8px}body.mw .grid{gap:15px}body.mw .card{padding:16px;border-radius:15px}
+  body.mw label{font-size:12.5px}
+  body.mw .addbtn{padding:14px;border-radius:13px;font-size:14px}
+  /* design step */
+  body.mw .designpane{padding:20px 16px 28px}
+  body.mw .designpane h2{display:none}
+  body.mw .designpane .tgroup{margin-bottom:18px;flex-wrap:wrap;gap:9px}
+  body.mw .designpane .tlab{width:100%;font-size:11px}
+  body.mw .designpane .swatches{max-width:none;gap:8px}
+  body.mw .designpane .sw{width:30px;height:30px;border-radius:9px}
+  body.mw .designpane .seg{flex-wrap:wrap}
+  body.mw .designpane .seg button{padding:9px 14px;font-size:13px}
+  body.mw .designpane .tpl-open{width:100%;justify-content:space-between;padding:14px;font-size:15px;border-radius:13px}
+  body.mw .designpane .pv-actions{display:none}
+  /* final step */
+  body.mw .preview .pv-toolbar{display:none}
+  body.mw .preview{background:linear-gradient(180deg,#0a0f1a,#070b12)}
+  body.mw .preview .pv-scroll{padding:18px 12px 24px}
+  /* welcome */
+  body.mw #wzWelcome{padding:26px 22px 30px;justify-content:center;gap:15px;text-align:center}
+  body.mw #wzWelcome .wz-hero{width:66px;height:66px;border-radius:19px;background:var(--grad);display:grid;place-items:center;margin:0 auto 2px;box-shadow:0 14px 34px -10px rgba(91,157,255,.6)}
+  body.mw #wzWelcome .wz-hero svg{width:36px;height:36px;color:#07101f}
+  body.mw #wzWelcome h1{font-family:var(--font-disp);font-size:25px;margin:0;letter-spacing:-.02em}
+  body.mw #wzWelcome p.sub{color:var(--muted);font-size:14px;line-height:1.55;margin:0 4px 6px}
+  body.mw #wzWelcome .wz-card{border:1px solid var(--line);border-radius:16px;padding:17px;text-align:left;background:linear-gradient(180deg,rgba(120,150,200,.05),transparent);display:flex;gap:14px;align-items:center;transition:.15s;color:var(--ink)}
+  body.mw #wzWelcome .wz-card:active{transform:scale(.98)}
+  body.mw #wzWelcome .wz-card.primary{border-color:rgba(91,157,255,.42);background:rgba(91,157,255,.09)}
+  body.mw #wzWelcome .wz-card .ic{width:44px;height:44px;border-radius:13px;background:var(--panel2);display:grid;place-items:center;flex:none}
+  body.mw #wzWelcome .wz-card.primary .ic{background:var(--grad)}
+  body.mw #wzWelcome .wz-card.primary .ic svg{color:#07101f}
+  body.mw #wzWelcome .wz-card .ic svg{width:22px;height:22px;color:var(--blue)}
+  body.mw #wzWelcome .wz-card b{display:block;font-size:15px;margin-bottom:3px}
+  body.mw #wzWelcome .wz-card span{font-size:12.5px;color:var(--muted);line-height:1.4}
+  body.mw #wzWelcome .wz-or{font-size:11px;color:var(--muted2);letter-spacing:.12em;text-transform:uppercase}
+}
+
 @media print{
   @page{size:A4;margin:0}
   html,body{height:auto;overflow:visible;background:#fff}
@@ -393,6 +475,7 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
   </header>
 
   <div class="body view-editor" id="viewport">
+    <div id="wzTop"><div class="wz-meta"><span class="wz-step" id="wzStep">Paso 1</span><span class="wz-quality">Calidad <b id="wzQual">0%</b></span></div><div class="wz-bar"><i id="wzBarFill"></i></div><h2 id="wzTitle"></h2><div class="wz-coach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span id="wzCoach"></span></div></div>
     <nav class="rail">
       <div class="rail-h">Secciones</div>
       <div id="navList"></div>
@@ -402,11 +485,13 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
       <div class="mobsel"><select id="mobJump" onchange="jumpTo(this.value)"></select><button class="btn sm" onclick="setView('preview')">Ver CV</button></div>
       <div id="editorSections"></div>
     </main>
+    <div id="wzWelcome"><div class="wz-hero"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></div><h1>Tu CV de piloto</h1><p class="sub">Te guío paso a paso. En un par de minutos tienes un CV profesional listo para descargar.</p><button class="wz-card primary" onclick="document.getElementById('importCV').click()"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></svg></div><div><b>Sube tu CV antiguo</b><span>PDF o Word — detecto y relleno tus datos automáticamente</span></div></button><div class="wz-or">o</div><button class="wz-card" onclick="mwNext()"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div><div><b>Empezar de cero</b><span>Rellena guiado, campo a campo</span></div></button></div>
     <div class="designpane" id="designPane"></div>
     <section class="preview">
       <div class="pv-toolbar" id="pvToolbar"></div>
       <div class="pv-scroll" id="pvScroll"><div class="paper-scale" id="paperScale"><div class="cv legacy" id="cvPaper"></div></div></div>
     </section>
+    <div id="wzBar"><button class="btn back" id="wzBack" onclick="mwPrev()">Atrás</button><button class="btn primary" id="wzNext" onclick="mwNext()">Siguiente</button></div>
   </div>
 </div>
 
@@ -514,22 +599,26 @@ function editorHTML(){return `
 <div class="field"><label>Total</label><input type="number" inputmode="numeric" data-bind="hours.total" placeholder="4500"></div>
 <div class="field"><label>PIC</label><input type="number" inputmode="numeric" data-bind="hours.pic" placeholder="320"></div>
 <div class="field"><label>SIC / copiloto</label><input type="number" inputmode="numeric" data-bind="hours.sic" placeholder="4030"></div>
-<div class="field"><label>PICUS</label><input type="number" inputmode="numeric" data-bind="hours.picus" placeholder="150"></div>
-<div class="field"><label>Doble mando</label><input type="number" inputmode="numeric" data-bind="hours.dual" placeholder="180"></div>
-<div class="field"><label>Multimotor</label><input type="number" inputmode="numeric" data-bind="hours.multiEngine" placeholder="4300"></div><div class="field"><label>Multipiloto</label><input type="number" inputmode="numeric" data-bind="hours.multiPilot" placeholder="4300"></div>
-<div class="field"><label>Monomotor</label><input type="number" inputmode="numeric" data-bind="hours.singleEngine" placeholder="200"></div>
-<div class="field"><label>Turbina</label><input type="number" inputmode="numeric" data-bind="hours.turbine" placeholder="4300"></div>
+<div class="field"><label>Multimotor</label><input type="number" inputmode="numeric" data-bind="hours.multiEngine" placeholder="4300"></div>
 <div class="field"><label>Jet</label><input type="number" inputmode="numeric" data-bind="hours.jet" placeholder="3200"></div>
 <div class="field"><label>IFR</label><input type="number" inputmode="numeric" data-bind="hours.ifr" placeholder="3800"></div>
 <div class="field"><label>Nocturno</label><input type="number" inputmode="numeric" data-bind="hours.night" placeholder="620"></div>
+<div class="field"><label>Horas en tipo</label><input type="number" inputmode="numeric" data-bind="hours.onType" placeholder="3200"></div>
+<div class="field"><label>Nombre del tipo</label><input type="text" data-bind="hours.onTypeName" placeholder="A320"></div>
+</div>
+<details class="more-fields"><summary>Más horas (opcional)</summary>
+<div class="grid g3" style="margin-top:12px">
+<div class="field"><label>PICUS</label><input type="number" inputmode="numeric" data-bind="hours.picus" placeholder="150"></div>
+<div class="field"><label>Doble mando</label><input type="number" inputmode="numeric" data-bind="hours.dual" placeholder="180"></div>
+<div class="field"><label>Multipiloto</label><input type="number" inputmode="numeric" data-bind="hours.multiPilot" placeholder="4300"></div>
+<div class="field"><label>Monomotor</label><input type="number" inputmode="numeric" data-bind="hours.singleEngine" placeholder="200"></div>
+<div class="field"><label>Turbina</label><input type="number" inputmode="numeric" data-bind="hours.turbine" placeholder="4300"></div>
 <div class="field"><label>Travesía (XC)</label><input type="number" inputmode="numeric" data-bind="hours.xc" placeholder="4100"></div>
 <div class="field"><label>Instructor</label><input type="number" inputmode="numeric" data-bind="hours.instructor" placeholder=""></div>
 <div class="field"><label>Simulador</label><input type="number" inputmode="numeric" data-bind="hours.simulator" placeholder="220"></div>
 <div class="field"><label>Últ. 90 días</label><input type="number" inputmode="numeric" data-bind="hours.last90" placeholder="180"></div>
 <div class="field"><label>Últ. 12 meses</label><input type="number" inputmode="numeric" data-bind="hours.last12" placeholder="750"></div>
-<div class="field"><label>Horas en tipo</label><input type="number" inputmode="numeric" data-bind="hours.onType" placeholder="3200"></div>
-<div class="field"><label>Nombre del tipo</label><input type="text" data-bind="hours.onTypeName" placeholder="A320"></div>
-</div></section>
+</div></details></section>
 
 <section class="sec" id="sec-exp" data-title="Experiencia"><div class="sec-head"><span class="kx">06</span><h2>Experiencia profesional</h2></div><p class="sec-sub">De más reciente a más antigua. Una línea por logro.</p>
 <div id="expList"></div><button class="addbtn" data-add="experience"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Añadir experiencia</button></section>
@@ -756,7 +845,7 @@ function parseCV(raw){const t=raw.replace(/\u00a0/g,' ').replace(/[ \t]+/g,' ');
  if(!state.languages.some(x=>/ingl|engl/i.test(x.name))){const ic=t.match(/(?:icao|oaci)[^0-9]{0,12}?(?:level|nivel)?\s*([456])\b/i)||t.match(/(?:english|inglés)[^0-9]{0,14}?(?:level|nivel)\s*([456])\b/i);if(ic){state.languages.push({name:state.meta.lang==='es'?'Inglés':'English',level:(state.meta.lang==='es'?'OACI Nivel ':'ICAO Level ')+ic[1]});ap.push('inglés OACI '+ic[1]);}}
  if(!state.typeRatings.some(x=>has(x.aircraft))){const re=/\b(A3(?:18|19|20|21|30|40|50)(?:neo)?|B?7(?:37|47|57|67|77|87)|ATR[ -]?(?:42|72)|E(?:MB)?[ -]?1?(?:70|75|90|95)|CRJ[ -]?(?:200|700|900|1000)|Q400)\b/ig;const seen={},found=[];let m;while((m=re.exec(t))){const up=m[1].toUpperCase().replace(/[\s-]/g,'');const dig=up.replace(/\D/g,'');let a;if(up.indexOf('A3')===0)a='Airbus '+up;else if(/^B?7/.test(up)&&dig.length===3)a='Boeing '+dig;else if(up.indexOf('ATR')===0)a='ATR '+dig;else if(up[0]==='E')a='Embraer E'+dig;else if(up.indexOf('CRJ')===0)a='CRJ '+dig;else if(up[0]==='Q')a='Bombardier Q400';else a=up;if(!seen[a.toLowerCase()]){seen[a.toLowerCase()]=1;found.push(a);}if(found.length>=4)break;}if(found.length){state.typeRatings=found.map(a=>({aircraft:a,status:'current',date:''}));ap.push(found.length+' type rating(s)');}}
  return ap;}
-$('#importCV').addEventListener('change',async function(){const f=this.files[0];if(!f)return;this.value='';toast('Leyendo CV…');try{let text='';const nm=f.name.toLowerCase();if(nm.endsWith('.pdf'))text=await extractPdf(f);else if(nm.endsWith('.docx')||nm.endsWith('.doc'))text=await extractDocx(f);else text=await f.text();if(!text||text.trim().length<20){toast('No pude leer texto del archivo');return;}const ap=parseCV(text);hydrate();if(ap.length)toast('Detectado: '+ap.join(', ')+'. ¡Revísalo!');else toast('No detecté campos — rellénalo a mano');}catch(e){toast('No pude procesar: '+(e.message||'error'));}});
+$('#importCV').addEventListener('change',async function(){const f=this.files[0];if(!f)return;this.value='';toast('Leyendo CV…');try{let text='';const nm=f.name.toLowerCase();if(nm.endsWith('.pdf'))text=await extractPdf(f);else if(nm.endsWith('.docx')||nm.endsWith('.doc'))text=await extractDocx(f);else text=await f.text();if(!text||text.trim().length<20){toast('No pude leer texto del archivo');return;}const ap=parseCV(text);hydrate();if(document.body.classList.contains('mw'))mwGo(1);if(ap.length)toast('Detectado: '+ap.join(', ')+'. ¡Revísalo!');else toast('No detecté campos — rellénalo a mano');}catch(e){toast('No pude procesar: '+(e.message||'error'));}});
 function resetAll(){if(!confirm('¿Vaciar todo y empezar de cero?'))return;state=emptyData();hydrate();toast('Listo para empezar');}
 
 function downloadPDF(){const prev=document.title;document.title=state.personal.fullName?('CV - '+state.personal.fullName):'CV - Pilot Network';const paper=$('#cvPaper');const tf=paper.style.transform;paper.style.transform='none';window.print();setTimeout(()=>{paper.style.transform=tf;document.title=prev;fitPreview();},600);}
@@ -791,13 +880,61 @@ let sT=null;function save(){clearTimeout(sT);sT=setTimeout(()=>{try{STORE.set(SK
 
 function hydrate(){$$('[data-bind]').forEach(el=>{const v=gp(state,el.dataset.bind);if(el.type==='checkbox')el.checked=!!v;else el.value=v==null?'':v;});$('#showPhoto').checked=!!state.meta.showPhoto;$('#photoRow').style.display=state.meta.showPhoto?'flex':'none';paintPhoto();paintSwatches();syncSw();syncSegs();buildSummaryPool();rAllLists();renderCV();updateNav();save();}
 
+/* ===== MOBILE WIZARD ===== */
+const MW=[
+ {t:'welcome'},
+ {t:'sec',id:'sec-personal',title:'Datos personales',coach:'Empecemos por cómo te encuentran. El puesto es lo primero que se ve.'},
+ {t:'sec',id:'sec-summary',title:'Perfil profesional',coach:'3–4 líneas: tu experiencia, qué vuelas y qué buscas. Tienes ejemplos listos para usar.'},
+ {t:'sec',id:'sec-licenses',title:'Licencias',coach:'Tu licencia EASA, el certificado médico y las habilitaciones asociadas.'},
+ {t:'sec',id:'sec-types',title:'Habilitaciones de tipo',coach:'Los aviones que tienes habilitados, en vigor o caducados.'},
+ {t:'sec',id:'sec-hours',title:'Horas de vuelo',coach:'Solo lo que aplique. Lo esencial primero; toca "Más horas" para el resto.'},
+ {t:'sec',id:'sec-exp',title:'Experiencia',coach:'De más reciente a más antigua. Una línea por logro; tienes ejemplos.'},
+ {t:'sec',id:'sec-edu',title:'Formación',coach:'Tu ATO o escuela y los cursos: MCC/JOC, UPRT, etc.'},
+ {t:'sec',id:'sec-lang',title:'Idiomas',coach:'Nivel OACI para el inglés; el resto en MCER (A1–C2) o "Nativo".'},
+ {t:'sec',id:'sec-extras',title:'Disponibilidad',coach:'Disponibilidad, preaviso y cualquier extra relevante.'},
+ {t:'design',title:'Diseño',coach:'Elige plantilla y color. Se actualiza al instante.'},
+ {t:'final',title:'Tu CV',coach:'¡Listo! Revísalo y descárgalo en PDF.'}
+];
+let mwStep=0;
+function isMobileWz(){return window.innerWidth<=900;}
+function mwGo(i){
+ mwStep=Math.max(0,Math.min(MW.length-1,i));const s=MW[mwStep];
+ document.body.classList.remove('mw-welcome','mw-sec','mw-design','mw-final');
+ document.body.classList.add('mw-'+s.t);
+ document.querySelectorAll('#editorSections .sec').forEach(el=>el.classList.remove('wz-on'));
+ if(s.t==='sec'){const el=document.getElementById(s.id);if(el)el.classList.add('wz-on');}
+ if(s.t==='final'){renderCV();requestAnimationFrame(fitPreview);}
+ mwChrome();
+ const map={welcome:'#wzWelcome',sec:'.editor',design:'.designpane',final:'.preview .pv-scroll'};
+ const reg=document.querySelector(map[s.t]);if(reg)reg.scrollTop=0;
+}
+function mwNext(){if(mwStep>=MW.length-1){downloadPDF();return;}mwGo(mwStep+1);}
+function mwPrev(){mwGo(mwStep-1);}
+function mwChrome(){
+ const s=MW[mwStep],last=MW.length-1;
+ const T=document.getElementById('wzTitle');if(T)T.textContent=s.title||'';
+ const C=document.getElementById('wzCoach');if(C)C.textContent=s.coach||'';
+ const st=document.getElementById('wzStep');if(st)st.textContent='Paso '+mwStep+' de '+last;
+ const r=computeScore();const q=document.getElementById('wzQual');if(q)q.textContent=r.score+'%';
+ const bf=document.getElementById('wzBarFill');if(bf)bf.style.width=(mwStep/last*100)+'%';
+ const nx=document.getElementById('wzNext');if(nx)nx.textContent=mwStep===last?'Descargar PDF':(s.t==='design'?'Ver mi CV':'Siguiente');
+}
+function mwSync(){
+ if(isMobileWz()){
+  if(!document.body.classList.contains('mw')){document.body.classList.add('mw');mwGo(mwStep||0);}
+  else mwGo(mwStep);
+ }else{
+  document.body.classList.remove('mw','mw-welcome','mw-sec','mw-design','mw-final');
+  document.querySelectorAll('#editorSections .sec').forEach(el=>el.classList.remove('wz-on'));
+ }
+}
 /* boot */
 $('#editorSections').innerHTML=editorHTML();
 buildNav();bindStatic();bindPhoto();buildToolbar();buildSummaryPool();
 $('#showPhoto').checked=!!state.meta.showPhoto;$('#photoRow').style.display=state.meta.showPhoto?'flex':'none';paintPhoto();
-rAllLists();renderCV();updateNav();setActive('personal');syncSw();syncSegs();
+rAllLists();renderCV();updateNav();setActive('personal');syncSw();syncSegs();mwSync();
 if('ResizeObserver'in window)new ResizeObserver(()=>fitPreview()).observe($('#pvScroll'));
-window.addEventListener('resize',fitPreview);
+window.addEventListener('resize',()=>{fitPreview();mwSync();});
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitPreview);
 setTimeout(fitPreview,300);
 if('IntersectionObserver'in window){const map={};SECTIONS.forEach(([k])=>map[secId[k]]=k);const io=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting)setActive(map[en.target.id]);});},{root:$('#editor'),rootMargin:'-10% 0px -75% 0px'});Object.keys(map).forEach(id=>{const el=document.getElementById(id);if(el)io.observe(el);});}
