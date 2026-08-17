@@ -6,282 +6,351 @@
 <title>Aviation CV Builder — Pilot Network</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&family=Cormorant+Garamond:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ============ TOKENS ============ */
 :root{
-  --bg:#080c14; --bg-2:#0b111d; --panel:#0e1626; --panel-2:#111b2e;
-  --line:rgba(120,150,200,.14); --line-2:rgba(120,150,200,.10);
-  --ink:#e9eef7; --muted:#93a1bd; --muted-2:#6b7a97;
-  --blue:#5b9dff; --purple:#d06dff; --ok:#37d39b; --warn:#ffb020;
+  --bg:#080c14;--bg2:#0b111d;--panel:#0e1626;--panel2:#111b2e;
+  --line:rgba(120,150,200,.14);--line2:rgba(120,150,200,.09);
+  --ink:#e9eef7;--muted:#93a1bd;--muted2:#6b7a97;
+  --blue:#5b9dff;--purple:#d06dff;--ok:#37d39b;
   --grad:linear-gradient(135deg,#5b9dff,#d06dff);
-  --radius:14px; --radius-sm:10px;
-  --shadow:0 20px 50px -24px rgba(0,0,0,.8);
   --font-ui:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-  --font-display:'Space Grotesk',var(--font-ui);
-  --font-mono:'IBM Plex Mono',ui-monospace,monospace;
+  --font-disp:'Space Grotesk',var(--font-ui);--font-mono:'IBM Plex Mono',ui-monospace,monospace;
 }
 *{box-sizing:border-box}
 html,body{margin:0;height:100%}
-body{
-  font-family:var(--font-ui); color:var(--ink);
-  background:
-    radial-gradient(900px 600px at 12% -8%,rgba(91,157,255,.10),transparent 60%),
-    radial-gradient(800px 600px at 110% 10%,rgba(208,109,255,.08),transparent 55%),
-    var(--bg);
-  -webkit-font-smoothing:antialiased; overflow:hidden;
-}
+body{font-family:var(--font-ui);color:var(--ink);overflow:hidden;
+  background:radial-gradient(900px 600px at 12% -8%,rgba(91,157,255,.10),transparent 60%),radial-gradient(800px 600px at 110% 10%,rgba(208,109,255,.08),transparent 55%),var(--bg);
+  -webkit-font-smoothing:antialiased}
 button{font-family:inherit;cursor:pointer}
 ::-webkit-scrollbar{width:10px;height:10px}
 ::-webkit-scrollbar-thumb{background:rgba(120,150,200,.22);border-radius:20px;border:2px solid transparent;background-clip:padding-box}
 ::-webkit-scrollbar-thumb:hover{background:rgba(120,150,200,.4);background-clip:padding-box}
 
-/* ============ APP SHELL ============ */
 .app{display:flex;flex-direction:column;height:100vh;height:100dvh}
-.topbar{
-  display:flex;align-items:center;gap:14px;padding:12px 18px;
-  border-bottom:1px solid var(--line);background:rgba(8,12,20,.72);backdrop-filter:blur(14px);z-index:30
-}
-.brand{display:flex;align-items:center;gap:11px;font-family:var(--font-display);font-weight:600;letter-spacing:-.01em}
-.brand .glyph{
-  width:34px;height:34px;border-radius:10px;display:grid;place-items:center;
-  background:var(--grad);box-shadow:0 6px 18px -6px rgba(91,157,255,.6);flex:none
-}
+.topbar{display:flex;align-items:center;gap:14px;padding:11px 18px;border-bottom:1px solid var(--line);background:rgba(8,12,20,.72);backdrop-filter:blur(14px);z-index:40}
+.brand{display:flex;align-items:center;gap:11px;font-family:var(--font-disp);font-weight:600;letter-spacing:-.01em}
+.brand .glyph{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--grad);box-shadow:0 6px 18px -6px rgba(91,157,255,.6);flex:none}
 .brand .glyph svg{width:20px;height:20px;color:#081018}
-.brand b{font-size:15px}
-.brand span{display:block;font-size:11px;color:var(--muted);font-weight:400;font-family:var(--font-ui);margin-top:-1px}
+.brand b{font-size:15px}.brand span{display:block;font-size:11px;color:var(--muted);font-weight:400;font-family:var(--font-ui);margin-top:-1px}
 .top-actions{margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.mobtab{display:none}
-
-.btn{
-  display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);
-  background:var(--panel);color:var(--ink);padding:8px 13px;border-radius:10px;font-size:13px;font-weight:500;
-  transition:.15s border-color,.15s background,.15s transform;white-space:nowrap
-}
-.btn:hover{border-color:rgba(120,150,200,.32);background:var(--panel-2)}
-.btn:active{transform:translateY(1px)}
-.btn svg{width:15px;height:15px;opacity:.85}
-.btn.ghost{background:transparent}
+.mobtab{display:none;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:3px;gap:2px}
+.mobtab button{border:none;background:transparent;color:var(--muted);padding:6px 12px;border-radius:6px;font-size:12.5px;font-weight:600;transition:.14s}
+.mobtab button.on{background:var(--grad);color:#07101f}
+.btn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:8px 13px;border-radius:10px;font-size:13px;font-weight:500;transition:.15s;white-space:nowrap}
+.btn:hover{border-color:rgba(120,150,200,.32);background:var(--panel2)}.btn:active{transform:translateY(1px)}
+.btn svg{width:15px;height:15px;opacity:.85}.btn.ghost{background:transparent}
 .btn.primary{background:var(--grad);border:none;color:#07101f;font-weight:600;box-shadow:0 8px 22px -10px rgba(91,157,255,.7)}
-.btn.primary:hover{filter:brightness(1.05)}
-.btn.sm{padding:6px 10px;font-size:12px;border-radius:8px}
+.btn.primary:hover{filter:brightness(1.05)}.btn.sm{padding:6px 10px;font-size:12px;border-radius:8px}
 
-/* ============ BODY GRID ============ */
-.body{flex:1;display:grid;grid-template-columns:236px minmax(360px,1fr) minmax(420px,1.15fr);min-height:0}
-@media(max-width:1180px){.body{grid-template-columns:212px minmax(340px,1fr) minmax(380px,1fr)}}
+.body{flex:1;display:grid;grid-template-columns:232px minmax(340px,.95fr) minmax(430px,1.2fr);min-height:0}
+@media(max-width:1200px){.body{grid-template-columns:210px minmax(320px,1fr) minmax(380px,1fr)}}
 
-/* nav rail */
-.rail{border-right:1px solid var(--line);background:var(--bg-2);overflow-y:auto;padding:16px 12px}
-.rail .rail-h{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);margin:6px 8px 10px;font-weight:600}
-.navitem{
-  display:flex;align-items:center;gap:11px;width:100%;text-align:left;border:1px solid transparent;
-  background:transparent;color:var(--muted);padding:9px 10px;border-radius:10px;font-size:13.5px;margin-bottom:2px;transition:.14s
-}
+.rail{border-right:1px solid var(--line);background:var(--bg2);overflow-y:auto;padding:15px 12px}
+.rail-h{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2);margin:6px 8px 9px;font-weight:600}
+.navitem{display:flex;align-items:center;gap:11px;width:100%;text-align:left;border:1px solid transparent;background:transparent;color:var(--muted);padding:9px 10px;border-radius:10px;font-size:13.5px;margin-bottom:2px;transition:.14s}
 .navitem:hover{background:rgba(120,150,200,.07);color:var(--ink)}
 .navitem.active{background:rgba(91,157,255,.12);border-color:rgba(91,157,255,.28);color:#fff}
 .navitem .n{width:22px;height:22px;border-radius:7px;background:rgba(120,150,200,.12);display:grid;place-items:center;font-size:11px;font-weight:600;color:var(--muted);flex:none;font-family:var(--font-mono)}
 .navitem.active .n{background:var(--grad);color:#07101f}
 .navitem .lab{flex:1;line-height:1.2}
-.navitem .tick{width:16px;height:16px;flex:none;opacity:0;transition:.2s}
-.navitem.done .tick{opacity:1;color:var(--ok)}
-.rail-foot{margin-top:14px;padding:12px 10px 4px;border-top:1px solid var(--line-2)}
+.navitem .tick{width:16px;height:16px;flex:none;opacity:0;transition:.2s}.navitem.done .tick{opacity:1;color:var(--ok)}
+.rail-foot{margin-top:13px;padding:12px 10px 4px;border-top:1px solid var(--line2)}
 .progress{height:6px;border-radius:6px;background:rgba(120,150,200,.14);overflow:hidden}
-.progress i{display:block;height:100%;background:var(--grad);width:0;transition:width .4s cubic-bezier(.2,.7,.2,1)}
+.progress i{display:block;height:100%;background:var(--grad);width:0;transition:width .4s}
 .progress-lab{font-size:11.5px;color:var(--muted);margin-top:7px;display:flex;justify-content:space-between}
 
-/* editor */
-.editor{overflow-y:auto;padding:22px 24px 120px;scroll-behavior:smooth}
+.editor{overflow-y:auto;padding:20px 22px 120px;scroll-behavior:smooth}
 .mobsel{display:none}
-.sec{margin-bottom:30px;scroll-margin-top:16px}
-.sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:4px}
-.sec-head h2{font-family:var(--font-display);font-size:18px;font-weight:600;margin:0;letter-spacing:-.01em}
+.sec{margin-bottom:28px;scroll-margin-top:14px}
+.sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:3px}
+.sec-head h2{font-family:var(--font-disp);font-size:17px;font-weight:600;margin:0;letter-spacing:-.01em}
 .sec-head .kx{font-family:var(--font-mono);font-size:11px;color:var(--blue);opacity:.8}
-.sec-sub{font-size:12.5px;color:var(--muted);margin:0 0 16px;line-height:1.5}
-
-.grid{display:grid;gap:13px}
-.g2{grid-template-columns:1fr 1fr}
-.g3{grid-template-columns:1fr 1fr 1fr}
-@media(max-width:1180px){.g3{grid-template-columns:1fr 1fr}}
-.field{display:flex;flex-direction:column;gap:6px;min-width:0}
-.field.span2{grid-column:1/-1}
+.sec-sub{font-size:12.5px;color:var(--muted);margin:0 0 15px;line-height:1.5}
+.grid{display:grid;gap:12px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr 1fr}
+@media(max-width:1200px){.g3{grid-template-columns:1fr 1fr}}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}.field.span2{grid-column:1/-1}
 label{font-size:12px;color:var(--muted);font-weight:500;display:flex;gap:6px;align-items:center}
-label .hint{color:var(--muted-2);font-weight:400}
+label .hint{color:var(--muted2);font-weight:400}
 input[type=text],input[type=email],input[type=tel],input[type=number],input[type=url],select,textarea{
-  width:100%;background:var(--panel);border:1px solid var(--line);color:var(--ink);
-  padding:10px 12px;border-radius:10px;font-size:15px;font-family:inherit;transition:.14s;min-width:0
-}
-textarea{resize:vertical;min-height:76px;line-height:1.5}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(91,157,255,.16);background:var(--panel-2)}
-input::placeholder,textarea::placeholder{color:var(--muted-2)}
+  width:100%;background:var(--panel);border:1px solid var(--line);color:var(--ink);padding:10px 12px;border-radius:10px;font-size:15px;font-family:inherit;transition:.14s;min-width:0}
+textarea{resize:vertical;min-height:74px;line-height:1.5}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(91,157,255,.16);background:var(--panel2)}
+input::placeholder,textarea::placeholder{color:var(--muted2)}
 select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2393a1bd' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:34px}
-
-/* list cards */
 .card{border:1px solid var(--line);background:linear-gradient(180deg,rgba(120,150,200,.035),transparent);border-radius:12px;padding:14px;margin-bottom:12px;position:relative}
 .card .card-top{display:flex;align-items:center;gap:8px;margin-bottom:12px}
-.card .card-top .idx{font-family:var(--font-mono);font-size:11px;color:var(--muted-2)}
-.card .card-top .grow{flex:1}
+.card .card-top .idx{font-family:var(--font-mono);font-size:11px;color:var(--muted2)}.card .card-top .grow{flex:1}
 .iconbtn{border:1px solid var(--line);background:var(--panel);color:var(--muted);width:30px;height:30px;border-radius:8px;display:grid;place-items:center;transition:.14s}
 .iconbtn:hover{color:var(--ink);border-color:rgba(120,150,200,.3)}
-.iconbtn.danger:hover{color:#ff7a7a;border-color:rgba(255,120,120,.4);background:rgba(255,80,80,.08)}
-.iconbtn svg{width:15px;height:15px}
+.iconbtn.danger:hover{color:#ff7a7a;border-color:rgba(255,120,120,.4);background:rgba(255,80,80,.08)}.iconbtn svg{width:15px;height:15px}
 .addbtn{display:inline-flex;align-items:center;gap:8px;width:100%;justify-content:center;border:1px dashed var(--line);background:transparent;color:var(--muted);padding:11px;border-radius:11px;font-size:13px;font-weight:500;transition:.15s}
-.addbtn:hover{border-color:var(--blue);color:var(--blue);background:rgba(91,157,255,.05)}
-.addbtn svg{width:16px;height:16px}
-.empty{font-size:12.5px;color:var(--muted-2);text-align:center;padding:6px 0 12px;font-style:normal}
-
+.addbtn:hover{border-color:var(--blue);color:var(--blue);background:rgba(91,157,255,.05)}.addbtn svg{width:16px;height:16px}
+.empty{font-size:12.5px;color:var(--muted2);text-align:center;padding:6px 0 12px}
 .chkrow{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--muted);cursor:pointer;user-select:none}
 .chkrow input{width:16px;height:16px;accent-color:var(--blue)}
-
-/* suggestion chips */
 .sugg{margin-top:9px}
 .sugg summary{list-style:none;cursor:pointer;font-size:12px;color:var(--blue);display:inline-flex;align-items:center;gap:6px;font-weight:500;padding:2px 0}
-.sugg summary::-webkit-details-marker{display:none}
-.sugg summary svg{width:13px;height:13px;transition:.2s}
-.sugg[open] summary svg{transform:rotate(180deg)}
+.sugg summary::-webkit-details-marker{display:none}.sugg summary svg{width:13px;height:13px;transition:.2s}.sugg[open] summary svg{transform:rotate(180deg)}
 .sugg .pool{display:flex;flex-direction:column;gap:6px;margin-top:9px}
-.chip{
-  text-align:left;border:1px solid var(--line);background:var(--panel);color:var(--ink);
-  padding:8px 11px;border-radius:9px;font-size:12.5px;line-height:1.45;transition:.14s;position:relative;padding-right:30px
-}
-.chip:hover{border-color:var(--blue);background:rgba(91,157,255,.06)}
-.chip::after{content:"+";position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--blue);font-weight:700;font-size:15px}
-
-/* photo */
+.chip{text-align:left;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:8px 11px;border-radius:9px;font-size:12.5px;line-height:1.45;transition:.14s;position:relative;padding-right:30px}
+.chip:hover{border-color:var(--blue);background:rgba(91,157,255,.06)}.chip::after{content:"+";position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--blue);font-weight:700;font-size:15px}
 .photo-row{display:flex;align-items:center;gap:14px}
-.photo-prev{width:60px;height:60px;border-radius:12px;border:1px solid var(--line);background:var(--panel) center/cover no-repeat;flex:none;display:grid;place-items:center;color:var(--muted-2);overflow:hidden}
+.photo-prev{width:60px;height:60px;border-radius:12px;border:1px solid var(--line);background:var(--panel) center/cover no-repeat;flex:none;display:grid;place-items:center;color:var(--muted2);overflow:hidden}
 .photo-prev svg{width:22px;height:22px}
 
-/* ============ PREVIEW ============ */
 .preview{background:linear-gradient(180deg,#060911,#0a0f1a);border-left:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
-.pv-toolbar{display:flex;align-items:center;gap:12px;padding:11px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap;background:rgba(8,12,20,.5)}
+.pv-toolbar{display:flex;align-items:center;gap:10px 14px;padding:10px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap;background:rgba(8,12,20,.5)}
 .tgroup{display:flex;align-items:center;gap:6px}
-.tgroup .tlab{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2);margin-right:2px}
+.tgroup .tlab{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted2);margin-right:2px}
 .seg{display:flex;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:3px;gap:2px}
-.seg button{border:none;background:transparent;color:var(--muted);padding:5px 10px;border-radius:6px;font-size:12px;font-weight:500;transition:.14s}
+.seg button{border:none;background:transparent;color:var(--muted);padding:5px 9px;border-radius:6px;font-size:12px;font-weight:500;transition:.14s;white-space:nowrap}
 .seg button.on{background:rgba(91,157,255,.16);color:#fff}
-.swatches{display:flex;gap:6px}
-.sw{width:22px;height:22px;border-radius:7px;border:2px solid transparent;cursor:pointer;transition:.14s;position:relative}
+.swatches{display:flex;gap:5px;flex-wrap:wrap;max-width:210px}
+.sw{width:20px;height:20px;border-radius:6px;border:2px solid transparent;cursor:pointer;transition:.14s}
 .sw.on{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.15)}
 .pv-actions{margin-left:auto;display:flex;gap:8px}
-
-.pv-scroll{flex:1;overflow:auto;padding:26px 24px;display:flex;justify-content:center;align-items:flex-start}
+.pv-scroll{flex:1;overflow:auto;padding:24px;display:flex;justify-content:center;align-items:flex-start}
 .paper-scale{position:relative}
 
-/* ===== The CV paper ===== */
-.cv{
-  width:794px;background:#fff;color:#1b2330;position:relative;
-  box-shadow:0 30px 70px -30px rgba(0,0,0,.85);border-radius:2px;
-  font-family:'Inter',sans-serif;font-size:calc(13.6px * var(--fs,1));line-height:1.44;
-  --accent:#2563eb;--accent-soft:#eef3ff;
-}
-.cv .pg{padding:46px 48px}
+.tpl-open{display:inline-flex}
+.gcard{border:1px solid var(--line);background:var(--panel);border-radius:10px;overflow:hidden;cursor:pointer;transition:.15s;text-align:left}
+.gcard:hover{border-color:var(--blue)}
+.gcard.on{border-color:var(--blue);box-shadow:0 0 0 2px rgba(91,157,255,.25)}
+.gcard .thumb{height:80px;background:#fff;position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.gcard .thumb .bar{position:absolute;left:0;right:0;top:0;height:26px}
+.gcard .thumb .side{position:absolute;left:0;top:0;bottom:0;width:34%}
+.gcard .thumb .ln{position:absolute;height:4px;border-radius:2px;background:#cfd6e2}
+.gcard .meta{padding:7px 9px}.gcard .meta b{font-size:12px;display:block}.gcard .meta span{font-size:10.5px;color:var(--muted2)}
+
+.modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;background:rgba(4,7,12,.72);backdrop-filter:blur(4px);padding:20px}
+.modal.show{display:flex}
+.modal-inner{background:var(--bg2);border:1px solid var(--line);border-radius:16px;max-width:920px;width:100%;max-height:86vh;overflow:auto;padding:20px}
+.modal-h{display:flex;align-items:center;margin-bottom:14px}.modal-h h3{font-family:var(--font-disp);margin:0;font-size:17px}
+.modal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+
+/* ===== CV PAPER ===== */
+.cv{width:794px;background:var(--paper,#fff);color:var(--ink2,#1b2330);position:relative;box-shadow:0 30px 70px -30px rgba(0,0,0,.85);border-radius:2px;
+  font-family:'Inter Tight',Inter,sans-serif;font-size:calc(13.4px*var(--fs,1));line-height:1.44;
+  --accent:#2563eb;--dark:#0f172a;--paper:#ffffff;--ink2:#1b2330;--mut:#5f6b7d;--soft:#eef3ff;--gold:#c9a44c;--pad:52px}
+.cv .pg{padding:var(--pad)}
 .cv a{color:inherit;text-decoration:none}
-.cv h1,.cv h2,.cv h3{margin:0}
-.cv ul{margin:5px 0 0;padding-left:16px}
-.cv li{margin:2px 0}
-.cv .muted{color:#6b7688}
-
-/* shared section heading utilities */
-.cv .exp-item,.cv .edu-item{page-break-inside:avoid;margin-bottom:12px}
-.cv .exp-item:last-child,.cv .edu-item:last-child{margin-bottom:0}
+.cv h1,.cv h2,.cv h3,.cv p{margin:0}
+.cv ul{margin:4px 0 0;padding-left:15px}.cv li{margin:2px 0}
+.cv .mut{color:var(--mut)}
+.cv .blk{margin-bottom:calc(15px*var(--fs,1))}.cv .blk:last-child{margin-bottom:0}
+.cv .rowln{display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+.cv .sub{font-size:.86em;color:var(--mut);margin-top:1px}
+.cv .dates{font-size:.8em;color:var(--mut);white-space:nowrap;font-variant-numeric:tabular-nums}
 .cv .role{font-weight:700}
-.cv .sub{font-size:.86em;color:#57647a;margin-top:1px}
-.cv .dates{font-size:.82em;color:#57647a;white-space:nowrap;font-variant-numeric:tabular-nums}
-.cv .rowline{display:flex;justify-content:space-between;gap:14px;align-items:baseline}
-.cv .pills{display:flex;flex-wrap:wrap;gap:5px;margin-top:3px}
-.cv .pill{font-size:.78em;padding:2px 8px;border-radius:20px;background:var(--accent-soft);color:var(--accent);font-weight:600;white-space:nowrap}
-.cv .hgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 12px}
-.cv .hcell{display:flex;justify-content:space-between;gap:8px;font-size:.85em;border-bottom:1px dotted #d7dde8;padding-bottom:3px}
-.cv .hcell b{font-family:var(--font-mono);font-weight:600;font-variant-numeric:tabular-nums}
-.cv .hcell span{color:#57647a}
+.cv .acc{color:var(--accent)}
+.cv .exp,.cv .edu{margin-bottom:calc(9px*var(--fs,1));page-break-inside:avoid;break-inside:avoid}
+.cv .exp:last-child,.cv .edu:last-child{margin-bottom:0}
+.cv .pill{display:inline-block;font-size:.78em;padding:2px 8px;border-radius:20px;background:var(--soft);color:var(--accent);font-weight:600;margin:0 4px 4px 0;white-space:nowrap}
+.cv .pills{display:flex;flex-wrap:wrap;margin-top:3px}
+.cv .hrow{display:flex;justify-content:space-between;gap:8px;margin-bottom:2px;font-size:.9em}
+.cv .hrow b{font-weight:700;font-variant-numeric:tabular-nums}
+.cv .kv{margin-bottom:4px;font-size:.9em}.cv .kv b{display:block}
+.cv .wm{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;color:rgba(27,35,48,.05);font-family:var(--font-disp);font-weight:700;font-size:44px;transform:rotate(-18deg)}
+.cv .bh{font-size:.82em;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
 
-/* ---- TEMPLATE: MODERNA (sidebar) ---- */
-.cv.moderna .pg{padding:0}
-.cv.moderna .head{background:var(--accent);color:#fff;padding:28px 40px;display:flex;align-items:center;gap:22px}
-.cv.moderna .head .ph{width:78px;height:78px;border-radius:50%;border:3px solid rgba(255,255,255,.5);background:#fff center/cover no-repeat;flex:none}
-.cv.moderna .head h1{font-family:var(--font-display);font-size:1.85em;font-weight:600;letter-spacing:-.01em;line-height:1.05}
-.cv.moderna .head .tt{font-size:1.02em;opacity:.94;margin-top:4px;font-weight:500}
-.cv.moderna .cols{display:grid;grid-template-columns:34% 1fr}
-.cv.moderna aside{background:#f5f7fb;padding:26px 24px;border-right:1px solid #e7ebf2}
-.cv.moderna main{padding:26px 30px}
-.cv.moderna .blk{margin-bottom:20px}
-.cv.moderna .blk:last-child{margin-bottom:0}
-.cv.moderna aside .bh{font-family:var(--font-display);font-size:.78em;letter-spacing:.11em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:9px}
-.cv.moderna main .bh{font-family:var(--font-display);font-size:.95em;letter-spacing:.06em;text-transform:uppercase;color:#1b2330;font-weight:700;margin-bottom:9px;padding-bottom:5px;border-bottom:2px solid var(--accent);display:inline-block}
-.cv.moderna .contact{font-size:.85em;display:flex;flex-direction:column;gap:6px;color:#3d4759}
-.cv.moderna .contact div{display:flex;gap:8px;align-items:flex-start}
-.cv.moderna .contact svg{width:13px;height:13px;color:var(--accent);flex:none;margin-top:2px}
-.cv.moderna aside .hgrid{grid-template-columns:1fr}
-.cv.moderna aside .hcell{font-size:.84em}
-.cv.moderna .kv{font-size:.85em;margin-bottom:7px}
-.cv.moderna .kv b{display:block;font-weight:600}
-.cv.moderna .kv span{color:#57647a}
+.cv.legacy .head{display:flex;gap:20px;align-items:center;margin-bottom:18px}
+.cv.legacy .ph{width:90px;height:90px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);background:#eee center/cover}
+.cv.legacy h1{font-family:'Playfair Display',serif;font-size:2.05em;font-weight:700;letter-spacing:-.01em;color:var(--ink2)}
+.cv.legacy .role{font-size:.9em;color:var(--accent);font-weight:600;margin-top:3px;text-transform:uppercase;letter-spacing:.03em}
+.cv.legacy .contact{margin-top:5px;font-size:.82em;color:var(--mut)}
+.cv.legacy .bh{font-family:'Playfair Display',serif;letter-spacing:.06em;border-bottom:.5px solid var(--accent);padding-bottom:2px;margin-top:12px}
+.cv.legacy .twocol{display:grid;grid-template-columns:1fr 1.3fr;gap:20px}
 
-/* ---- TEMPLATE: CLÁSICA (single col, serif) ---- */
-.cv.clasica{font-family:'Inter',sans-serif}
-.cv.clasica .head{text-align:center;border-bottom:2.5px solid var(--accent);padding-bottom:16px;margin-bottom:18px;display:flex;flex-direction:column;align-items:center;gap:6px}
-.cv.clasica .head .ph{width:84px;height:84px;border-radius:50%;background:#eef1f6 center/cover no-repeat;border:1px solid #e0e5ee;margin-bottom:4px}
-.cv.clasica .head h1{font-family:'Source Serif 4',Georgia,serif;font-size:2.1em;font-weight:700;letter-spacing:.01em;color:#182233}
-.cv.clasica .head .tt{font-size:1.05em;color:var(--accent);font-weight:600;letter-spacing:.02em}
-.cv.clasica .head .contact{font-size:.83em;color:#57647a;display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;margin-top:4px}
-.cv.clasica .head .contact span{display:inline-flex;gap:5px;align-items:center}
-.cv.clasica .head .contact svg{width:12px;height:12px;color:var(--accent)}
-.cv.clasica .blk{margin-bottom:16px}
-.cv.clasica .bh{font-family:'Source Serif 4',Georgia,serif;font-size:1.12em;font-weight:700;color:#182233;letter-spacing:.01em;margin-bottom:8px;display:flex;align-items:center;gap:12px}
-.cv.clasica .bh::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--accent),transparent)}
-.cv.clasica .hgrid{grid-template-columns:repeat(4,1fr)}
-@media print{.cv.clasica .hgrid{grid-template-columns:repeat(4,1fr)}}
+.cv.modern{display:flex;padding:0}
+.cv.modern aside{width:35%;background:var(--dark);color:#fff;padding:26px 22px}
+.cv.modern main{flex:1;padding:26px 24px}
+.cv.modern h1{font-family:'Space Grotesk',sans-serif;font-size:1.7em;font-weight:700;color:#fff;line-height:1.05}
+.cv.modern .role{color:var(--accent);font-size:.85em;margin:8px 0 12px;text-transform:uppercase;letter-spacing:.08em}
+.cv.modern aside .bh{font-family:'Space Grotesk',sans-serif;color:var(--accent);font-size:.72em;letter-spacing:.12em;margin-top:16px}
+.cv.modern aside .kv b,.cv.modern aside .hrow b{color:#fff}
+.cv.modern aside .mut,.cv.modern aside .hrow span{color:rgba(255,255,255,.6)}
+.cv.modern main .bh{font-family:'Space Grotesk',sans-serif;font-size:.92em;letter-spacing:.06em;border-bottom:2px solid var(--accent);padding-bottom:4px;display:inline-block;margin-top:14px;color:var(--ink2)}
+.cv.modern .ph{width:80px;height:80px;border-radius:8px;object-fit:cover;margin-bottom:12px;background:#334 center/cover}
+.cv.modern .chip{border:.5px solid var(--accent);background:transparent;color:var(--accent)}
 
-/* ---- TEMPLATE: ATS (plain, single col, no color) ---- */
-.cv.ats{font-family:'Inter',Arial,sans-serif;color:#111}
-.cv.ats .head h1{font-size:1.7em;font-weight:700;letter-spacing:.01em}
-.cv.ats .head .tt{font-size:1.05em;font-weight:600;margin-top:2px}
-.cv.ats .head .contact{font-size:.86em;color:#222;margin-top:6px;line-height:1.5}
-.cv.ats .rule{height:1.5px;background:#111;margin:12px 0 14px}
-.cv.ats .blk{margin-bottom:14px}
-.cv.ats .bh{font-size:.92em;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:#111;border-bottom:1px solid #111;padding-bottom:3px;margin-bottom:9px}
+.cv.captain{padding:0}
+.cv.captain .banner{background:var(--dark);color:#fff;padding:28px;border-bottom:3px solid var(--accent);display:flex;justify-content:space-between;align-items:center;gap:18px}
+.cv.captain h1{font-family:'Space Grotesk',sans-serif;font-size:2.2em;color:#fff;letter-spacing:.01em}
+.cv.captain .role{color:var(--accent);font-size:.95em;margin-top:3px}
+.cv.captain .banner .contact{margin-top:9px;font-size:.8em;color:rgba(255,255,255,.6)}
+.cv.captain .ph{width:80px;height:100px;object-fit:cover;border:1px solid var(--accent);background:#223 center/cover}
+.cv.captain .body{padding:28px}
+.cv.captain .bh{font-family:'Space Grotesk',sans-serif;font-size:.9em;letter-spacing:.12em;margin-top:14px}
+.cv .bar{display:flex;align-items:center;gap:8px;margin-bottom:4px;font-size:.85em}
+.cv .bar .bl{width:78px;color:var(--mut);flex:none}
+.cv .bar .bt{flex:1;height:6px;background:rgba(0,0,0,.07);border-radius:3px;overflow:hidden}
+.cv .bar .bf{height:100%;background:var(--accent);border-radius:3px}
+.cv .bar .bv{width:52px;text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+
+.cv.exec .mast{text-align:center;margin-bottom:6px}
+.cv.exec .ph{width:70px;height:70px;border-radius:50%;object-fit:cover;margin:0 auto 8px;background:#eee center/cover;display:block}
+.cv.exec h1{font-family:'Cormorant Garamond',serif;font-size:2.4em;font-weight:700;letter-spacing:.02em}
+.cv.exec .role{font-size:.8em;color:var(--accent);text-transform:uppercase;letter-spacing:.2em;margin-top:2px}
+.cv.exec .rule{width:60px;height:1px;background:var(--accent);margin:8px auto}
+.cv.exec .contact{font-size:.78em;color:var(--mut);margin-bottom:6px}
+.cv.exec .lead{text-align:center;color:var(--mut);line-height:1.5;letter-spacing:.01em}
+.cv.exec .divider{border-top:1px solid rgba(0,0,0,.12);margin:12px 0}
+.cv.exec .cols{display:grid;grid-template-columns:58% 42%;gap:18px}
+.cv.exec .bh{font-family:'Cormorant Garamond',serif;font-size:1.15em;font-weight:700;border-bottom:.75px solid rgba(0,0,0,.15);padding-bottom:2px;letter-spacing:0}
+
+.cv.euro .head{display:flex;gap:16px;align-items:flex-start;margin-bottom:12px}
+.cv.euro .ph{width:60px;height:75px;object-fit:cover;background:#eee center/cover}
+.cv.euro h1{font-family:'Space Grotesk',sans-serif;font-size:1.55em;font-weight:600}
+.cv.euro .role{color:var(--accent);font-size:.9em;margin-top:2px}
+.cv.euro .contact,.cv.euro .born{font-size:.8em;color:var(--mut);margin-top:3px}
+.cv.euro .bh{border-bottom:.5px solid var(--accent);padding-bottom:2px}
+.cv .htable{border-collapse:collapse;width:100%;font-size:.82em}
+.cv .htable th{background:rgba(0,0,0,.04);color:var(--mut);text-transform:uppercase;letter-spacing:.04em;font-size:.9em;font-weight:600;padding:4px 5px;text-align:left}
+.cv .htable td{font-weight:700;padding:4px 5px;border-bottom:.5px solid rgba(0,0,0,.06);font-variant-numeric:tabular-nums}
+
+.cv.deck{padding:0}
+.cv.deck .head{background:var(--dark);color:#fff;padding:22px 30px;display:flex;align-items:center;gap:16px}
+.cv.deck h1{font-family:'Space Grotesk',sans-serif;font-size:2em;color:#fff}
+.cv.deck .role{font-family:var(--font-mono);color:var(--accent);font-size:.8em;text-transform:uppercase;letter-spacing:.14em;margin-top:3px}
+.cv.deck .contact{font-family:var(--font-mono);color:rgba(255,255,255,.6);font-size:.78em;margin-top:8px}
+.cv.deck .ph{width:66px;height:66px;border-radius:6px;object-fit:cover;margin-left:auto;border:2px solid var(--accent);background:#223 center/cover}
+.cv.deck .body{padding:24px 30px}
+.cv .dash{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:10px}
+.cv .stat{border:1px solid rgba(0,0,0,.08);border-radius:4px;padding:8px 4px;text-align:center}
+.cv .stat b{font-family:var(--font-mono);font-size:1.4em;font-weight:700;color:var(--accent);display:block}
+.cv .stat span{font-size:.62em;color:var(--mut);text-transform:uppercase;letter-spacing:.08em}
+.cv.deck .bh{font-family:var(--font-mono);font-size:.82em;letter-spacing:.14em;border-bottom:2px solid var(--accent);padding-bottom:3px;margin-top:14px}
+.cv.deck .cols{display:grid;grid-template-columns:62% 38%;gap:16px}
+.cv.deck .chip{background:var(--dark);color:#fff;font-family:var(--font-mono);border-radius:3px}
+
+.cv.timeline .head{display:flex;align-items:center;gap:14px;padding-bottom:14px;border-bottom:2px solid var(--accent);margin-bottom:6px}
+.cv.timeline .ph{width:62px;height:62px;border-radius:8px;object-fit:cover;background:#eee center/cover}
+.cv.timeline h1{font-family:'Space Grotesk',sans-serif;font-size:2em;font-weight:700}
+.cv.timeline .role{color:var(--accent);font-size:.9em;text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.cv.timeline .contact{font-size:.8em;color:var(--mut);margin-top:5px}
+.cv.timeline .bh{font-family:'Space Grotesk',sans-serif;font-size:1.1em;text-transform:none;letter-spacing:0;color:var(--ink2);margin-top:16px}
+.cv .tl{display:flex}
+.cv .tl .rail{width:22px;display:flex;flex-direction:column;align-items:center}
+.cv .tl .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);margin-top:4px;flex:none}
+.cv .tl .ln{width:1.5px;flex:1;background:rgba(0,0,0,.12);margin-top:2px}
+.cv .tl .tb{flex:1;padding-bottom:10px}
+.cv.timeline .twocol{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cv.timeline .chip{background:var(--accent);color:#fff}
+
+.cv.logbook .head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1.5px solid var(--accent);padding-bottom:8px}
+.cv.logbook .ph{width:42px;height:42px;border-radius:4px;object-fit:cover;margin-right:12px;background:#eee center/cover}
+.cv.logbook h1{font-family:'Playfair Display',serif;font-size:1.85em;font-weight:700;letter-spacing:-.01em}
+.cv.logbook .role{color:var(--accent);font-size:.85em;text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.cv.logbook .contact{font-size:.76em;color:var(--mut);margin-top:5px}
+.cv.logbook .tot{text-align:right}
+.cv.logbook .tot b{font-family:var(--font-mono);font-size:1.9em;color:var(--accent);display:block;line-height:1}
+.cv.logbook .tot span{font-size:.62em;color:var(--mut);text-transform:uppercase;letter-spacing:.1em}
+.cv.logbook .bh{font-family:var(--font-mono);font-size:.78em;letter-spacing:.12em;margin-top:13px}
+.cv .lgrid{display:flex;flex-wrap:wrap}
+.cv .lcell{width:33.33%;display:flex;justify-content:space-between;padding:3px 10px 3px 0;border-bottom:.75px solid rgba(0,0,0,.12);font-size:.85em}
+.cv .lcell b{font-family:var(--font-mono);font-weight:600}
+.cv .lentry{display:flex;border-bottom:.75px solid rgba(0,0,0,.12);padding:4px 0}
+.cv .lentry .ld{font-family:var(--font-mono);font-size:.78em;color:var(--mut);width:120px;flex:none}
+.cv .lentry .lm{flex:1;padding-right:8px}
+.cv .lentry .lco{font-weight:700}
+
+.cv.horizon{padding:0}
+.cv.horizon .band{background:var(--dark);padding:30px 44px 22px;display:flex;align-items:center;gap:16px}
+.cv.horizon h1{font-family:'Space Grotesk',sans-serif;font-size:2.1em;font-weight:700;color:#fff;letter-spacing:-.01em}
+.cv.horizon .role{color:#fff;opacity:.85;font-size:.85em;text-transform:uppercase;letter-spacing:.1em;margin-top:3px}
+.cv.horizon .contact{color:#fff;opacity:.65;font-size:.78em;margin-top:8px}
+.cv.horizon .ph{width:54px;height:54px;border-radius:50%;object-fit:cover;border:2px solid var(--accent);margin-left:auto;background:#223 center/cover}
+.cv.horizon .hz{height:3px;background:var(--accent)}
+.cv .strip{display:flex;border-bottom:.75px solid rgba(0,0,0,.1);padding:10px 44px}
+.cv .strip .m{flex:1;text-align:center;border-right:.75px solid rgba(0,0,0,.1)}
+.cv .strip .m:last-child{border-right:0}
+.cv .strip .m b{font-family:'Space Grotesk',sans-serif;font-size:1.5em;font-weight:700;color:var(--accent);display:block}
+.cv .strip .m span{font-size:.66em;color:var(--mut);text-transform:uppercase;letter-spacing:.08em}
+.cv.horizon .body{padding:16px 44px 30px}
+.cv.horizon .bh{display:flex;align-items:center;gap:6px;color:var(--ink2)}
+.cv.horizon .bh::before{content:"";width:12px;height:3px;background:var(--accent);display:inline-block}
+.cv.horizon .twocol{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+
+.cv.swiss h1{font-family:'Space Grotesk',sans-serif;font-size:2.6em;font-weight:700;letter-spacing:-.03em;line-height:.98}
+.cv.swiss .role{font-family:var(--font-mono);color:var(--accent);font-size:.82em;text-transform:uppercase;letter-spacing:.12em;margin-top:6px}
+.cv.swiss .toprule{border-top:2px solid var(--ink2);margin:12px 0 14px}
+.cv.swiss .cols{display:grid;grid-template-columns:30% 1fr;gap:16px}
+.cv.swiss .bh{font-family:var(--font-mono);font-size:.66em;letter-spacing:.14em;color:var(--mut)}
+.cv.swiss .bignum{font-family:'Space Grotesk',sans-serif;font-size:2em;font-weight:700;line-height:1}
+.cv.swiss .nl{font-family:var(--font-mono);font-size:.62em;color:var(--mut);text-transform:uppercase;letter-spacing:.08em}
+.cv.swiss .ph{width:60px;height:60px;border-radius:3px;object-fit:cover;background:#eee center/cover}
+
+.cv.contrast{display:flex;padding:0}
+.cv.contrast aside{width:34%;background:var(--dark);color:#fff;padding:30px 18px 24px}
+.cv.contrast main{flex:1;padding:30px 28px 24px}
+.cv.contrast .ph{width:66px;height:66px;border-radius:50%;object-fit:cover;border:2px solid var(--accent);background:#223 center/cover}
+.cv.contrast h1{font-family:'Space Grotesk',sans-serif;font-size:1.55em;font-weight:700;color:#fff;line-height:1.05;margin-top:12px}
+.cv.contrast .role{color:var(--accent);font-size:.8em;text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-top:4px}
+.cv.contrast aside .bh{color:rgba(255,255,255,.72);border-bottom:.5px solid rgba(255,255,255,.25);padding-bottom:2px;margin-top:14px}
+.cv.contrast aside .kv b,.cv.contrast aside .hrow b{color:#fff}
+.cv.contrast aside .mut,.cv.contrast aside .hrow span{color:rgba(255,255,255,.72)}
+.cv.contrast main .bh{color:var(--accent);border-bottom:1px solid rgba(0,0,0,.12);padding-bottom:3px;margin-top:14px}
+
+.cv.editorial .mast{display:flex;align-items:flex-end;justify-content:space-between;border-bottom:3px solid var(--accent);padding-bottom:8px}
+.cv.editorial h1{font-family:'Cormorant Garamond',serif;font-size:2.7em;font-weight:700;line-height:1;letter-spacing:.01em}
+.cv.editorial .role{color:var(--accent);font-size:.85em;text-transform:uppercase;letter-spacing:.24em;margin-top:4px}
+.cv.editorial .ph{width:58px;height:58px;object-fit:cover;border:1px solid var(--accent);background:#eee center/cover}
+.cv.editorial .kicker{font-size:.72em;color:var(--mut);text-transform:uppercase;letter-spacing:.16em;margin:8px 0 10px}
+.cv.editorial .cols{display:grid;grid-template-columns:32% 68%;gap:0}
+.cv.editorial .rail{padding-right:16px;border-right:.75px solid rgba(0,0,0,.12)}
+.cv.editorial .main{padding-left:18px}
+.cv.editorial .bh{font-family:'Cormorant Garamond',serif;font-size:1.15em;font-weight:700;color:var(--ink2);text-transform:none;letter-spacing:0}
+.cv.editorial .lead{font-family:'Cormorant Garamond',serif;font-size:1.28em;line-height:1.5;letter-spacing:.01em;margin-bottom:2px}
+.cv.editorial .secnum{font-family:'Cormorant Garamond',serif;color:var(--accent);font-weight:700;margin-right:6px}
+
+.cv.meridian{padding-left:60px}
+.cv.meridian .spine{position:absolute;top:var(--pad);bottom:var(--pad);left:calc(var(--pad) - 12px);width:2px;background:var(--accent)}
+.cv.meridian .head{display:flex;justify-content:space-between;align-items:flex-start}
+.cv.meridian .ph{width:52px;height:52px;border-radius:4px;object-fit:cover;margin-right:12px;background:#eee center/cover}
+.cv.meridian h1{font-family:'Space Grotesk',sans-serif;font-size:2em;font-weight:700;letter-spacing:-.02em;line-height:1.05}
+.cv.meridian .role{color:var(--accent);font-size:.85em;text-transform:uppercase;letter-spacing:.16em;margin-top:3px}
+.cv.meridian .coords{text-align:right;max-width:42%}
+.cv.meridian .coords div{font-size:.78em;color:var(--mut);margin-bottom:1px}
+.cv.meridian .rule{height:1px;background:rgba(0,0,0,.14);margin:10px 0 2px}
+.cv.meridian .cols{display:grid;grid-template-columns:60% 40%;gap:18px;margin-top:4px}
+.cv.meridian .bh{color:var(--ink2)}
+.cv.meridian .bh::after{content:"";display:block;width:22px;height:2px;background:var(--accent);margin-top:3px}
+
+.cv.ats{color:#111}
+.cv.ats h1{font-size:1.7em;font-weight:700}
+.cv.ats .role{font-size:.95em;font-weight:600;margin-top:2px}
+.cv.ats .contact{font-size:.86em;color:#222;margin-top:6px;line-height:1.5}
+.cv.ats .rule{height:1.5px;background:#111;margin:11px 0 13px}
+.cv.ats .bh{color:#111;border-bottom:1px solid #111;padding-bottom:3px;font-size:.86em}
 .cv.ats .pill{background:none;color:#111;font-weight:400;padding:0}
-.cv.ats .pill::after{content:" · "}
-.cv.ats .pills .pill:last-child::after{content:""}
-.cv.ats .hcell{border:none;padding:0}
-.cv.ats .hgrid{grid-template-columns:repeat(2,1fr)}
+.cv.ats .pill::after{content:" · "}.cv.ats .pills .pill:last-child::after{content:""}
 
-/* watermark for empty */
-.cv .wm{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;color:rgba(27,35,48,.05);font-family:var(--font-display);font-weight:700;font-size:44px;transform:rotate(-18deg)}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:#0e1626;border:1px solid var(--line);color:var(--ink);padding:11px 18px;border-radius:12px;font-size:13.5px;box-shadow:0 20px 50px -24px #000;opacity:0;pointer-events:none;transition:.25s;z-index:70;display:flex;align-items:center;gap:9px}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}.toast svg{width:16px;height:16px;color:var(--ok)}
 
-/* toast */
-.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:#0e1626;border:1px solid var(--line);color:var(--ink);padding:11px 18px;border-radius:12px;font-size:13.5px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.25s;z-index:60;display:flex;align-items:center;gap:9px}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.toast svg{width:16px;height:16px;color:var(--ok)}
-
-/* ============ RESPONSIVE ============ */
+.designpane{display:none}
 @media(max-width:900px){
-  body{overflow:auto}
-  .app{height:auto;min-height:100dvh}
-  .mobtab{display:flex}
-  .top-actions .desk{display:none}
-  .body{display:block}
-  .rail{display:none}
-  .mobsel{display:block;position:sticky;top:0;z-index:12;margin:-22px -24px 18px;padding:12px 16px;background:rgba(8,12,20,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center}
+  body{overflow:auto}.app{height:auto;min-height:100dvh}
+  .mobtab{display:flex}.top-actions .desk{display:none}
+  .body{display:block}.rail{display:none}
+  .editor{height:auto;padding:20px 16px 90px}
+  .mobsel{display:flex;position:sticky;top:0;z-index:12;margin:-20px -16px 16px;padding:11px 14px;background:rgba(8,12,20,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);gap:10px;align-items:center}
   .mobsel select{flex:1}
-  .editor{height:auto;padding:22px 18px 90px}
   .preview{border-left:none;border-top:1px solid var(--line);height:auto}
-  .pv-scroll{padding:18px 12px}
-  .view-editor .preview{display:none}
-  .view-preview .editor,.view-preview .mobsel{display:none}
-  .view-preview .rail{display:none}
+  .pv-scroll{padding:16px 10px}
   .g2,.g3{grid-template-columns:1fr}
   .pv-toolbar{position:sticky;top:0;z-index:12}
+  .view-editor .preview,.view-editor .designpane{display:none}
+  .view-preview .editor,.view-preview .mobsel,.view-preview .designpane{display:none}
+  .view-design .editor,.view-design .mobsel,.view-design .preview{display:none}
+  .view-design .designpane{display:block;padding:20px 16px 90px}
 }
-.mobtab{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:3px;gap:2px}
-.mobtab button{border:none;background:transparent;color:var(--muted);padding:6px 13px;border-radius:6px;font-size:12.5px;font-weight:600;transition:.14s}
-.mobtab button.on{background:var(--grad);color:#07101f}
 
-/* ============ PRINT ============ */
 @media print{
   @page{size:A4;margin:0}
   html,body{height:auto;overflow:visible;background:#fff}
-  .topbar,.rail,.editor,.pv-toolbar,.mobsel,.mobtab,.toast{display:none!important}
+  .topbar,.rail,.editor,.pv-toolbar,.mobsel,.mobtab,.toast,.designpane,.modal{display:none!important}
   .app,.body,.preview,.pv-scroll,.paper-scale{display:block!important;height:auto!important;overflow:visible!important;padding:0!important;margin:0!important;border:none!important;background:#fff!important}
   .paper-scale{width:auto!important;height:auto!important}
   .cv{transform:none!important;box-shadow:none!important;border-radius:0!important;width:100%!important;margin:0!important}
@@ -291,641 +360,398 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 </style>
 </head>
 <body>
-<div class="app" id="app">
-
-  <!-- TOP BAR -->
+<div class="app">
   <header class="topbar">
     <div class="brand">
       <div class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></div>
       <div><b>Aviation CV Builder</b><span>by Pilot Network</span></div>
     </div>
-    <div class="mobtab" role="tablist">
+    <div class="mobtab">
       <button id="mt-edit" class="on" onclick="setView('editor')">Editar</button>
-      <button id="mt-view" onclick="setView('preview')">Vista previa</button>
+      <button id="mt-design" onclick="setView('design')">Diseño</button>
+      <button id="mt-view" onclick="setView('preview')">CV</button>
     </div>
     <div class="top-actions">
       <input type="file" id="importFile" accept="application/json" hidden>
       <button class="btn ghost sm desk" onclick="document.getElementById('importFile').click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>Importar</button>
       <button class="btn ghost sm desk" onclick="exportJSON()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>Guardar copia</button>
-      <button class="btn ghost sm desk" onclick="resetAll()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Empezar de cero</button>
-      <button class="btn primary" onclick="downloadPDF()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>Descargar PDF</button>
+      <button class="btn ghost sm desk" onclick="resetAll()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>De cero</button>
+      <button class="btn primary" onclick="downloadPDF()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>PDF</button>
     </div>
   </header>
 
   <div class="body view-editor" id="viewport">
-
-    <!-- NAV RAIL -->
-    <nav class="rail" id="rail">
+    <nav class="rail">
       <div class="rail-h">Secciones</div>
       <div id="navList"></div>
-      <div class="rail-foot">
-        <div class="progress"><i id="progBar"></i></div>
-        <div class="progress-lab"><span id="progTxt">0% completado</span><span id="progCount"></span></div>
-      </div>
+      <div class="rail-foot"><div class="progress"><i id="progBar"></i></div><div class="progress-lab"><span id="progTxt">0%</span><span id="progCount"></span></div></div>
     </nav>
-
-    <!-- EDITOR -->
     <main class="editor" id="editor">
-      <div class="mobsel">
-        <select id="mobJump" onchange="jumpTo(this.value)"></select>
-        <button class="btn sm" onclick="setView('preview')">Ver CV</button>
-      </div>
-
-      <!-- 1 PERSONAL -->
-      <section class="sec" id="sec-personal" data-title="Datos personales">
-        <div class="sec-head"><span class="kx">01</span><h2>Datos personales</h2></div>
-        <p class="sec-sub">Cómo te encuentran los reclutadores. El puesto que pongas encabeza el CV.</p>
-        <div class="grid g2">
-          <div class="field span2"><label>Nombre completo</label><input type="text" data-bind="personal.fullName" placeholder="Nombre y apellidos"></div>
-          <div class="field span2"><label>Puesto / titular <span class="hint">— aparece bajo tu nombre</span></label><input type="text" data-bind="personal.title" placeholder="First Officer · Boeing 737"></div>
-          <div class="field"><label>Email</label><input type="email" data-bind="personal.email" placeholder="tu@email.com"></div>
-          <div class="field"><label>Teléfono</label><input type="tel" data-bind="personal.phone" placeholder="+34 600 000 000"></div>
-          <div class="field"><label>Ubicación / base</label><input type="text" data-bind="personal.location" placeholder="Madrid, España"></div>
-          <div class="field"><label>Nacionalidad</label><input type="text" data-bind="personal.nationality" placeholder="Española"></div>
-          <div class="field"><label>LinkedIn <span class="hint">— opcional</span></label><input type="text" data-bind="personal.linkedin" placeholder="linkedin.com/in/…"></div>
-          <div class="field"><label>Web / logbook <span class="hint">— opcional</span></label><input type="text" data-bind="personal.website" placeholder="mi-web.com"></div>
-        </div>
-        <div class="field" style="margin-top:13px">
-          <label class="chkrow"><input type="checkbox" id="showPhoto"> Incluir fotografía <span class="hint" style="margin-left:2px">(las plantillas ATS la ocultan siempre)</span></label>
-          <div class="photo-row" id="photoRow" style="margin-top:10px">
-            <div class="photo-prev" id="photoPrev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <input type="file" id="photoFile" accept="image/*" hidden>
-              <button class="btn sm" onclick="document.getElementById('photoFile').click()">Subir foto</button>
-              <button class="btn sm ghost" onclick="clearPhoto()">Quitar</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 2 SUMMARY -->
-      <section class="sec" id="sec-summary" data-title="Perfil profesional">
-        <div class="sec-head"><span class="kx">02</span><h2>Perfil profesional</h2></div>
-        <p class="sec-sub">3–4 líneas: experiencia, tipo de operación y qué buscas. Es lo primero que leen.</p>
-        <div class="field">
-          <textarea id="f_summary" data-bind="summary" style="min-height:120px" placeholder="First Officer con licencia ATPL(A) y XXX horas…"></textarea>
-          <details class="sugg"><summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>Ver ejemplos redactados</summary><div class="pool" id="summaryPool"></div></details>
-        </div>
-      </section>
-
-      <!-- 3 LICENSES -->
-      <section class="sec" id="sec-licenses" data-title="Licencias y habilitaciones">
-        <div class="sec-head"><span class="kx">03</span><h2>Licencias y habilitaciones</h2></div>
-        <p class="sec-sub">Licencias EASA/AESA, certificado médico y habilitaciones asociadas.</p>
-        <div id="licenseList"></div>
-        <button class="addbtn" data-add="licenses"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Añadir licencia</button>
-        <div class="grid g2" style="margin-top:15px">
-          <div class="field"><label>Certificado médico</label><input type="text" data-bind="certs.medical" placeholder="Clase 1 (válido 06/2027)"></div>
-          <div class="field"><label>Habilitaciones <span class="hint">— separadas por coma</span></label><input type="text" data-bind="certs.ratings" placeholder="IR(A), ME(L), Night, MCC/JOC"></div>
-        </div>
-      </section>
-
-      <!-- 4 TYPE RATINGS -->
-      <section class="sec" id="sec-types" data-title="Habilitaciones de tipo">
-        <div class="sec-head"><span class="kx">04</span><h2>Habilitaciones de tipo</h2></div>
-        <p class="sec-sub">Type ratings actuales o caducados, con año de emisión.</p>
-        <div id="typeList"></div>
-        <button class="addbtn" data-add="typeRatings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Añadir type rating</button>
-      </section>
-
-      <!-- 5 HOURS -->
-      <section class="sec" id="sec-hours" data-title="Horas de vuelo">
-        <div class="sec-head"><span class="kx">05</span><h2>Horas de vuelo</h2></div>
-        <p class="sec-sub">Rellena solo lo que aplique — los campos vacíos no aparecen en el CV. Números redondeados.</p>
-        <div class="grid g3">
-          <div class="field"><label>Total</label><input type="number" inputmode="numeric" data-bind="hours.total" placeholder="3200"></div>
-          <div class="field"><label>PIC</label><input type="number" inputmode="numeric" data-bind="hours.pic" placeholder="150"></div>
-          <div class="field"><label>PICUS</label><input type="number" inputmode="numeric" data-bind="hours.picus" placeholder="400"></div>
-          <div class="field"><label>Copiloto</label><input type="number" inputmode="numeric" data-bind="hours.copilot" placeholder="2650"></div>
-          <div class="field"><label>Multimotor</label><input type="number" inputmode="numeric" data-bind="hours.me" placeholder="3100"></div>
-          <div class="field"><label>Turbina</label><input type="number" inputmode="numeric" data-bind="hours.turbine" placeholder="3050"></div>
-          <div class="field"><label>Jet</label><input type="number" inputmode="numeric" data-bind="hours.jet" placeholder="3050"></div>
-          <div class="field"><label>Travesía (XC)</label><input type="number" inputmode="numeric" data-bind="hours.xc" placeholder="2800"></div>
-          <div class="field"><label>Nocturno</label><input type="number" inputmode="numeric" data-bind="hours.night" placeholder="900"></div>
-          <div class="field"><label>IFR</label><input type="number" inputmode="numeric" data-bind="hours.ifr" placeholder="2600"></div>
-          <div class="field"><label>Últimos 90 días</label><input type="number" inputmode="numeric" data-bind="hours.last90" placeholder="180"></div>
-          <div class="field"><label>Últimos 12 meses</label><input type="number" inputmode="numeric" data-bind="hours.last12" placeholder="720"></div>
-          <div class="field"><label>Horas en tipo</label><input type="number" inputmode="numeric" data-bind="hours.onType" placeholder="2500"></div>
-          <div class="field span2"><label>Nombre del tipo <span class="hint">— para "En B737", etc.</span></label><input type="text" data-bind="hours.onTypeName" placeholder="B737"></div>
-        </div>
-      </section>
-
-      <!-- 6 EXPERIENCE -->
-      <section class="sec" id="sec-exp" data-title="Experiencia">
-        <div class="sec-head"><span class="kx">06</span><h2>Experiencia profesional</h2></div>
-        <p class="sec-sub">De más reciente a más antigua. Una línea por logro; usa verbos de acción.</p>
-        <div id="expList"></div>
-        <button class="addbtn" data-add="experience"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Añadir experiencia</button>
-      </section>
-
-      <!-- 7 EDUCATION -->
-      <section class="sec" id="sec-edu" data-title="Formación">
-        <div class="sec-head"><span class="kx">07</span><h2>Formación</h2></div>
-        <p class="sec-sub">ATO / escuela de vuelo, integrado/modular, estudios y cursos (MCC/JOC, UPRT…).</p>
-        <div id="eduList"></div>
-        <button class="addbtn" data-add="education"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Añadir formación</button>
-      </section>
-
-      <!-- 8 LANGUAGES -->
-      <section class="sec" id="sec-lang" data-title="Idiomas">
-        <div class="sec-head"><span class="kx">08</span><h2>Idiomas</h2></div>
-        <p class="sec-sub">Nivel OACI para el inglés. Marco MCER (A1–C2) o "Nativo" para el resto.</p>
-        <div id="langList"></div>
-        <button class="addbtn" data-add="languages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Añadir idioma</button>
-      </section>
-
-      <!-- 9 EXTRAS -->
-      <section class="sec" id="sec-extras" data-title="Disponibilidad y extras">
-        <div class="sec-head"><span class="kx">09</span><h2>Disponibilidad y extras</h2></div>
-        <p class="sec-sub">Disponibilidad, preaviso e información adicional relevante para el operador.</p>
-        <div class="grid g2">
-          <div class="field"><label>Disponible desde</label><input type="text" data-bind="extras.availableFrom" placeholder="Inmediata / 01-2027"></div>
-          <div class="field"><label>Preaviso</label><input type="text" data-bind="extras.noticePeriod" placeholder="30 días"></div>
-          <div class="field span2"><label>Información adicional</label><textarea data-bind="extras.additional" placeholder="Pasaporte UE, carné de conducir, movilidad geográfica…"></textarea></div>
-          <div class="field span2"><label>Referencias</label><input type="text" data-bind="extras.references" placeholder="Disponibles a petición"></div>
-        </div>
-      </section>
+      <div class="mobsel"><select id="mobJump" onchange="jumpTo(this.value)"></select><button class="btn sm" onclick="setView('preview')">Ver CV</button></div>
+      <div id="editorSections"></div>
     </main>
-
-    <!-- PREVIEW -->
-    <section class="preview" id="preview">
-      <div class="pv-toolbar">
-        <div class="tgroup"><span class="tlab">Plantilla</span>
-          <div class="seg" id="tplSeg">
-            <button data-tpl="moderna" class="on">Moderna</button>
-            <button data-tpl="clasica">Clásica</button>
-            <button data-tpl="ats">ATS</button>
-          </div>
-        </div>
-        <div class="tgroup"><span class="tlab">Color</span><div class="swatches" id="swatches"></div></div>
-        <div class="tgroup"><span class="tlab">Idioma</span>
-          <div class="seg" id="langSeg"><button data-lang="es" class="on">ES</button><button data-lang="en">EN</button></div>
-        </div>
-        <div class="tgroup"><span class="tlab">Tamaño</span>
-          <div class="seg" id="fsSeg"><button data-fs="0.92">A-</button><button data-fs="1" class="on">A</button><button data-fs="1.08">A+</button></div>
-        </div>
-        <div class="pv-actions">
-          <button class="btn sm" onclick="downloadPDF()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>PDF</button>
-        </div>
-      </div>
-      <div class="pv-scroll" id="pvScroll">
-        <div class="paper-scale" id="paperScale">
-          <div class="cv moderna" id="cvPaper"></div>
-        </div>
-      </div>
+    <div class="designpane" id="designPane"></div>
+    <section class="preview">
+      <div class="pv-toolbar" id="pvToolbar"></div>
+      <div class="pv-scroll" id="pvScroll"><div class="paper-scale" id="paperScale"><div class="cv legacy" id="cvPaper"></div></div></div>
     </section>
-
   </div>
 </div>
+
+<div class="modal" id="tplModal"><div class="modal-inner">
+  <div class="modal-h"><h3>Elige plantilla</h3><button class="btn ghost sm" style="margin-left:auto" onclick="closeTplModal()">Cerrar</button></div>
+  <div class="modal-grid" id="tplGrid"></div>
+</div></div>
 
 <div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span id="toastMsg"></span></div>
 
 <script>
-/* =================== STORAGE (fails-safe) =================== */
-const STORE = (() => {
-  try{const t='__pn';localStorage.setItem(t,'1');localStorage.removeItem(t);
-    return {get:k=>localStorage.getItem(k),set:(k,v)=>localStorage.setItem(k,v),del:k=>localStorage.removeItem(k)};
-  }catch(e){let m={};return {get:k=>k in m?m[k]:null,set:(k,v)=>{m[k]=v},del:k=>{delete m[k]}};}
-})();
-const SKEY='pn_cv_builder_v1';
+const STORE=(()=>{try{const t='__pn';localStorage.setItem(t,'1');localStorage.removeItem(t);return{get:k=>localStorage.getItem(k),set:(k,v)=>localStorage.setItem(k,v)};}catch(e){let m={};return{get:k=>k in m?m[k]:null,set:(k,v)=>{m[k]=v}};}})();
+const SKEY='pn_cv_builder_v2';
 
-/* =================== DEMO =================== */
 function demoData(){return {
-  meta:{template:'moderna',accent:'#2563eb',lang:'es',fontScale:1,showPhoto:true,photo:null},
-  personal:{fullName:'Pilot Network',title:'First Officer · Boeing 737',email:'info@pilotnetwork.es',phone:'+34 600 000 000',location:'Madrid, España',nationality:'Española',linkedin:'linkedin.com/in/pilotnetwork',website:''},
-  summary:'First Officer con licencia ATPL(A) y más de 3.200 horas de vuelo, 2.500 de ellas en Boeing 737. Experiencia sólida en operación comercial de corto y medio radio en red europea, con excelente CRM y cumplimiento estricto de SOPs y normativa EASA. Busco incorporarme a un operador con proyección para seguir desarrollándome como piloto profesional.',
+  meta:{template:'legacy',accent:'#2563eb',dark:'#0f172a',paper:'#ffffff',density:'regular',fontScale:1,lang:'es',showPhoto:true,photo:null},
+  personal:{fullName:'Pilot Network',title:'First Officer · Airbus A320',email:'info@pilotnetwork.es',phone:'+34 612 345 678',location:'Madrid, España',nationality:'Española · UE',linkedin:'linkedin.com/in/pilotnetwork',website:''},
+  summary:'First Officer con licencia ATPL(A) (EASA) y más de 4.500 horas de vuelo, 3.200 en familia A320. Inglés OACI Nivel 6. Type rating A320neo en vigor y línea operativa desde base MAD. Sólida cultura de seguridad, CRM y mentoría de cadetes. Busco progresión a Comandante en aerolínea europea legacy o de bandera.',
   licenses:[{type:'ATPL(A)',authority:'EASA (AESA)',validUntil:''}],
-  certs:{medical:'Clase 1 (válido 06/2027)',ratings:'IR(A), ME(L), Night, MCC/JOC, UPRT'},
-  typeRatings:[{aircraft:'Boeing 737-800',status:'current',date:'2021'}],
-  hours:{total:'3200',pic:'150',picus:'400',copilot:'2650',me:'3100',turbine:'3050',jet:'3050',xc:'2800',night:'900',ifr:'2600',last90:'180',last12:'720',onType:'2500',onTypeName:'B737'},
+  certs:{medical:'Clase 1 (válido 11/2026)',ratings:'IR(A), ME(L), MCC, APS MCC, JOC, CRM, PBN, RVSM, ETOPS, LVO CAT IIIA'},
+  typeRatings:[{aircraft:'Airbus A320neo',status:'current',date:'2020'},{aircraft:'ATR 72-600',status:'expired',date:'2018'}],
+  hours:{total:'4500',pic:'320',sic:'4030',picus:'150',dual:'180',multiEngine:'4300',singleEngine:'200',turbine:'4300',jet:'3200',ifr:'3800',night:'620',xc:'4100',instructor:'',simulator:'220',last90:'180',last12:'750',onType:'3200',onTypeName:'A320'},
   experience:[
-    {company:'Aerolínea Ejemplo',role:'First Officer — Boeing 737',aircraft:'Boeing 737-800',location:'Madrid, España',start:'2021',end:'',current:true,
-     bullets:'Operación de vuelos comerciales de corto y medio radio en red europea con alta rotación.\nGestión de recursos de cabina (CRM) y toma de decisiones en entorno multi-crew.\nCumplimiento estricto de SOPs, MEL y normativa EASA en todas las fases del vuelo.'},
-    {company:'Escuela de Vuelo Ejemplo',role:'Instructor de vuelo (FI)',aircraft:'DA40 / PA34',location:'España',start:'2020',end:'2021',current:false,
-     bullets:'Instrucción de alumnos de PPL e IR con más de 300 horas impartidas.\nEvaluación y seguimiento del progreso conforme a estándares EASA.'}
+    {company:'Vueling Airlines',role:'First Officer — A320',aircraft:'Airbus A320neo',location:'Madrid (MAD)',start:'2020',end:'',current:true,bullets:'Operación de vuelos comerciales de corto y medio radio en red europea.\nGestión de recursos de cabina (CRM) y toma de decisiones en entorno multi-crew.\nCumplimiento estricto de SOPs, MEL y normativa EASA. Cualificado LVO CAT IIIA.'},
+    {company:'Air Nostrum',role:'First Officer — ATR 72',aircraft:'ATR 72-600',location:'Valencia (VLC)',start:'2018',end:'2020',current:false,bullets:'Operación regional en red doméstica con alta rotación y aeropuertos exigentes.\nConsolidación de más de 1.100 horas en turbohélice multipiloto.'}
   ],
   education:[
-    {institution:'ATO Ejemplo',title:'ATPL Integrado (frozen)',location:'España',start:'2018',end:'2020',detail:'Formación integrada ATPL(A). MCC/JOC y UPRT incluidos.'},
-    {institution:'Universidad Ejemplo',title:'Grado en Gestión Aeronáutica',location:'España',start:'2014',end:'2018',detail:''}
+    {institution:'ATO Ejemplo',title:'ATPL Integrado (frozen)',location:'España',start:'2015',end:'2017',detail:'MCC · APS MCC · JOC · UPRT'},
+    {institution:'Universidad Ejemplo',title:'Grado en Gestión Aeronáutica',location:'España',start:'2011',end:'2015',detail:''}
   ],
-  languages:[{name:'Español',level:'Nativo'},{name:'Inglés',level:'OACI Nivel 5'}],
-  extras:{availableFrom:'Inmediata',noticePeriod:'30 días',additional:'Pasaporte de la UE. Carné de conducir B. Movilidad geográfica total.',references:'Disponibles a petición'}
+  languages:[{name:'Español',level:'Nativo'},{name:'Inglés',level:'OACI Nivel 6'},{name:'Francés',level:'B1'}],
+  extras:{availableFrom:'01/09/2026',noticePeriod:'30 días',additional:'Pasaporte UE. Derecho a trabajar en UE/EEE y Reino Unido. Carné de conducir B. Movilidad total.',references:'Disponibles a petición'}
 };}
-
 function emptyData(){return {
-  meta:{template:'moderna',accent:'#2563eb',lang:'es',fontScale:1,showPhoto:false,photo:null},
+  meta:{template:'legacy',accent:'#2563eb',dark:'#0f172a',paper:'#ffffff',density:'regular',fontScale:1,lang:'es',showPhoto:false,photo:null},
   personal:{fullName:'',title:'',email:'',phone:'',location:'',nationality:'',linkedin:'',website:''},
   summary:'',licenses:[],certs:{medical:'',ratings:''},typeRatings:[],
-  hours:{total:'',pic:'',picus:'',copilot:'',me:'',turbine:'',jet:'',xc:'',night:'',ifr:'',last90:'',last12:'',onType:'',onTypeName:''},
-  experience:[],education:[],languages:[],
-  extras:{availableFrom:'',noticePeriod:'',additional:'',references:''}
+  hours:{total:'',pic:'',sic:'',picus:'',dual:'',multiEngine:'',singleEngine:'',turbine:'',jet:'',ifr:'',night:'',xc:'',instructor:'',simulator:'',last90:'',last12:'',onType:'',onTypeName:''},
+  experience:[],education:[],languages:[],extras:{availableFrom:'',noticePeriod:'',additional:'',references:''}
 };}
-
-/* =================== STATE =================== */
 let state;
-(function init(){
-  const saved=STORE.get(SKEY);
-  if(saved){try{state=migrate(JSON.parse(saved))}catch(e){state=demoData()}}
-  else state=demoData();
-})();
-function migrate(d){const base=emptyData();return deepMerge(base,d);}
-function deepMerge(a,b){const o={...a};for(const k in b){if(b[k]&&typeof b[k]==='object'&&!Array.isArray(b[k])&&a[k])o[k]=deepMerge(a[k],b[k]);else o[k]=b[k];}return o;}
+(function(){const s=STORE.get(SKEY);if(s){try{state=merge(emptyData(),JSON.parse(s))}catch(e){state=demoData()}}else state=demoData();})();
+function merge(a,b){const o={...a};for(const k in b){if(b[k]&&typeof b[k]==='object'&&!Array.isArray(b[k])&&a[k])o[k]=merge(a[k],b[k]);else o[k]=b[k];}return o;}
 
-/* =================== HELPERS =================== */
-const $=s=>document.querySelector(s);
-const $$=s=>document.querySelectorAll(s);
-function getPath(o,p){return p.split('.').reduce((a,k)=>a==null?undefined:a[k],o);}
-function setPath(o,p,v){const ks=p.split('.');const last=ks.pop();let c=o;ks.forEach(k=>{if(c[k]==null)c[k]={};c=c[k];});c[last]=v;}
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+function gp(o,p){return p.split('.').reduce((a,k)=>a==null?undefined:a[k],o);}
+function sp(o,p,v){const ks=p.split('.'),l=ks.pop();let c=o;ks.forEach(k=>{if(c[k]==null)c[k]={};c=c[k];});c[l]=v;}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function has(v){return String(v==null?'':v).trim()!==''}
-function nfmt(v){const n=String(v==null?'':v).trim();if(n==='')return '';const num=Number(n.replace(/[^\d.-]/g,''));return isFinite(num)&&/^[\d.,\s]+$/.test(n)?num.toLocaleString('es-ES'):esc(n);}
+function nf(v){const n=String(v==null?'':v).trim();if(n==='')return '';const x=Number(n.replace(/[^\d.-]/g,''));return isFinite(x)&&/^[\d.,\s]+$/.test(n)?x.toLocaleString(state.meta.lang==='es'?'es-ES':'en-US'):esc(n);}
+function num(v){const x=Number(String(v==null?'':v).replace(/[^\d.-]/g,''));return isFinite(x)?x:0;}
+function fmtNum(v){return nf(v);}
 
-/* =================== LABELS =================== */
-const LBL={
-  es:{summary:'Perfil profesional',licenses:'Licencias y habilitaciones',medical:'Certificado médico',ratings:'Habilitaciones',types:'Habilitaciones de tipo',hours:'Horas de vuelo',experience:'Experiencia profesional',education:'Formación',languages:'Idiomas',availability:'Disponibilidad',additional:'Información adicional',references:'Referencias',
-    total:'Total',pic:'PIC',picus:'PICUS',copilot:'Copiloto',me:'Multimotor',turbine:'Turbina',jet:'Jet',xc:'Travesía',night:'Nocturno',ifr:'IFR',last90:'Últ. 90 días',last12:'Últ. 12 meses',onType:'En tipo',present:'Presente',noticePeriod:'Preaviso',availableFrom:'Disponible desde',nationality:'Nacionalidad',current:'actual',expired:'caducado'},
-  en:{summary:'Professional Summary',licenses:'Licences & Ratings',medical:'Medical Certificate',ratings:'Ratings',types:'Type Ratings',hours:'Flight Hours',experience:'Professional Experience',education:'Education & Training',languages:'Languages',availability:'Availability',additional:'Additional Information',references:'References',
-    total:'Total',pic:'PIC',picus:'PICUS',copilot:'Co-pilot',me:'Multi-engine',turbine:'Turbine',jet:'Jet',xc:'Cross-country',night:'Night',ifr:'IFR',last90:'Last 90 days',last12:'Last 12 months',onType:'On type',present:'Present',noticePeriod:'Notice period',availableFrom:'Available from',nationality:'Nationality',current:'current',expired:'expired'}
-};
+const LBL={es:{summary:'Perfil profesional',profile:'Perfil',licenses:'Licencias y habilitaciones',lic:'Licencias',medical:'Certificado médico',ratings:'Habilitaciones',types:'Habilitaciones de tipo',hours:'Horas de vuelo',hoursShort:'Horas',experience:'Experiencia profesional',expShort:'Experiencia',timelineT:'Trayectoria profesional',education:'Formación',languages:'Idiomas',contact:'Contacto',availability:'Disponibilidad',additional:'Información adicional',references:'Referencias',present:'Presente',noticePeriod:'Preaviso',availableFrom:'Disponible desde',nationality:'Nacionalidad',current:'actual',expired:'caducado',total:'Total',pic:'PIC',sic:'SIC',picus:'PICUS',me:'Multimotor',turbine:'Turbina',jet:'Jet',ifr:'IFR',night:'Nocturno',xc:'Travesía',instr:'Instructor',sim:'Simulador',last90:'Últ. 90 días',last12:'Últ. 12 meses',onType:'En tipo',totalHrs:'Horas totales',picHrs:'Horas PIC',english:'Inglés',rating1:'Habilitación',ratingN:'Habilitaciones',breakdown:'Desglose',totalTime:'Tiempo total',flightTime:'Tiempo de vuelo — resumen logbook',hoursBreak:'Desglose de horas'},
+  en:{summary:'Professional Summary',profile:'Profile',licenses:'Licences & Ratings',lic:'Licences',medical:'Medical Certificate',ratings:'Ratings',types:'Type Ratings',hours:'Flight Hours',hoursShort:'Hours',experience:'Professional Experience',expShort:'Experience',timelineT:'Career Timeline',education:'Education & Training',languages:'Languages',contact:'Contact',availability:'Availability',additional:'Additional Information',references:'References',present:'Present',noticePeriod:'Notice period',availableFrom:'Available from',nationality:'Nationality',current:'current',expired:'expired',total:'Total',pic:'PIC',sic:'SIC',picus:'PICUS',me:'Multi-engine',turbine:'Turbine',jet:'Jet',ifr:'IFR',night:'Night',xc:'Cross-country',instr:'Instructor',sim:'Simulator',last90:'Last 90 days',last12:'Last 12 months',onType:'On type',totalHrs:'Total hrs',picHrs:'PIC hrs',english:'English',rating1:'Type rating',ratingN:'Type ratings',breakdown:'Breakdown',totalTime:'Total time',flightTime:'Flight time — logbook summary',hoursBreak:'Flight Hours Breakdown'}};
 const L=()=>LBL[state.meta.lang];
 
-/* =================== SUGGESTIONS =================== */
-const SUM={
-  es:[
-    'First Officer con licencia ATPL(A) y más de XXX horas de vuelo, con experiencia en operación comercial de corto y medio radio. CRM sólido, orientación a la seguridad y cumplimiento estricto de SOPs y normativa EASA.',
-    'Piloto comercial con CPL(A) y ATPL congelado, IR/ME y MCC/JOC, en búsqueda de mi primera posición como First Officer. Alta capacidad de trabajo en equipo, disciplina operativa y compromiso con la cultura de seguridad.',
-    'Comandante con más de XXX horas y XXX horas al mando en Boeing 737, con experiencia como TRI/LTC. Liderazgo, gestión de tripulaciones y toma de decisiones bajo presión orientadas a una operación segura y eficiente.'
-  ],
-  en:[
-    'First Officer holding an ATPL(A) with over XXX flight hours and experience in short- and medium-haul commercial operations. Strong CRM, safety-focused mindset and strict adherence to SOPs and EASA regulations.',
-    'Commercial pilot with a CPL(A) and frozen ATPL, IR/ME and MCC/JOC, seeking a first officer position. Excellent teamwork, operational discipline and a genuine commitment to safety culture.',
-    'Captain with over XXX hours and XXX hours as PIC on the Boeing 737, with TRI/LTC experience. Proven leadership, crew management and sound decision-making under pressure toward safe, efficient operations.'
-  ]
-};
-const EXB={
-  es:['Operación de vuelos comerciales cumpliendo horarios y estándares de puntualidad.','Gestión de recursos de cabina (CRM) y comunicación efectiva en entorno multi-crew.','Cumplimiento estricto de SOPs, MEL y normativa EASA en todas las fases del vuelo.','Toma de decisiones operativas ante meteorología adversa y situaciones no rutinarias.','Coordinación con control de tráfico aéreo y despacho para una operación segura y eficiente.'],
-  en:['Operated commercial flights meeting schedule and on-time performance standards.','Managed crew resources (CRM) with effective communication in a multi-crew environment.','Strict compliance with SOPs, MEL and EASA regulations across all flight phases.','Operational decision-making in adverse weather and non-routine situations.','Coordinated with ATC and dispatch to ensure safe and efficient operations.']
-};
-const ACCENTS=[['#2563eb','Azul'],['#5b9dff','Azul Pilot'],['#d06dff','Púrpura'],['#0f766e','Teal'],['#9a1f3d','Burdeos'],['#334155','Grafito']];
+const SUM={es:[
+ 'First Officer con licencia ATPL(A) y más de XXX horas de vuelo, con experiencia en operación comercial de corto y medio radio. CRM sólido, orientación a la seguridad y cumplimiento estricto de SOPs y normativa EASA.',
+ 'Piloto comercial con CPL(A) y ATPL congelado, IR/ME y MCC/JOC, en búsqueda de mi primera posición como First Officer. Alta capacidad de trabajo en equipo, disciplina operativa y compromiso con la cultura de seguridad.',
+ 'Comandante con más de XXX horas y XXX al mando en A320, con experiencia como TRI/LTC. Liderazgo, gestión de tripulaciones y toma de decisiones bajo presión orientadas a una operación segura y eficiente.'],
+ en:[
+ 'First Officer holding an ATPL(A) with over XXX flight hours and experience in short- and medium-haul commercial operations. Strong CRM, safety-focused mindset and strict adherence to SOPs and EASA regulations.',
+ 'Commercial pilot with a CPL(A) and frozen ATPL, IR/ME and MCC/JOC, seeking a first officer position. Excellent teamwork, operational discipline and a genuine commitment to safety culture.',
+ 'Captain with over XXX hours and XXX as PIC on the A320, with TRI/LTC experience. Proven leadership, crew management and sound decision-making under pressure toward safe, efficient operations.']};
+const EXB={es:['Operación de vuelos comerciales cumpliendo horarios y estándares de puntualidad.','Gestión de recursos de cabina (CRM) y comunicación efectiva en entorno multi-crew.','Cumplimiento estricto de SOPs, MEL y normativa EASA en todas las fases del vuelo.','Toma de decisiones operativas ante meteorología adversa y situaciones no rutinarias.','Coordinación con control de tráfico aéreo y despacho para una operación segura y eficiente.'],
+ en:['Operated commercial flights meeting schedule and on-time performance standards.','Managed crew resources (CRM) with effective communication in a multi-crew environment.','Strict compliance with SOPs, MEL and EASA regulations across all flight phases.','Operational decision-making in adverse weather and non-routine situations.','Coordinated with ATC and dispatch to ensure safe and efficient operations.']};
 
-/* =================== NEW ITEMS =================== */
-const NEW={
-  licenses:()=>({type:'',authority:'',validUntil:''}),
-  typeRatings:()=>({aircraft:'',status:'current',date:''}),
-  experience:()=>({company:'',role:'',aircraft:'',location:'',start:'',end:'',current:false,bullets:''}),
-  education:()=>({institution:'',title:'',location:'',start:'',end:'',detail:''}),
-  languages:()=>({name:'',level:''})
-};
+const ACCENTS=[['#2563eb','Azul'],['#5b9dff','Azul Pilot'],['#d06dff','Púrpura'],['#1e3a8a','Navy'],['#dc2626','Iberia'],['#0d9488','Teal'],['#166534','Verde'],['#8b2252','Burdeos'],['#c9a44c','Oro'],['#334155','Grafito']];
+const DARKS=[['#0f172a','Slate'],['#1c1917','Stone'],['#111827','Ink'],['#14261a','Bosque'],['#1e1b2e','Ciruela'],['#000000','Negro']];
+const PAPERS=[['#ffffff','Blanco'],['#fefdf9','Marfil'],['#f8fafc','Frío']];
 
-/* =================== EDITOR: LIST RENDERERS =================== */
-function icDrag(){return ''}
-function delBtn(list,i){return `<button class="iconbtn danger" data-remove="${list}" data-idx="${i}" title="Eliminar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>`}
-function moveBtns(list,i,len){return `<button class="iconbtn" data-move="${list}" data-idx="${i}" data-dir="-1" ${i===0?'disabled style=opacity:.3':''} title="Subir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 15l-6-6-6 6"/></svg></button><button class="iconbtn" data-move="${list}" data-idx="${i}" data-dir="1" ${i===len-1?'disabled style=opacity:.3':''} title="Bajar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>`}
+const NEW={licenses:()=>({type:'',authority:'',validUntil:''}),typeRatings:()=>({aircraft:'',status:'current',date:''}),experience:()=>({company:'',role:'',aircraft:'',location:'',start:'',end:'',current:false,bullets:''}),education:()=>({institution:'',title:'',location:'',start:'',end:'',detail:''}),languages:()=>({name:'',level:''})};
 
-function renderLicenses(){
-  const arr=state.licenses,el=$('#licenseList');
-  if(!arr.length){el.innerHTML='<div class="empty">Sin licencias añadidas todavía.</div>';return;}
-  el.innerHTML=arr.map((it,i)=>`<div class="card"><div class="card-top"><span class="idx">Licencia ${i+1}</span><span class="grow"></span>${moveBtns('licenses',i,arr.length)}${delBtn('licenses',i)}</div>
-    <div class="grid g2">
-      <div class="field span2"><label>Tipo de licencia</label><input type="text" data-list="licenses" data-idx="${i}" data-field="type" value="${esc(it.type)}" placeholder="ATPL(A) / CPL(A) con ATPL congelado"></div>
-      <div class="field"><label>Autoridad</label><input type="text" data-list="licenses" data-idx="${i}" data-field="authority" value="${esc(it.authority)}" placeholder="EASA (AESA)"></div>
-      <div class="field"><label>Validez <span class="hint">— opcional</span></label><input type="text" data-list="licenses" data-idx="${i}" data-field="validUntil" value="${esc(it.validUntil)}" placeholder="—"></div>
-    </div></div>`).join('');
-}
-function renderTypes(){
-  const arr=state.typeRatings,el=$('#typeList');
-  if(!arr.length){el.innerHTML='<div class="empty">Sin type ratings añadidos todavía.</div>';return;}
-  el.innerHTML=arr.map((it,i)=>`<div class="card"><div class="card-top"><span class="idx">Tipo ${i+1}</span><span class="grow"></span>${moveBtns('typeRatings',i,arr.length)}${delBtn('typeRatings',i)}</div>
-    <div class="grid g3">
-      <div class="field span2"><label>Aeronave</label><input type="text" data-list="typeRatings" data-idx="${i}" data-field="aircraft" value="${esc(it.aircraft)}" placeholder="Boeing 737-800"></div>
-      <div class="field"><label>Estado</label><select data-list="typeRatings" data-idx="${i}" data-field="status"><option value="current" ${it.status==='current'?'selected':''}>Actual</option><option value="expired" ${it.status==='expired'?'selected':''}>Caducado</option></select></div>
-      <div class="field"><label>Año</label><input type="text" data-list="typeRatings" data-idx="${i}" data-field="date" value="${esc(it.date)}" placeholder="2021"></div>
-    </div></div>`).join('');
-}
-function renderExp(){
-  const arr=state.experience,el=$('#expList');
-  if(!arr.length){el.innerHTML='<div class="empty">Sin experiencia añadida todavía.</div>';return;}
-  el.innerHTML=arr.map((it,i)=>`<div class="card"><div class="card-top"><span class="idx">Puesto ${i+1}</span><span class="grow"></span>${moveBtns('experience',i,arr.length)}${delBtn('experience',i)}</div>
-    <div class="grid g2">
-      <div class="field"><label>Puesto / rol</label><input type="text" data-list="experience" data-idx="${i}" data-field="role" value="${esc(it.role)}" placeholder="First Officer — Boeing 737"></div>
-      <div class="field"><label>Compañía</label><input type="text" data-list="experience" data-idx="${i}" data-field="company" value="${esc(it.company)}" placeholder="Aerolínea"></div>
-      <div class="field"><label>Aeronave <span class="hint">— opcional</span></label><input type="text" data-list="experience" data-idx="${i}" data-field="aircraft" value="${esc(it.aircraft)}" placeholder="Boeing 737-800"></div>
-      <div class="field"><label>Ubicación</label><input type="text" data-list="experience" data-idx="${i}" data-field="location" value="${esc(it.location)}" placeholder="Madrid, España"></div>
-      <div class="field"><label>Desde</label><input type="text" data-list="experience" data-idx="${i}" data-field="start" value="${esc(it.start)}" placeholder="2021"></div>
-      <div class="field"><label>Hasta</label><input type="text" data-list="experience" data-idx="${i}" data-field="end" value="${esc(it.end)}" placeholder="2024" ${it.current?'disabled style=opacity:.5':''}></div>
-      <div class="field span2"><label class="chkrow"><input type="checkbox" data-list="experience" data-idx="${i}" data-field="current" ${it.current?'checked':''}> Trabajo aquí actualmente</label></div>
-      <div class="field span2"><label>Logros <span class="hint">— una línea por logro</span></label><textarea data-list="experience" data-idx="${i}" data-field="bullets" placeholder="• Operación de vuelos…">${esc(it.bullets)}</textarea>
-        <details class="sugg"><summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>Añadir logros de ejemplo</summary><div class="pool">${EXB[state.meta.lang].map((b,k)=>`<button class="chip" data-exb="${k}" data-idx="${i}">${esc(b)}</button>`).join('')}</div></details>
-      </div>
-    </div></div>`).join('');
-}
-function renderEdu(){
-  const arr=state.education,el=$('#eduList');
-  if(!arr.length){el.innerHTML='<div class="empty">Sin formación añadida todavía.</div>';return;}
-  el.innerHTML=arr.map((it,i)=>`<div class="card"><div class="card-top"><span class="idx">Formación ${i+1}</span><span class="grow"></span>${moveBtns('education',i,arr.length)}${delBtn('education',i)}</div>
-    <div class="grid g2">
-      <div class="field"><label>Título / programa</label><input type="text" data-list="education" data-idx="${i}" data-field="title" value="${esc(it.title)}" placeholder="ATPL Integrado (frozen)"></div>
-      <div class="field"><label>Centro / ATO</label><input type="text" data-list="education" data-idx="${i}" data-field="institution" value="${esc(it.institution)}" placeholder="Escuela de vuelo"></div>
-      <div class="field"><label>Ubicación</label><input type="text" data-list="education" data-idx="${i}" data-field="location" value="${esc(it.location)}" placeholder="España"></div>
-      <div class="field" style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div class="field"><label>Desde</label><input type="text" data-list="education" data-idx="${i}" data-field="start" value="${esc(it.start)}" placeholder="2018"></div><div class="field"><label>Hasta</label><input type="text" data-list="education" data-idx="${i}" data-field="end" value="${esc(it.end)}" placeholder="2020"></div></div>
-      <div class="field span2"><label>Detalle <span class="hint">— opcional</span></label><textarea data-list="education" data-idx="${i}" data-field="detail" placeholder="MCC/JOC, UPRT…">${esc(it.detail)}</textarea></div>
-    </div></div>`).join('');
-}
-function renderLang(){
-  const arr=state.languages,el=$('#langList');
-  if(!arr.length){el.innerHTML='<div class="empty">Sin idiomas añadidos todavía.</div>';return;}
-  el.innerHTML=arr.map((it,i)=>`<div class="card"><div class="card-top"><span class="idx">Idioma ${i+1}</span><span class="grow"></span>${moveBtns('languages',i,arr.length)}${delBtn('languages',i)}</div>
-    <div class="grid g2">
-      <div class="field"><label>Idioma</label><input type="text" data-list="languages" data-idx="${i}" data-field="name" value="${esc(it.name)}" placeholder="Inglés"></div>
-      <div class="field"><label>Nivel</label><input type="text" data-list="languages" data-idx="${i}" data-field="level" value="${esc(it.level)}" placeholder="OACI Nivel 5 / C1 / Nativo"></div>
-    </div></div>`).join('');
-}
-function renderAllLists(){renderLicenses();renderTypes();renderExp();renderEdu();renderLang();}
+function editorHTML(){return `
+<section class="sec" id="sec-personal" data-title="Datos personales"><div class="sec-head"><span class="kx">01</span><h2>Datos personales</h2></div><p class="sec-sub">Cómo te encuentran los reclutadores. El puesto encabeza el CV.</p>
+<div class="grid g2">
+<div class="field span2"><label>Nombre completo</label><input type="text" data-bind="personal.fullName" placeholder="Nombre y apellidos"></div>
+<div class="field span2"><label>Puesto / titular</label><input type="text" data-bind="personal.title" placeholder="First Officer · Airbus A320"></div>
+<div class="field"><label>Email</label><input type="email" data-bind="personal.email" placeholder="tu@email.com"></div>
+<div class="field"><label>Teléfono</label><input type="tel" data-bind="personal.phone" placeholder="+34 600 000 000"></div>
+<div class="field"><label>Ubicación / base</label><input type="text" data-bind="personal.location" placeholder="Madrid, España"></div>
+<div class="field"><label>Nacionalidad</label><input type="text" data-bind="personal.nationality" placeholder="Española"></div>
+<div class="field"><label>LinkedIn <span class="hint">— opcional</span></label><input type="text" data-bind="personal.linkedin" placeholder="linkedin.com/in/…"></div>
+<div class="field"><label>Web / logbook <span class="hint">— opcional</span></label><input type="text" data-bind="personal.website" placeholder="mi-web.com"></div>
+</div>
+<div class="field" style="margin-top:12px"><label class="chkrow"><input type="checkbox" id="showPhoto"> Incluir fotografía <span class="hint" style="margin-left:2px">(ATS la oculta siempre)</span></label>
+<div class="photo-row" id="photoRow" style="margin-top:10px"><div class="photo-prev" id="photoPrev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><input type="file" id="photoFile" accept="image/*" hidden><button class="btn sm" onclick="document.getElementById('photoFile').click()">Subir foto</button><button class="btn sm ghost" onclick="clearPhoto()">Quitar</button></div></div></div></section>
 
-/* =================== CV RENDER =================== */
-function contactBits(){
-  const p=state.personal,out=[];
-  if(has(p.email))out.push(['mail',p.email]);
-  if(has(p.phone))out.push(['phone',p.phone]);
-  if(has(p.location))out.push(['pin',p.location]);
-  if(has(p.nationality))out.push(['flag',L().nationality+': '+p.nationality]);
-  if(has(p.linkedin))out.push(['link',p.linkedin]);
-  if(has(p.website))out.push(['globe',p.website]);
-  return out;
-}
-const ICO={
-  mail:'<path d="M4 4h16v16H4z" fill="none"/><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/>',
-  phone:'<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7A2 2 0 0 1 22 16.9z"/>',
-  pin:'<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>',
-  flag:'<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/>',
-  link:'<path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/>',
-  globe:'<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/>'
-};
-function svgI(n){return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ICO[n]||''}</svg>`}
+<section class="sec" id="sec-summary" data-title="Perfil profesional"><div class="sec-head"><span class="kx">02</span><h2>Perfil profesional</h2></div><p class="sec-sub">3–4 líneas: experiencia, tipo de operación y qué buscas.</p>
+<div class="field"><textarea id="f_summary" data-bind="summary" style="min-height:120px" placeholder="First Officer con licencia ATPL(A)…"></textarea>
+<details class="sugg"><summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>Ver ejemplos redactados</summary><div class="pool" id="summaryPool"></div></details></div></section>
 
-function hoursPairs(){
-  const h=state.hours,l=L();
-  const map=[['total',l.total],['pic',l.pic],['picus',l.picus],['copilot',l.copilot],['me',l.me],['turbine',l.turbine],['jet',l.jet],['xc',l.xc],['night',l.night],['ifr',l.ifr],['last90',l.last90],['last12',l.last12]];
-  const out=map.filter(([k])=>has(h[k])).map(([k,lab])=>[lab,nfmt(h[k])]);
-  if(has(h.onType)){const lab=(has(h.onTypeName)?h.onTypeName+' ':'')+l.onType;out.push([esc(lab),nfmt(h.onType)]);}
-  return out;
-}
-function bulletsHtml(str){const lines=String(str||'').split('\n').map(s=>s.replace(/^[•\-\s]+/,'').trim()).filter(Boolean);return lines.length?`<ul>${lines.map(b=>`<li>${esc(b)}</li>`).join('')}</ul>`:'';}
-function datespan(a,b,cur){const l=L();const s=has(a)?esc(a):'';const e=cur?l.present:(has(b)?esc(b):'');if(!s&&!e)return '';return `${s}${s&&e?' – ':''}${e}`;}
+<section class="sec" id="sec-licenses" data-title="Licencias y habilitaciones"><div class="sec-head"><span class="kx">03</span><h2>Licencias y habilitaciones</h2></div><p class="sec-sub">Licencias EASA/AESA, médico y habilitaciones asociadas.</p>
+<div id="licenseList"></div><button class="addbtn" data-add="licenses"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Añadir licencia</button>
+<div class="grid g2" style="margin-top:14px"><div class="field"><label>Certificado médico</label><input type="text" data-bind="certs.medical" placeholder="Clase 1 (válido 06/2027)"></div>
+<div class="field"><label>Habilitaciones <span class="hint">— separadas por coma</span></label><input type="text" data-bind="certs.ratings" placeholder="IR(A), ME(L), MCC, RVSM…"></div></div></section>
+
+<section class="sec" id="sec-types" data-title="Habilitaciones de tipo"><div class="sec-head"><span class="kx">04</span><h2>Habilitaciones de tipo</h2></div><p class="sec-sub">Type ratings actuales o caducados, con año.</p>
+<div id="typeList"></div><button class="addbtn" data-add="typeRatings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Añadir type rating</button></section>
+
+<section class="sec" id="sec-hours" data-title="Horas de vuelo"><div class="sec-head"><span class="kx">05</span><h2>Horas de vuelo</h2></div><p class="sec-sub">Rellena solo lo que aplique — los vacíos no aparecen.</p>
+<div class="grid g3">
+<div class="field"><label>Total</label><input type="number" inputmode="numeric" data-bind="hours.total" placeholder="4500"></div>
+<div class="field"><label>PIC</label><input type="number" inputmode="numeric" data-bind="hours.pic" placeholder="320"></div>
+<div class="field"><label>SIC / copiloto</label><input type="number" inputmode="numeric" data-bind="hours.sic" placeholder="4030"></div>
+<div class="field"><label>PICUS</label><input type="number" inputmode="numeric" data-bind="hours.picus" placeholder="150"></div>
+<div class="field"><label>Doble mando</label><input type="number" inputmode="numeric" data-bind="hours.dual" placeholder="180"></div>
+<div class="field"><label>Multimotor</label><input type="number" inputmode="numeric" data-bind="hours.multiEngine" placeholder="4300"></div>
+<div class="field"><label>Monomotor</label><input type="number" inputmode="numeric" data-bind="hours.singleEngine" placeholder="200"></div>
+<div class="field"><label>Turbina</label><input type="number" inputmode="numeric" data-bind="hours.turbine" placeholder="4300"></div>
+<div class="field"><label>Jet</label><input type="number" inputmode="numeric" data-bind="hours.jet" placeholder="3200"></div>
+<div class="field"><label>IFR</label><input type="number" inputmode="numeric" data-bind="hours.ifr" placeholder="3800"></div>
+<div class="field"><label>Nocturno</label><input type="number" inputmode="numeric" data-bind="hours.night" placeholder="620"></div>
+<div class="field"><label>Travesía (XC)</label><input type="number" inputmode="numeric" data-bind="hours.xc" placeholder="4100"></div>
+<div class="field"><label>Instructor</label><input type="number" inputmode="numeric" data-bind="hours.instructor" placeholder=""></div>
+<div class="field"><label>Simulador</label><input type="number" inputmode="numeric" data-bind="hours.simulator" placeholder="220"></div>
+<div class="field"><label>Últ. 90 días</label><input type="number" inputmode="numeric" data-bind="hours.last90" placeholder="180"></div>
+<div class="field"><label>Últ. 12 meses</label><input type="number" inputmode="numeric" data-bind="hours.last12" placeholder="750"></div>
+<div class="field"><label>Horas en tipo</label><input type="number" inputmode="numeric" data-bind="hours.onType" placeholder="3200"></div>
+<div class="field"><label>Nombre del tipo</label><input type="text" data-bind="hours.onTypeName" placeholder="A320"></div>
+</div></section>
+
+<section class="sec" id="sec-exp" data-title="Experiencia"><div class="sec-head"><span class="kx">06</span><h2>Experiencia profesional</h2></div><p class="sec-sub">De más reciente a más antigua. Una línea por logro.</p>
+<div id="expList"></div><button class="addbtn" data-add="experience"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Añadir experiencia</button></section>
+
+<section class="sec" id="sec-edu" data-title="Formación"><div class="sec-head"><span class="kx">07</span><h2>Formación</h2></div><p class="sec-sub">ATO / escuela, estudios y cursos (MCC/JOC, UPRT…).</p>
+<div id="eduList"></div><button class="addbtn" data-add="education"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Añadir formación</button></section>
+
+<section class="sec" id="sec-lang" data-title="Idiomas"><div class="sec-head"><span class="kx">08</span><h2>Idiomas</h2></div><p class="sec-sub">Nivel OACI para inglés. MCER (A1–C2) o "Nativo".</p>
+<div id="langList"></div><button class="addbtn" data-add="languages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Añadir idioma</button></section>
+
+<section class="sec" id="sec-extras" data-title="Disponibilidad y extras"><div class="sec-head"><span class="kx">09</span><h2>Disponibilidad y extras</h2></div><p class="sec-sub">Disponibilidad, preaviso e información adicional.</p>
+<div class="grid g2"><div class="field"><label>Disponible desde</label><input type="text" data-bind="extras.availableFrom" placeholder="Inmediata / 01-2027"></div>
+<div class="field"><label>Preaviso</label><input type="text" data-bind="extras.noticePeriod" placeholder="30 días"></div>
+<div class="field span2"><label>Información adicional</label><textarea data-bind="extras.additional" placeholder="Pasaporte UE, derecho a trabajar, carné de conducir…"></textarea></div>
+<div class="field span2"><label>Referencias</label><input type="text" data-bind="extras.references" placeholder="Disponibles a petición"></div></div></section>`;}
+
+function moveBtns(list,i,len){return `<button class="iconbtn" data-move="${list}" data-idx="${i}" data-dir="-1" ${i===0?'disabled style=opacity:.3':''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 15l-6-6-6 6"/></svg></button><button class="iconbtn" data-move="${list}" data-idx="${i}" data-dir="1" ${i===len-1?'disabled style=opacity:.3':''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>`;}
+function delBtn(list,i){return `<button class="iconbtn danger" data-remove="${list}" data-idx="${i}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>`;}
+function li(list,i,f,v,ph){return `<input type="text" data-list="${list}" data-idx="${i}" data-field="${f}" value="${esc(v)}" placeholder="${ph||''}">`;}
+function rL(){const a=state.licenses,e=$('#licenseList');if(!a.length){e.innerHTML='<div class="empty">Sin licencias.</div>';return;}e.innerHTML=a.map((it,i)=>`<div class="card"><div class="card-top"><span class="idx">Licencia ${i+1}</span><span class="grow"></span>${moveBtns('licenses',i,a.length)}${delBtn('licenses',i)}</div><div class="grid g2"><div class="field span2"><label>Tipo</label>${li('licenses',i,'type',it.type,'ATPL(A) / CPL(A) con ATPL congelado')}</div><div class="field"><label>Autoridad</label>${li('licenses',i,'authority',it.authority,'EASA (AESA)')}</div><div class="field"><label>Validez <span class="hint">— opcional</span></label>${li('licenses',i,'validUntil',it.validUntil,'—')}</div></div></div>`).join('');}
+function rT(){const a=state.typeRatings,e=$('#typeList');if(!a.length){e.innerHTML='<div class="empty">Sin type ratings.</div>';return;}e.innerHTML=a.map((it,i)=>`<div class="card"><div class="card-top"><span class="idx">Tipo ${i+1}</span><span class="grow"></span>${moveBtns('typeRatings',i,a.length)}${delBtn('typeRatings',i)}</div><div class="grid g3"><div class="field span2"><label>Aeronave</label>${li('typeRatings',i,'aircraft',it.aircraft,'Airbus A320neo')}</div><div class="field"><label>Estado</label><select data-list="typeRatings" data-idx="${i}" data-field="status"><option value="current" ${it.status==='current'?'selected':''}>Actual</option><option value="expired" ${it.status==='expired'?'selected':''}>Caducado</option></select></div><div class="field"><label>Año</label>${li('typeRatings',i,'date',it.date,'2020')}</div></div></div>`).join('');}
+function rE(){const a=state.experience,e=$('#expList');if(!a.length){e.innerHTML='<div class="empty">Sin experiencia.</div>';return;}e.innerHTML=a.map((it,i)=>`<div class="card"><div class="card-top"><span class="idx">Puesto ${i+1}</span><span class="grow"></span>${moveBtns('experience',i,a.length)}${delBtn('experience',i)}</div><div class="grid g2"><div class="field"><label>Puesto / rol</label>${li('experience',i,'role',it.role,'First Officer — A320')}</div><div class="field"><label>Compañía</label>${li('experience',i,'company',it.company,'Aerolínea')}</div><div class="field"><label>Aeronave</label>${li('experience',i,'aircraft',it.aircraft,'Airbus A320neo')}</div><div class="field"><label>Ubicación</label>${li('experience',i,'location',it.location,'Madrid (MAD)')}</div><div class="field"><label>Desde</label>${li('experience',i,'start',it.start,'2020')}</div><div class="field"><label>Hasta</label><input type="text" data-list="experience" data-idx="${i}" data-field="end" value="${esc(it.end)}" placeholder="2024" ${it.current?'disabled style=opacity:.5':''}></div><div class="field span2"><label class="chkrow"><input type="checkbox" data-list="experience" data-idx="${i}" data-field="current" ${it.current?'checked':''}> Trabajo aquí actualmente</label></div><div class="field span2"><label>Logros <span class="hint">— una línea por logro</span></label><textarea data-list="experience" data-idx="${i}" data-field="bullets" placeholder="• Operación de vuelos…">${esc(it.bullets)}</textarea><details class="sugg"><summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>Añadir logros de ejemplo</summary><div class="pool">${EXB[state.meta.lang].map((b,k)=>`<button class="chip" data-exb="${k}" data-idx="${i}">${esc(b)}</button>`).join('')}</div></details></div></div></div>`).join('');}
+function rEd(){const a=state.education,e=$('#eduList');if(!a.length){e.innerHTML='<div class="empty">Sin formación.</div>';return;}e.innerHTML=a.map((it,i)=>`<div class="card"><div class="card-top"><span class="idx">Formación ${i+1}</span><span class="grow"></span>${moveBtns('education',i,a.length)}${delBtn('education',i)}</div><div class="grid g2"><div class="field"><label>Título / programa</label>${li('education',i,'title',it.title,'ATPL Integrado (frozen)')}</div><div class="field"><label>Centro / ATO</label>${li('education',i,'institution',it.institution,'Escuela de vuelo')}</div><div class="field"><label>Ubicación</label>${li('education',i,'location',it.location,'España')}</div><div class="field" style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div class="field"><label>Desde</label>${li('education',i,'start',it.start,'2015')}</div><div class="field"><label>Hasta</label>${li('education',i,'end',it.end,'2017')}</div></div><div class="field span2"><label>Detalle <span class="hint">— opcional</span></label><textarea data-list="education" data-idx="${i}" data-field="detail" placeholder="MCC/JOC, UPRT…">${esc(it.detail)}</textarea></div></div></div>`).join('');}
+function rLa(){const a=state.languages,e=$('#langList');if(!a.length){e.innerHTML='<div class="empty">Sin idiomas.</div>';return;}e.innerHTML=a.map((it,i)=>`<div class="card"><div class="card-top"><span class="idx">Idioma ${i+1}</span><span class="grow"></span>${moveBtns('languages',i,a.length)}${delBtn('languages',i)}</div><div class="grid g2"><div class="field"><label>Idioma</label>${li('languages',i,'name',it.name,'Inglés')}</div><div class="field"><label>Nivel</label>${li('languages',i,'level',it.level,'OACI Nivel 5 / C1 / Nativo')}</div></div></div>`).join('');}
+function rAllLists(){rL();rT();rE();rEd();rLa();}
+
+/* ===== CV pieces ===== */
+function contactParts(){const p=state.personal,o=[];if(has(p.phone))o.push(esc(p.phone));if(has(p.email))o.push(esc(p.email));if(has(p.location))o.push(esc(p.location));if(has(p.linkedin))o.push(esc(p.linkedin));if(has(p.website))o.push(esc(p.website));return o;}
+function nameParts(){const t=(state.personal.fullName||'').trim();if(!t)return['Tu','nombre'];const parts=t.split(/\s+/);if(parts.length===1)return[parts[0],''];return[parts.slice(0,-1).join(' '),parts.slice(-1)[0]];}
+function roleText(){return has(state.personal.title)?esc(state.personal.title):(state.experience[0]&&has(state.experience[0].role)?esc(state.experience[0].role):'');}
+const HK=[['total','total'],['pic','pic'],['sic','sic'],['picus','picus'],['multiEngine','me'],['turbine','turbine'],['jet','jet'],['ifr','ifr'],['night','night'],['xc','xc'],['instructor','instr'],['simulator','sim'],['last90','last90'],['last12','last12']];
+function hoursPairs(keys){const h=state.hours,l=L(),out=[];const list=keys||HK.map(x=>x[0]);list.forEach(k=>{const lk=(HK.find(x=>x[0]===k)||[])[1]||k;if(has(h[k]))out.push([l[lk]||k,fmtNum(h[k]),num(h[k])]);});return out;}
+function hoursRows(keys){return hoursPairs(keys).map(([k,v])=>`<div class="hrow"><span class="mut">${k}</span><b>${v}</b></div>`).join('');}
+function bh(t,cls){return `<div class="bh ${cls||''}">${t}</div>`;}
+function sec(t,body,cls){return body?`<div class="blk">${bh(t,cls)}${body}</div>`:'';}
+function bullets(str){const L2=String(str||'').split('\n').map(s=>s.replace(/^[•\-\s]+/,'').trim()).filter(Boolean);return L2.length?`<ul>${L2.map(b=>`<li>${esc(b)}</li>`).join('')}</ul>`:'';}
+function dspan(a,b,cur){const l=L();const s=has(a)?esc(a):'';const e=cur?l.present:(has(b)?esc(b):'');if(!s&&!e)return '';return `${s}${s&&e?' – ':''}${e}`;}
 function pills(csv){return String(csv||'').split(',').map(s=>s.trim()).filter(Boolean).map(x=>`<span class="pill">${esc(x)}</span>`).join('');}
-
-function expHtml(){return state.experience.map(it=>{
-  const head=[has(it.role)?`<span class="role">${esc(it.role)}</span>`:'',has(it.company)?`<span> — ${esc(it.company)}</span>`:''].join('');
-  const sub=[has(it.aircraft)?esc(it.aircraft):'',has(it.location)?esc(it.location):''].filter(Boolean).join(' · ');
-  const d=datespan(it.start,it.end,it.current);
-  return `<div class="exp-item"><div class="rowline"><div>${head}</div>${d?`<div class="dates">${d}</div>`:''}</div>${sub?`<div class="sub">${sub}</div>`:''}${bulletsHtml(it.bullets)}</div>`;
+function expEntries(style){return state.experience.map(w=>{
+  const co=has(w.company)?`<span class="role">${esc(w.company)}</span>`:'';
+  const rl=[has(w.role)?esc(w.role):'',has(w.aircraft)?esc(w.aircraft):'',has(w.location)?esc(w.location):''].filter(Boolean).join(' · ');
+  const d=dspan(w.start,w.end,w.current);
+  if(style==='timeline')return `<div class="tl"><div class="rail"><div class="dot"></div><div class="ln"></div></div><div class="tb exp"><div class="rowln"><div>${co}</div>${d?`<div class="dates">${d}</div>`:''}</div><div class="acc" style="font-size:.9em">${rl}</div>${bullets(w.bullets)}</div></div>`;
+  if(style==='logbook')return `<div class="lentry"><div class="ld">${d}</div><div class="lm"><div class="lco">${esc(w.company)||''}</div><div class="acc" style="font-size:.88em">${rl}</div>${bullets(w.bullets)}</div></div>`;
+  if(style==='compact')return `<div class="exp" style="font-size:.92em"><span class="role">${esc(w.company)}</span> · ${esc(w.role)}${has(w.aircraft)?' '+esc(w.aircraft):''}${has(w.location)?' · '+esc(w.location):''} <span class="mut">${d}</span></div>`;
+  return `<div class="exp"><div class="rowln"><div>${co}</div>${d?`<div class="dates">${d}</div>`:''}</div><div class="acc" style="font-size:.9em">${rl}</div>${bullets(w.bullets)}</div>`;
 }).join('');}
-function eduHtml(){return state.education.map(it=>{
-  const head=[has(it.title)?`<span class="role">${esc(it.title)}</span>`:'',has(it.institution)?`<span> — ${esc(it.institution)}</span>`:''].join('');
-  const d=datespan(it.start,it.end,false);
-  return `<div class="edu-item"><div class="rowline"><div>${head}</div>${d?`<div class="dates">${d}</div>`:''}</div>${has(it.location)?`<div class="sub">${esc(it.location)}</div>`:''}${has(it.detail)?`<div class="sub" style="margin-top:3px">${esc(it.detail)}</div>`:''}</div>`;
-}).join('');}
-function typesHtml(){const l=L();return state.typeRatings.filter(t=>has(t.aircraft)).map(t=>{const meta=[t.status?(t.status==='current'?l.current:l.expired):'',has(t.date)?esc(t.date):''].filter(Boolean).join(', ');return `<span class="pill">${esc(t.aircraft)}${meta?` (${meta})`:''}</span>`;}).join('');}
-function licHtml(){return state.licenses.filter(x=>has(x.type)).map(x=>{const meta=[has(x.authority)?esc(x.authority):'',has(x.validUntil)?esc(x.validUntil):''].filter(Boolean).join(' · ');return `<div class="kv"><b>${esc(x.type)}</b>${meta?`<span>${meta}</span>`:''}</div>`;}).join('');}
-function langHtml(){return state.languages.filter(x=>has(x.name)).map(x=>`<div class="kv"><b>${esc(x.name)}</b>${has(x.level)?`<span>${esc(x.level)}</span>`:''}</div>`).join('');}
-function hoursGrid(){const p=hoursPairs();return p.length?`<div class="hgrid">${p.map(([k,v])=>`<div class="hcell"><span>${k}</span><b>${v}</b></div>`).join('')}</div>`:'';}
-function extrasHtml(){const l=L(),e=state.extras,rows=[];
-  if(has(e.availableFrom))rows.push(`<div class="kv"><b>${l.availableFrom}</b><span>${esc(e.availableFrom)}</span></div>`);
-  if(has(e.noticePeriod))rows.push(`<div class="kv"><b>${l.noticePeriod}</b><span>${esc(e.noticePeriod)}</span></div>`);
-  return rows.join('');}
+function ratingChips(){return state.typeRatings.filter(t=>has(t.aircraft)).map(t=>`<span class="pill chip">${esc(t.aircraft)}${has(t.date)?' · '+esc(t.date):''}</span>`).join('');}
+function ratingLines(){const l=L();return state.typeRatings.filter(t=>has(t.aircraft)).map(t=>`<div class="kv"><b>${esc(t.aircraft)}</b><span class="mut" style="font-size:.85em">${[t.status==='current'?l.current:l.expired,has(t.date)?t.date:''].filter(Boolean).join(' · ')}</span></div>`).join('');}
+function licLines(){return state.licenses.filter(x=>has(x.type)).map(x=>{const m=[has(x.authority)?esc(x.authority):'',has(x.validUntil)?esc(x.validUntil):''].filter(Boolean).join(' · ');return `<div class="kv"><b>${esc(x.type)}</b>${m?`<span class="mut" style="font-size:.85em">${m}</span>`:''}</div>`;}).join('');}
+function medLine(){return has(state.certs.medical)?`<div class="kv"><b>${L().medical}</b><span class="mut" style="font-size:.85em">${esc(state.certs.medical)}</span></div>`:'';}
+function ratingsPills(){return has(state.certs.ratings)?`<div class="pills">${pills(state.certs.ratings)}</div>`:'';}
+function langLines(){return state.languages.filter(x=>has(x.name)).map(x=>`<div class="kv"><b>${esc(x.name)}</b>${has(x.level)?`<span class="mut" style="font-size:.85em">${esc(x.level)}</span>`:''}</div>`).join('');}
+function courseLines(){return state.education.map(e=>{const head=[has(e.title)?`<span class="role">${esc(e.title)}</span>`:'',has(e.institution)?` — ${esc(e.institution)}`:''].join('');const d=dspan(e.start,e.end,false);return has(e.title)||has(e.institution)?`<div class="edu"><div class="rowln"><div>${head}</div>${d?`<div class="dates">${d}</div>`:''}</div>${has(e.detail)?`<div class="sub">${esc(e.detail)}</div>`:''}</div>`:'';}).join('');}
+function extrasBlock(){const l=L(),e=state.extras,r=[];if(has(e.availableFrom))r.push(`<div class="kv"><b>${l.availableFrom}</b><span class="mut" style="font-size:.85em">${esc(e.availableFrom)}</span></div>`);if(has(e.noticePeriod))r.push(`<div class="kv"><b>${l.noticePeriod}</b><span class="mut" style="font-size:.85em">${esc(e.noticePeriod)}</span></div>`);return r.join('');}
+function addInfo(){return has(state.extras.additional)?`<p>${esc(state.extras.additional).replace(/\n/g,'<br>')}</p>`:'';}
+function refsInfo(){return has(state.extras.references)?`<p>${esc(state.extras.references)}</p>`:'';}
+function contactInline(sep){return contactParts().join(sep||'  ·  ');}
+function summaryP(cls){return has(state.summary)?`<p class="${cls||''}">${esc(state.summary).replace(/\n/g,'<br>')}</p>`:'';}
+function hoursTable(){const h=state.hours;const r1=[['total','Total'],['pic','PIC'],['sic','SIC'],['multiEngine','Multi'],['singleEngine','Single']];const r2=[['ifr','IFR'],['night','Night'],['simulator','Sim'],['xc','XC'],['instructor','Instr']];const cell=k=>has(h[k])?fmtNum(h[k]):'—';return `<table class="htable"><tr>${r1.map(([k,lab])=>`<th>${lab}</th>`).join('')}</tr><tr>${r1.map(([k])=>`<td>${cell(k)}</td>`).join('')}</tr><tr>${r2.map(([k,lab])=>`<th>${lab}</th>`).join('')}</tr><tr>${r2.map(([k])=>`<td>${cell(k)}</td>`).join('')}</tr></table>`;}
+function hoursBars(){const rows=hoursPairs(['total','pic','sic','multiEngine','ifr','night']);const mx=Math.max(...rows.map(r=>r[2]),1);return rows.map(([k,v,n])=>`<div class="bar"><span class="bl">${k}</span><span class="bt"><span class="bf" style="width:${Math.min(100,n/mx*100)}%"></span></span><span class="bv">${v}</span></div>`).join('');}
+function hoursStats(){const p=hoursPairs(['total','pic','sic','ifr','night','multiEngine','simulator','instructor','xc']).slice(0,10);return p.length?`<div class="dash">${p.map(([k,v])=>`<div class="stat"><b>${v}</b><span>${k}</span></div>`).join('')}</div>`:'';}
+function metricStrip(){const h=state.hours,l=L(),m=[];if(has(h.total))m.push([fmtNum(h.total),l.totalHrs]);if(has(h.pic))m.push([fmtNum(h.pic),l.picHrs]);const nT=state.typeRatings.filter(t=>has(t.aircraft)).length;if(nT)m.push([String(nT),nT===1?l.rating1:l.ratingN]);const im=state.languages.map(x=>{const mm=(x.level||'').match(/([456])/);return /ingl|engl/i.test(x.name)&&mm?+mm[1]:0;}).reduce((a,b)=>Math.max(a,b),0);if(im)m.push(['OACI '+im,l.english]);if(has(state.certs.medical)){const c=(state.certs.medical.match(/([12])/)||[])[1];if(c)m.push(['Clase '+c,'Medical']);}return m.length?`<div class="strip">${m.map(([n,lab])=>`<div class="m"><b>${n}</b><span>${lab}</span></div>`).join('')}</div>`:'';}
+function bigTotal(){const h=state.hours,l=L();return has(h.total)?`<div class="bignum">${fmtNum(h.total)}</div><div class="nl">${l.hoursShort.toLowerCase()}</div>`:'';}
+function logbookGrid(){const p=hoursPairs(['total','pic','sic','multiEngine','ifr','night','instructor','simulator','xc']);return p.length?`<div class="lgrid">${p.map(([k,v])=>`<div class="lcell"><span class="mut">${k}</span><b>${v}</b></div>`).join('')}</div>`:'';}
+function typeLogEntries(){const l=L();return state.typeRatings.filter(t=>has(t.aircraft)).map(t=>`<div class="lentry"><div class="ld">${has(t.date)?esc(t.date):''}</div><div class="lm"><span class="lco">${esc(t.aircraft)}</span> <span class="mut" style="font-size:.85em">${t.status==='current'?l.current:l.expired}</span></div></div>`).join('');}
 
-function isEmpty(){const p=state.personal;return !has(p.fullName)&&!has(state.summary)&&!state.experience.length;}
+function photo(){return (state.meta.showPhoto&&state.meta.photo)?`<img class="ph" src="${state.meta.photo}">`:'';}
+function nameH(){const[a,b]=nameParts();return `${esc(a)}${b?' '+esc(b):''}`;}
+function nameH2(){const[a,b]=nameParts();return `${esc(a)}${b?'<br>'+esc(b):''}`;}
 
-function renderCV(){
-  const c=$('#cvPaper');const t=state.meta.template,l=L(),p=state.personal;
-  c.className='cv '+t;
+const TPL={
+ legacy:{name:'Legacy Carrier',desc:'Serif · una columna',render:()=>{const l=L();return `<div class="pg"><div class="head">${photo()}<div><h1>${nameH()}</h1><div class="role">${roleText()}</div><div class="contact">${contactInline()}</div></div></div>`
+  +sec(l.summary,summaryP())
+  +`<div class="twocol"><div>${sec(l.hours,hoursRows(['total','pic','sic','ifr','night','multiEngine','simulator']))}</div><div>${sec(l.types,ratingLines())}${sec(l.lic,licLines()+medLine()+ratingsPills())}</div></div>`
+  +sec(l.experience,expEntries())
+  +`<div class="twocol">${sec(l.education,courseLines())}${sec(l.languages,langLines())}</div>`
+  +sec(l.additional,addInfo())+`</div>`;}},
+ modern:{name:'Modern Minimal',desc:'Sidebar oscuro',render:()=>{const l=L();return `<aside>${photo()}<h1>${nameH2()}</h1><div class="role">${roleText()}</div>`
+  +sec(l.contact,contactParts().map(c=>`<div class="mut" style="margin-bottom:2px;font-size:.9em">${c}</div>`).join(''))
+  +sec(l.hoursShort,hoursRows(['total','pic','sic','ifr','night','simulator']))
+  +sec(l.lic,licLines()+medLine())+sec(l.languages,langLines())
+  +`</aside><main>`+sec(l.profile,summaryP())+sec(l.expShort,expEntries())+sec(l.types,`<div class="pills">${ratingChips()}</div>`)+sec(l.education,courseLines())+sec(l.additional,addInfo())+`</main>`;}},
+ captain:{name:'Captain Prestige',desc:'Banda oscura · barras',render:()=>{const l=L();return `<div class="banner"><div><h1>${nameH()}</h1><div class="role">${roleText()}</div><div class="contact">${contactInline()}</div></div>${photo()}</div><div class="body">`
+  +sec(l.experience,expEntries())+sec(l.hours,hoursBars())
+  +`<div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">${sec(l.lic,licLines()+medLine()+ratingsPills())}${sec(l.types,ratingLines())}</div>`+sec(l.additional,addInfo())+`</div>`;}},
+ exec:{name:'Executive',desc:'Masthead serif',render:()=>{const l=L();return `<div class="pg"><div class="mast">${photo()}<h1>${nameH()}</h1><div class="role">${roleText()}</div><div class="rule"></div><div class="contact">${contactInline('   ·   ')}</div></div>`
+  +(has(state.summary)?`<p class="lead">${esc(state.summary)}</p>`:'')+`<div class="divider"></div>`
+  +`<div class="cols"><div>${sec(l.experience,expEntries())}${sec(l.education,courseLines())}</div><div>${sec(l.hours,hoursRows(['total','pic','sic','multiEngine','ifr','night','instructor','simulator']))}${sec(l.types,ratingLines())}${sec(l.lic,licLines()+medLine())}${sec(l.languages,langLines())}${sec(l.additional,addInfo())}</div></div></div>`;}},
+ euro:{name:'European Standard',desc:'Tabla logbook',render:()=>{const l=L();const p=state.personal;return `<div class="pg"><div class="head">${photo()}<div><h1>${nameH()}</h1><div class="role">${roleText()}</div>${has(p.nationality)?`<div class="born">${l.nationality}: ${esc(p.nationality)}</div>`:''}<div class="contact">${contactInline()}</div></div></div>`
+  +sec(l.hoursBreak,hoursTable())
+  +sec(l.licenses,licLines()+medLine()+(state.typeRatings.length?`<div style="margin-top:4px">${ratingLines()}</div>`:''))
+  +sec(l.experience,expEntries())
+  +`<div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">${sec(l.education,courseLines())}<div>${sec(l.languages,langLines())}${sec(l.additional,addInfo())}</div></div></div>`;}},
+ deck:{name:'Flight Deck',desc:'Dashboard · mono',render:()=>{const l=L();return `<div class="head"><div><h1>${nameH()}</h1><div class="role">${roleText()}</div><div class="contact">${contactInline('  //  ')}</div></div>${photo()}</div><div class="body">`
+  +hoursStats()+sec(l.profile,summaryP())
+  +`<div class="cols"><div>${sec(l.expShort,expEntries())}${sec(l.education,courseLines())}</div><div>${sec(l.types,`<div class="pills">${ratingChips()}</div>`)}${sec(l.lic,licLines()+medLine())}${sec(l.languages,langLines())}${sec(l.additional,addInfo())}</div></div></div>`;}},
+ timeline:{name:'Command Timeline',desc:'Raíl vertical',render:()=>{const l=L();return `<div class="pg"><div class="head">${photo()}<div><h1>${nameH()}</h1><div class="role">${roleText()}</div><div class="contact">${contactInline()}</div></div></div>`
+  +sec(l.summary,summaryP())+sec(l.timelineT,expEntries('timeline'))
+  +`<div class="twocol"><div>${sec(l.types,`<div class="pills">${ratingChips()}</div>`)}${sec(l.lic,licLines()+medLine())}</div><div>${sec(l.hours,hoursRows(['total','pic','sic','ifr','night','simulator']))}${sec(l.languages,langLines())}${sec(l.additional,addInfo())}</div></div></div>`;}},
+ logbook:{name:'Logbook',desc:'Cuaderno de vuelo',render:()=>{const l=L();const h=state.hours;return `<div class="pg"><div class="head"><div style="display:flex;align-items:flex-end;flex:1">${photo()}<div><h1>${nameH()}</h1><div class="role">${roleText()}</div><div class="contact">${contactInline('   ·   ')}</div></div></div>${has(h.total)?`<div class="tot"><b>${fmtNum(h.total)}</b><span>${l.totalHrs}</span></div>`:''}</div>`
+  +(has(state.summary)?`<p style="margin-top:8px">${esc(state.summary)}</p>`:'')
+  +sec(l.flightTime,logbookGrid())+(state.typeRatings.length?sec(l.types,typeLogEntries()):'')+sec(l.expShort,expEntries('logbook'))
+  +`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">${sec(l.lic,licLines()+medLine())}${sec(l.languages,langLines())}${sec(l.education,courseLines())}</div>`+sec(l.additional,addInfo())+`</div>`;}},
+ horizon:{name:'Horizon',desc:'Banda + instrumentos',render:()=>{const l=L();return `<div class="band"><div><h1>${nameH()}</h1><div class="role">${roleText()}</div><div class="contact">${contactInline('    ·    ')}</div></div>${photo()}</div><div class="hz"></div>`
+  +metricStrip()+`<div class="body">${summaryP()}`+sec(l.expShort,expEntries())+sec(l.types,ratingLines())
+  +`<div class="twocol">${sec(l.lic,licLines()+medLine())}${sec(l.languages,langLines())}${sec(l.education,courseLines())}</div>`+sec(l.additional,addInfo())+`</div>`;}},
+ swiss:{name:'Swiss Grid',desc:'Rejilla tipográfica',render:()=>{const l=L();return `<div class="pg"><div style="display:flex;align-items:flex-start"><div style="flex:1"><h1>${nameH2()}</h1><div class="role">${roleText()}</div></div>${photo()}</div><div class="toprule"></div>`
+  +`<div class="cols"><div>`
+  +(has(state.hours.total)?`<div class="blk">${bh(l.totalTime)}${bigTotal()}</div>`:'')
+  +sec(l.breakdown,hoursRows(['pic','sic','multiEngine','ifr','night','simulator']))
+  +sec(l.contact,contactParts().map(c=>`<div style="font-size:.9em;margin-bottom:2px">${c}</div>`).join(''))
+  +sec(l.lic,licLines()+medLine())+sec(l.languages,langLines())
+  +`</div><div>`+sec(l.profile,summaryP())+sec(l.expShort,expEntries())+sec(l.types,ratingLines())+sec(l.education,courseLines())+sec(l.additional,addInfo())+`</div></div></div>`;}},
+ contrast:{name:'Contrast Split',desc:'Sidebar de color',render:()=>{const l=L();return `<aside>${photo()}<h1>${nameH2()}</h1><div class="role">${roleText()}</div>`
+  +sec(l.contact,contactParts().map(c=>`<div style="margin-bottom:2px;font-size:.9em">${c}</div>`).join(''))
+  +sec(l.hours,hoursRows(['total','pic','sic','ifr','night','simulator']))+sec(l.lic,licLines()+medLine())+sec(l.languages,langLines())
+  +`</aside><main>`+sec(l.profile,summaryP())+sec(l.expShort,expEntries())+sec(l.types,ratingLines())+sec(l.education,courseLines())+sec(l.additional,addInfo())+`</main>`;}},
+ editorial:{name:'Editorial',desc:'Revista premium',render:()=>{const l=L();return `<div class="pg"><div class="mast"><div><h1>${nameH()}</h1><div class="role">${roleText()}</div></div>${photo()}</div><div class="kicker">${contactInline('    ·    ')}</div>`
+  +`<div class="cols"><div class="rail">`+sec(l.hours,hoursRows(['total','pic','sic','multiEngine','ifr','night','simulator']))+sec(l.types,ratingLines())+sec(l.lic,licLines()+medLine())+sec(l.languages,langLines())
+  +`</div><div class="main">`+(has(state.summary)?`<p class="lead">${esc(state.summary)}</p>`:'')
+  +sec(`<span class="secnum">01</span>${l.expShort}`,expEntries())+sec(`<span class="secnum">02</span>${l.education}`,courseLines())+sec(`<span class="secnum">03</span>${l.additional}`,addInfo())+`</div></div></div>`;}},
+ meridian:{name:'Meridian',desc:'Espina de acento',render:()=>{const l=L();return `<div class="spine"></div><div class="pg"><div class="head"><div style="flex:1;display:flex;align-items:center">${photo()}<div><h1>${nameH()}</h1><div class="role">${roleText()}</div></div></div><div class="coords">${contactParts().map(c=>`<div>${c}</div>`).join('')}</div></div><div class="rule"></div>`
+  +summaryP()+`<div class="cols"><div>${sec(l.expShort,expEntries())}${sec(l.education,courseLines())}</div><div>${sec(l.hours,hoursRows(['total','pic','sic','multiEngine','ifr','night','simulator']))}${sec(l.types,ratingLines())}${sec(l.lic,licLines()+medLine())}${sec(l.languages,langLines())}${sec(l.additional,addInfo())}</div></div></div>`;}},
+ ats:{name:'ATS (texto plano)',desc:'Óptimo para filtros',render:()=>{const l=L();const p=state.personal;const cl=[has(p.phone)?p.phone:'',has(p.email)?p.email:'',has(p.location)?p.location:'',has(p.nationality)?l.nationality+': '+p.nationality:'',has(p.linkedin)?p.linkedin:'',has(p.website)?p.website:''].filter(Boolean).map(esc).join(' | ');return `<div class="pg"><h1>${nameH()}</h1><div class="role">${roleText()}</div>${cl?`<div class="contact">${cl}</div>`:''}<div class="rule"></div>`
+  +sec(l.summary,summaryP())+sec(l.licenses,licLines()+medLine()+ratingsPills())+sec(l.types,`<div class="pills">${ratingChips()}</div>`)+sec(l.hours,hoursRows())+sec(l.experience,expEntries())+sec(l.education,courseLines())+sec(l.languages,langLines())+sec(l.availability,extrasBlock())+sec(l.additional,addInfo())+sec(l.references,refsInfo())+`</div>`;}}
+};
+const TPL_ORDER=['legacy','modern','captain','exec','euro','deck','timeline','logbook','horizon','swiss','contrast','editorial','meridian','ats'];
+
+function hexSoft(hex){try{const h=hex.replace('#','');const r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);return `rgba(${r},${g},${b},.10)`;}catch(e){return '#eef3ff';}}
+function isEmpty(){return !has(state.personal.fullName)&&!has(state.summary)&&!state.experience.length;}
+function padFor(){const d=state.meta.density;return d==='compact'?'40px':d==='airy'?'62px':'52px';}
+function renderCV(){const c=$('#cvPaper');const t=state.meta.template;c.className='cv '+t;
   c.style.setProperty('--accent',t==='ats'?'#111':state.meta.accent);
+  c.style.setProperty('--dark',state.meta.dark);
+  c.style.setProperty('--paper',t==='ats'?'#fff':state.meta.paper);
+  c.style.setProperty('--soft',t==='ats'?'#fff':hexSoft(state.meta.accent));
   c.style.setProperty('--fs',state.meta.fontScale);
-  // accent-soft
-  c.style.setProperty('--accent-soft',t==='ats'?'#fff':hexSoft(state.meta.accent));
-  const photo=(state.meta.showPhoto&&state.meta.photo&&t!=='ats');
-  const name=esc(p.fullName)||'<span class="muted">Tu nombre</span>';
-  const title=has(p.title)?esc(p.title):'';
-
-  const sec=(title,body)=>body?`<div class="blk"><div class="bh">${title}</div>${body}</div>`:'';
-  const summary=has(state.summary)?`<p style="margin:0">${esc(state.summary).replace(/\n/g,'<br>')}</p>`:'';
-  const ratings=has(state.certs.ratings)?`<div class="pills">${pills(state.certs.ratings)}</div>`:'';
-  const medical=has(state.certs.medical)?`<div class="kv"><b>${l.medical}</b><span>${esc(state.certs.medical)}</span></div>`:'';
-  const addInfo=has(state.extras.additional)?`<p style="margin:0">${esc(state.extras.additional).replace(/\n/g,'<br>')}</p>`:'';
-  const refs=has(state.extras.references)?`<p style="margin:0">${esc(state.extras.references)}</p>`:'';
-
-  let html='';
-  if(t==='moderna'){
-    const contact=contactBits().map(([i,v])=>`<div>${svgI(i)}<span>${esc(v)}</span></div>`).join('');
-    const aside=[
-      contact?`<div class="blk"><div class="bh">Contacto</div><div class="contact">${contact}</div></div>`:'',
-      (licHtml()||medical||ratings)?`<div class="blk"><div class="bh">${l.licenses}</div>${licHtml()}${medical}${ratings}</div>`:'',
-      hoursGrid()?`<div class="blk"><div class="bh">${l.hours}</div>${hoursGrid()}</div>`:'',
-      langHtml()?`<div class="blk"><div class="bh">${l.languages}</div>${langHtml()}</div>`:'',
-      extrasHtml()?`<div class="blk"><div class="bh">${l.availability}</div>${extrasHtml()}</div>`:''
-    ].join('');
-    const main=[
-      summary?sec(l.summary,summary):'',
-      expHtml()?sec(l.experience,expHtml()):'',
-      typesHtml()?sec(l.types,`<div class="pills">${typesHtml()}</div>`):'',
-      eduHtml()?sec(l.education,eduHtml()):'',
-      addInfo?sec(l.additional,addInfo):'',
-      refs?sec(l.references,refs):''
-    ].join('');
-    html=`<div class="head">${photo?`<div class="ph" style="background-image:url('${state.meta.photo}')"></div>`:''}<div><h1>${name}</h1>${title?`<div class="tt">${title}</div>`:''}</div></div><div class="cols"><aside>${aside}</aside><main>${main}</main></div>`;
-  }
-  else if(t==='clasica'){
-    const contact=contactBits().map(([i,v])=>`<span>${svgI(i)}${esc(v)}</span>`).join('');
-    html=`<div class="pg"><div class="head">${photo?`<div class="ph" style="background-image:url('${state.meta.photo}')"></div>`:''}<h1>${name}</h1>${title?`<div class="tt">${title}</div>`:''}${contact?`<div class="contact">${contact}</div>`:''}</div>`
-      +sec(l.summary,summary)
-      +sec(l.licenses,[licHtml(),medical,ratings].filter(Boolean).join(''))
-      +sec(l.types,typesHtml()?`<div class="pills">${typesHtml()}</div>`:'')
-      +sec(l.hours,hoursGrid())
-      +sec(l.experience,expHtml())
-      +sec(l.education,eduHtml())
-      +sec(l.languages,langHtml())
-      +sec(l.availability,extrasHtml())
-      +sec(l.additional,addInfo)
-      +sec(l.references,refs)
-      +`</div>`;
-  }
-  else{ // ATS
-    const cl=[has(p.email)?p.email:'',has(p.phone)?p.phone:'',has(p.location)?p.location:'',has(p.nationality)?l.nationality+': '+p.nationality:'',has(p.linkedin)?p.linkedin:'',has(p.website)?p.website:''].filter(Boolean).map(esc).join(' | ');
-    html=`<div class="pg"><div class="head"><h1>${name}</h1>${title?`<div class="tt">${title}</div>`:''}${cl?`<div class="contact">${cl}</div>`:''}</div><div class="rule"></div>`
-      +sec(l.summary,summary)
-      +sec(l.licenses,[licHtml(),medical,ratings].filter(Boolean).join(''))
-      +sec(l.types,typesHtml()?`<div class="pills">${typesHtml()}</div>`:'')
-      +sec(l.hours,hoursGrid())
-      +sec(l.experience,expHtml())
-      +sec(l.education,eduHtml())
-      +sec(l.languages,langHtml())
-      +sec(l.availability,extrasHtml())
-      +sec(l.additional,addInfo)
-      +sec(l.references,refs)
-      +`</div>`;
-  }
-  c.innerHTML=html+(isEmpty()?'<div class="wm">EJEMPLO</div>':'');
+  c.style.setProperty('--pad',padFor());
+  c.innerHTML=(TPL[t]||TPL.legacy).render()+(isEmpty()?'<div class="wm">EJEMPLO</div>':'');
   fitPreview();
 }
-function hexSoft(hex){try{const h=hex.replace('#','');const r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);return `rgba(${r},${g},${b},.10)`;}catch(e){return '#eef3ff';}}
+function fitPreview(){const wrap=$('#paperScale'),paper=$('#cvPaper'),panel=$('#pvScroll');if(!wrap||!paper||!panel)return;const avail=panel.clientWidth-Math.min(48,panel.clientWidth*0.08);const pw=794;let s=Math.min(1,avail/pw);if(!isFinite(s)||s<=0)s=1;paper.style.transformOrigin='top left';paper.style.transform='scale('+s+')';wrap.style.width=(pw*s)+'px';wrap.style.height=(paper.offsetHeight*s)+'px';}
 
-/* =================== FIT PREVIEW (scale to width) =================== */
-function fitPreview(){
-  const wrap=$('#paperScale'),paper=$('#cvPaper'),panel=$('#pvScroll');
-  if(!wrap||!paper||!panel)return;
-  const avail=panel.clientWidth-Math.min(48,panel.clientWidth*0.08);
-  const pw=794;let s=Math.min(1,avail/pw);if(!isFinite(s)||s<=0)s=1;
-  paper.style.transformOrigin='top left';
-  paper.style.transform='scale('+s+')';
-  wrap.style.width=(pw*s)+'px';
-  wrap.style.height=(paper.offsetHeight*s)+'px';
+/* ===== toolbar ===== */
+function toolbarHTML(inPane){return `
+<div class="tgroup"><span class="tlab">Plantilla</span><button class="btn sm tpl-open" onclick="openTplModal()"><span class="tplName">${TPL[state.meta.template].name}</span> <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button></div>
+<div class="tgroup"><span class="tlab">Color</span><div class="swatches sw-accent"></div></div>
+<div class="tgroup"><span class="tlab">Oscuro</span><div class="swatches sw-dark"></div></div>
+<div class="tgroup"><span class="tlab">Papel</span><div class="swatches sw-paper"></div></div>
+<div class="tgroup"><span class="tlab">Densidad</span><div class="seg segD"><button data-density="compact">Compacto</button><button data-density="regular">Normal</button><button data-density="airy">Aireado</button></div></div>
+<div class="tgroup"><span class="tlab">Idioma</span><div class="seg segL"><button data-lang="es">ES</button><button data-lang="en">EN</button></div></div>
+<div class="tgroup"><span class="tlab">Tamaño</span><div class="seg segF"><button data-fs="0.92">A-</button><button data-fs="1">A</button><button data-fs="1.08">A+</button></div></div>
+${inPane?'':'<div class="pv-actions"><button class="btn sm" onclick="downloadPDF()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>PDF</button></div>'}`;}
+function swHTML(list,cur,attr){return list.map(([hex,nm])=>`<button class="sw ${hex===cur?'on':''}" title="${nm}" data-${attr}="${hex}" style="background:${hex}"></button>`).join('');}
+function buildToolbar(){$('#pvToolbar').innerHTML=toolbarHTML(false);$('#designPane').innerHTML='<h2 style="font-family:var(--font-disp);font-size:17px;margin:0 0 6px">Diseño</h2><p class="sec-sub">Plantilla, colores y ajustes del CV.</p>'+toolbarHTML(true);
+  paintSwatches();bindToolbar();syncSegs();}
+function paintSwatches(){$$('.sw-accent').forEach(el=>el.innerHTML=swHTML(ACCENTS,state.meta.accent,'accent'));$$('.sw-dark').forEach(el=>el.innerHTML=swHTML(DARKS,state.meta.dark,'dark'));$$('.sw-paper').forEach(el=>el.innerHTML=swHTML(PAPERS,state.meta.paper,'paper'));}
+function bindToolbar(){
+  $$('[data-accent]').forEach(b=>b.onclick=()=>{state.meta.accent=b.dataset.accent;renderCV();syncSw();save();});
+  $$('[data-dark]').forEach(b=>b.onclick=()=>{state.meta.dark=b.dataset.dark;renderCV();syncSw();save();});
+  $$('[data-paper]').forEach(b=>b.onclick=()=>{state.meta.paper=b.dataset.paper;renderCV();syncSw();save();});
+  $$('[data-density]').forEach(b=>b.onclick=()=>{state.meta.density=b.dataset.density;renderCV();syncSegs();save();});
+  $$('[data-lang]').forEach(b=>b.onclick=()=>{state.meta.lang=b.dataset.lang;rE();buildSummaryPool();renderCV();syncSegs();save();});
+  $$('[data-fs]').forEach(b=>b.onclick=()=>{state.meta.fontScale=parseFloat(b.dataset.fs);renderCV();syncSegs();save();});
 }
+function syncSw(){$$('[data-accent]').forEach(b=>b.classList.toggle('on',b.dataset.accent===state.meta.accent));$$('[data-dark]').forEach(b=>b.classList.toggle('on',b.dataset.dark===state.meta.dark));$$('[data-paper]').forEach(b=>b.classList.toggle('on',b.dataset.paper===state.meta.paper));}
+function syncSegs(){$$('[data-density]').forEach(b=>b.classList.toggle('on',b.dataset.density===state.meta.density));$$('[data-lang]').forEach(b=>b.classList.toggle('on',b.dataset.lang===state.meta.lang));$$('[data-fs]').forEach(b=>b.classList.toggle('on',parseFloat(b.dataset.fs)===state.meta.fontScale));$$('.tplName').forEach(e=>e.textContent=TPL[state.meta.template].name);}
 
-/* =================== NAV / PROGRESS =================== */
-const SECTIONS=[
-  ['personal','Datos personales'],['summary','Perfil profesional'],['licenses','Licencias y habilitaciones'],
-  ['types','Habilitaciones de tipo'],['hours','Horas de vuelo'],['exp','Experiencia'],
-  ['edu','Formación'],['lang','Idiomas'],['extras','Disponibilidad y extras']
-];
-const secId={personal:'sec-personal',summary:'sec-summary',licenses:'sec-licenses',types:'sec-types',hours:'sec-hours',exp:'sec-exp',edu:'sec-edu',lang:'sec-lang',extras:'sec-extras'};
-function isDone(k){const s=state;switch(k){
-  case 'personal':return has(s.personal.fullName)&&has(s.personal.email);
-  case 'summary':return s.summary.trim().length>20;
-  case 'licenses':return s.licenses.some(x=>has(x.type))||has(s.certs.medical);
-  case 'types':return s.typeRatings.some(x=>has(x.aircraft));
-  case 'hours':return has(s.hours.total);
-  case 'exp':return s.experience.some(x=>has(x.role)||has(x.company));
-  case 'edu':return s.education.some(x=>has(x.title)||has(x.institution));
-  case 'lang':return s.languages.some(x=>has(x.name));
-  case 'extras':return has(s.extras.availableFrom)||has(s.extras.noticePeriod)||has(s.extras.additional);
-}}
-function buildNav(){
-  $('#navList').innerHTML=SECTIONS.map(([k,lab],i)=>`<button class="navitem" data-nav="${k}"><span class="n">${String(i+1).padStart(2,'0')}</span><span class="lab">${lab}</span><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></button>`).join('');
-  $('#mobJump').innerHTML=SECTIONS.map(([k,lab],i)=>`<option value="${k}">${String(i+1).padStart(2,'0')} · ${lab}</option>`).join('');
-}
-function updateNav(){
-  let done=0;
-  SECTIONS.forEach(([k])=>{const b=document.querySelector(`[data-nav="${k}"]`);const d=isDone(k);if(d)done++;if(b)b.classList.toggle('done',d);});
-  const pct=Math.round(done/SECTIONS.length*100);
-  $('#progBar').style.width=pct+'%';$('#progTxt').textContent=pct+'% completado';$('#progCount').textContent=done+'/'+SECTIONS.length;
-}
-function jumpTo(k){const el=document.getElementById(secId[k]);if(el){if(window.innerWidth<=900)setView('editor');el.scrollIntoView({behavior:'smooth',block:'start'});setActiveNav(k);}}
-function setActiveNav(k){$$('.navitem').forEach(b=>b.classList.toggle('active',b.dataset.nav===k));const sel=$('#mobJump');if(sel&&sel.value!==k)sel.value=k;}
+/* mini thumbnails for gallery */
+function miniThumb(id){const a=state.meta.accent,d=state.meta.dark;
+  const ln=(x,y,w)=>`<div class="ln" style="left:${x}%;top:${y}px;width:${w}%"></div>`;
+  const grp=['modern','contrast'].includes(id)?'side':['captain','deck','horizon'].includes(id)?'bar':'plain';
+  let h='';
+  if(grp==='side')h=`<div class="side" style="background:${d}"></div>`+ln(40,14,50)+ln(40,26,40)+ln(40,40,52)+ln(40,50,44)+ln(40,64,50);
+  else if(grp==='bar')h=`<div class="bar" style="background:${d}"></div>`+ln(8,36,60)+ln(8,48,84)+ln(8,60,50)+ln(8,70,74);
+  else h=ln(8,10,50)+`<div class="ln" style="left:8%;top:22px;width:26%;height:3px;background:${a}"></div>`+ln(8,36,84)+ln(8,48,78)+ln(8,62,84)+ln(8,72,60);
+  return h;}
+function openTplModal(){const g=$('#tplGrid');g.innerHTML=TPL_ORDER.map(id=>`<button class="gcard ${id===state.meta.template?'on':''}" data-tpl="${id}"><div class="thumb">${miniThumb(id)}</div><div class="meta"><b>${TPL[id].name}</b><span>${TPL[id].desc}</span></div></button>`).join('');
+  g.querySelectorAll('[data-tpl]').forEach(b=>b.onclick=()=>{state.meta.template=b.dataset.tpl;g.querySelectorAll('.gcard').forEach(x=>x.classList.toggle('on',x===b));syncSegs();renderCV();save();closeTplModal();toast('Plantilla: '+TPL[b.dataset.tpl].name);});
+  $('#tplModal').classList.add('show');}
+function closeTplModal(){$('#tplModal').classList.remove('show');}
 
-/* =================== RENDER SCHEDULER =================== */
-let raf=null;
-function scheduleRender(){if(raf)return;raf=requestAnimationFrame(()=>{raf=null;renderCV();updateNav();});}
-let saveT=null;
-function scheduleSave(){clearTimeout(saveT);saveT=setTimeout(()=>{try{STORE.set(SKEY,JSON.stringify(state));}catch(e){}},450);}
-
-/* =================== BINDINGS =================== */
-function bindStatic(){
-  $$('[data-bind]').forEach(el=>{
-    const path=el.dataset.bind,v=getPath(state,path);
-    if(el.type==='checkbox')el.checked=!!v;else el.value=v==null?'':v;
-    const ev=(el.tagName==='SELECT')?'change':'input';
-    el.addEventListener(ev,()=>{setPath(state,path,el.value);scheduleRender();scheduleSave();});
-  });
-}
-// delegated list input
-document.addEventListener('input',e=>{
-  const el=e.target;if(!el.dataset||el.dataset.list===undefined)return;
-  const{list,idx,field}=el.dataset;const it=state[list][+idx];if(!it)return;
-  it[field]=el.type==='checkbox'?el.checked:el.value;scheduleRender();scheduleSave();
-});
-document.addEventListener('change',e=>{
-  const el=e.target;if(!el.dataset||el.dataset.list===undefined)return;
-  const{list,idx,field}=el.dataset;const it=state[list][+idx];if(!it)return;
-  it[field]=el.type==='checkbox'?el.checked:el.value;
-  if(field==='current'){renderExp();}// re-render to toggle end-date disabled
-  scheduleRender();scheduleSave();
-});
-// delegated clicks
+/* bindings */
+function bindStatic(){$$('[data-bind]').forEach(el=>{const p=el.dataset.bind,v=gp(state,p);if(el.type==='checkbox')el.checked=!!v;else el.value=v==null?'':v;const ev=el.tagName==='SELECT'?'change':'input';el.addEventListener(ev,()=>{sp(state,p,el.value);sr();save();});});}
+document.addEventListener('input',e=>{const el=e.target;if(!el.dataset||el.dataset.list===undefined)return;const{list,idx,field}=el.dataset;const it=state[list][+idx];if(!it)return;it[field]=el.type==='checkbox'?el.checked:el.value;sr();save();});
+document.addEventListener('change',e=>{const el=e.target;if(!el.dataset||el.dataset.list===undefined)return;const{list,idx,field}=el.dataset;const it=state[list][+idx];if(!it)return;it[field]=el.type==='checkbox'?el.checked:el.value;if(field==='current')rE();sr();save();});
 document.addEventListener('click',e=>{
-  const add=e.target.closest('[data-add]');
-  if(add){const list=add.dataset.add;state[list].push(NEW[list]());reRenderList(list);focusNew(list);scheduleRender();scheduleSave();return;}
-  const rem=e.target.closest('[data-remove]');
-  if(rem){const list=rem.dataset.remove,i=+rem.dataset.idx;state[list].splice(i,1);reRenderList(list);scheduleRender();scheduleSave();return;}
-  const mv=e.target.closest('[data-move]');
-  if(mv){const list=mv.dataset.move,i=+mv.dataset.idx,dir=+mv.dataset.dir,j=i+dir;if(j<0||j>=state[list].length)return;const a=state[list];[a[i],a[j]]=[a[j],a[i]];reRenderList(list);scheduleRender();scheduleSave();return;}
-  const exb=e.target.closest('[data-exb]');
-  if(exb){const k=+exb.dataset.exb,i=+exb.dataset.idx;const it=state.experience[i];const line=EXB[state.meta.lang][k];it.bullets=(it.bullets?it.bullets.replace(/\s*$/,'')+'\n':'')+line;renderExp();scheduleRender();scheduleSave();toast('Logro añadido');return;}
-  const nav=e.target.closest('[data-nav]');
-  if(nav){jumpTo(nav.dataset.nav);return;}
+  const add=e.target.closest('[data-add]');if(add){const l=add.dataset.add;state[l].push(NEW[l]());reList(l);focusNew(l);sr();save();return;}
+  const rem=e.target.closest('[data-remove]');if(rem){state[rem.dataset.remove].splice(+rem.dataset.idx,1);reList(rem.dataset.remove);sr();save();return;}
+  const mv=e.target.closest('[data-move]');if(mv){const l=mv.dataset.move,i=+mv.dataset.idx,j=i+ +mv.dataset.dir,a=state[l];if(j<0||j>=a.length)return;[a[i],a[j]]=[a[j],a[i]];reList(l);sr();save();return;}
+  const exb=e.target.closest('[data-exb]');if(exb){const it=state.experience[+exb.dataset.idx];it.bullets=(it.bullets?it.bullets.replace(/\s*$/,'')+'\n':'')+EXB[state.meta.lang][+exb.dataset.exb];rE();sr();save();toast('Logro añadido');return;}
+  const sm=e.target.closest('[data-sum]');if(sm){state.summary=SUM[state.meta.lang][+sm.dataset.sum];const ta=$('#f_summary');if(ta)ta.value=state.summary;sr();save();toast('Ejemplo aplicado');return;}
 });
-function reRenderList(list){({licenses:renderLicenses,typeRatings:renderTypes,experience:renderExp,education:renderEdu,languages:renderLang}[list])();}
-function focusNew(list){const cid={licenses:'#licenseList',typeRatings:'#typeList',experience:'#expList',education:'#eduList',languages:'#langList'}[list];const cont=$(cid);if(!cont)return;const cards=cont.querySelectorAll('.card');const last=cards[cards.length-1];if(last){const inp=last.querySelector('input,select,textarea');if(inp)inp.focus();}}
+function reList(l){({licenses:rL,typeRatings:rT,experience:rE,education:rEd,languages:rLa}[l])();}
+function focusNew(l){const id={licenses:'#licenseList',typeRatings:'#typeList',experience:'#expList',education:'#eduList',languages:'#langList'}[l];const c=$(id);if(!c)return;const cards=c.querySelectorAll('.card');const last=cards[cards.length-1];if(last){const inp=last.querySelector('input,select,textarea');if(inp)inp.focus();}}
+function buildSummaryPool(){const el=$('#summaryPool');if(el)el.innerHTML=SUM[state.meta.lang].map((s,k)=>`<button class="chip" data-sum="${k}">${esc(s)}</button>`).join('');}
 
-// summary examples
-function buildSummaryPool(){$('#summaryPool').innerHTML=SUM[state.meta.lang].map((s,k)=>`<button class="chip" data-sum="${k}">${esc(s)}</button>`).join('');}
-document.addEventListener('click',e=>{const b=e.target.closest('[data-sum]');if(!b)return;const k=+b.dataset.sum;state.summary=SUM[state.meta.lang][k];const ta=$('#f_summary');if(ta)ta.value=state.summary;scheduleRender();scheduleSave();toast('Ejemplo aplicado');});
+function bindPhoto(){$('#showPhoto').addEventListener('change',function(){state.meta.showPhoto=this.checked;$('#photoRow').style.display=this.checked?'flex':'none';renderCV();save();});
+$('#photoFile').addEventListener('change',function(){const f=this.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{state.meta.photo=r.result;paintPhoto();renderCV();save();};r.readAsDataURL(f);});}
+function clearPhoto(){state.meta.photo=null;const pf=$('#photoFile');if(pf)pf.value='';paintPhoto();renderCV();save();}
+function paintPhoto(){const pv=$('#photoPrev');if(!pv)return;if(state.meta.photo){pv.style.backgroundImage=`url('${state.meta.photo}')`;pv.innerHTML='';}else{pv.style.backgroundImage='';pv.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>';}}
 
-/* =================== TOOLBAR CONTROLS =================== */
-$('#tplSeg').addEventListener('click',e=>{const b=e.target.closest('[data-tpl]');if(!b)return;state.meta.template=b.dataset.tpl;$$('#tplSeg button').forEach(x=>x.classList.toggle('on',x===b));renderCV();scheduleSave();});
-$('#langSeg').addEventListener('click',e=>{const b=e.target.closest('[data-lang]');if(!b)return;state.meta.lang=b.dataset.lang;$$('#langSeg button').forEach(x=>x.classList.toggle('on',x===b));buildSummaryPool();renderExp();renderCV();scheduleSave();});
-$('#fsSeg').addEventListener('click',e=>{const b=e.target.closest('[data-fs]');if(!b)return;state.meta.fontScale=parseFloat(b.dataset.fs);$$('#fsSeg button').forEach(x=>x.classList.toggle('on',x===b));renderCV();scheduleSave();});
-function buildSwatches(){$('#swatches').innerHTML=ACCENTS.map(([hex,nm])=>`<button class="sw" title="${nm}" data-accent="${hex}" style="background:${hex}"></button>`).join('');syncSwatch();}
-$('#swatches').addEventListener('click',e=>{const b=e.target.closest('[data-accent]');if(!b)return;state.meta.accent=b.dataset.accent;syncSwatch();renderCV();scheduleSave();});
-function syncSwatch(){$$('#swatches .sw').forEach(s=>s.classList.toggle('on',s.dataset.accent===state.meta.accent));}
+function exportJSON(){const b=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='cv-pilot-network.json';a.click();URL.revokeObjectURL(a.href);toast('Copia descargada');}
+$('#importFile').addEventListener('change',function(){const f=this.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{state=merge(emptyData(),JSON.parse(r.result));hydrate();toast('Importado');}catch(e){toast('Archivo no válido');}};r.readAsText(f);this.value='';});
+function resetAll(){if(!confirm('¿Vaciar todo y empezar de cero?'))return;state=emptyData();hydrate();toast('Listo para empezar');}
 
-/* photo */
-$('#showPhoto').addEventListener('change',function(){state.meta.showPhoto=this.checked;$('#photoRow').style.display=this.checked?'flex':'none';renderCV();scheduleSave();});
-$('#photoFile').addEventListener('change',function(){const f=this.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{state.meta.photo=r.result;paintPhoto();renderCV();scheduleSave();};r.readAsDataURL(f);});
-function clearPhoto(){state.meta.photo=null;$('#photoFile').value='';paintPhoto();renderCV();scheduleSave();}
-function paintPhoto(){const pv=$('#photoPrev');if(state.meta.photo){pv.style.backgroundImage=`url('${state.meta.photo}')`;pv.innerHTML='';}else{pv.style.backgroundImage='';pv.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>';}}
+function downloadPDF(){const prev=document.title;document.title=state.personal.fullName?('CV - '+state.personal.fullName):'CV - Pilot Network';const paper=$('#cvPaper');const tf=paper.style.transform;paper.style.transform='none';window.print();setTimeout(()=>{paper.style.transform=tf;document.title=prev;fitPreview();},600);}
+function setView(v){const vp=$('#viewport');['editor','design','preview'].forEach(x=>vp.classList.toggle('view-'+x,x===v));$('#mt-edit').classList.toggle('on',v==='editor');$('#mt-design').classList.toggle('on',v==='design');$('#mt-view').classList.toggle('on',v==='preview');if(v!=='editor')requestAnimationFrame(fitPreview);}
+let tT=null;function toast(m){$('#toastMsg').textContent=m;const t=$('#toast');t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),1800);}
 
-/* =================== IMPORT / EXPORT / RESET =================== */
-function exportJSON(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='cv-pilot-network.json';a.click();URL.revokeObjectURL(a.href);toast('Copia descargada');}
-$('#importFile').addEventListener('change',function(){const f=this.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{state=migrate(JSON.parse(r.result));hydrateAll();toast('Importado correctamente');}catch(e){toast('Archivo no válido');}};r.readAsText(f);this.value='';});
-function resetAll(){if(!confirm('¿Vaciar todos los campos y empezar de cero? Esto borra el contenido actual.'))return;state=emptyData();hydrateAll();toast('Todo listo para empezar');}
+const SECTIONS=[['personal','Datos personales'],['summary','Perfil profesional'],['licenses','Licencias y habilitaciones'],['types','Habilitaciones de tipo'],['hours','Horas de vuelo'],['exp','Experiencia'],['edu','Formación'],['lang','Idiomas'],['extras','Disponibilidad y extras']];
+const secId={personal:'sec-personal',summary:'sec-summary',licenses:'sec-licenses',types:'sec-types',hours:'sec-hours',exp:'sec-exp',edu:'sec-edu',lang:'sec-lang',extras:'sec-extras'};
+function done(k){const s=state;switch(k){case'personal':return has(s.personal.fullName)&&has(s.personal.email);case'summary':return s.summary.trim().length>20;case'licenses':return s.licenses.some(x=>has(x.type))||has(s.certs.medical);case'types':return s.typeRatings.some(x=>has(x.aircraft));case'hours':return has(s.hours.total);case'exp':return s.experience.some(x=>has(x.role)||has(x.company));case'edu':return s.education.some(x=>has(x.title)||has(x.institution));case'lang':return s.languages.some(x=>has(x.name));case'extras':return has(s.extras.availableFrom)||has(s.extras.noticePeriod)||has(s.extras.additional);}}
+function buildNav(){$('#navList').innerHTML=SECTIONS.map(([k,lab],i)=>`<button class="navitem" data-nav="${k}"><span class="n">${String(i+1).padStart(2,'0')}</span><span class="lab">${lab}</span><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></button>`).join('');$('#mobJump').innerHTML=SECTIONS.map(([k,lab],i)=>`<option value="${k}">${String(i+1).padStart(2,'0')} · ${lab}</option>`).join('');$$('[data-nav]').forEach(b=>b.onclick=()=>jumpTo(b.dataset.nav));}
+function updateNav(){let d=0;SECTIONS.forEach(([k])=>{const b=document.querySelector(`[data-nav="${k}"]`);const x=done(k);if(x)d++;if(b)b.classList.toggle('done',x);});const pct=Math.round(d/SECTIONS.length*100);$('#progBar').style.width=pct+'%';$('#progTxt').textContent=pct+'%';$('#progCount').textContent=d+'/'+SECTIONS.length;}
+function jumpTo(k){const el=document.getElementById(secId[k]);if(el){if(window.innerWidth<=900)setView('editor');el.scrollIntoView({behavior:'smooth',block:'start'});setActive(k);}}
+function setActive(k){$$('.navitem').forEach(b=>b.classList.toggle('active',b.dataset.nav===k));const sel=$('#mobJump');if(sel&&sel.value!==k)sel.value=k;}
 
-/* =================== PDF =================== */
-function downloadPDF(){
-  const prev=document.title;
-  const nm=state.personal.fullName?('CV - '+state.personal.fullName):'CV - Pilot Network';
-  document.title=nm;
-  const paper=$('#cvPaper');const tf=paper.style.transform;paper.style.transform='none';
-  window.print();
-  setTimeout(()=>{paper.style.transform=tf;document.title=prev;fitPreview();},600);
-}
+let raf=null;function sr(){if(raf)return;raf=requestAnimationFrame(()=>{raf=null;renderCV();updateNav();});}
+let sT=null;function save(){clearTimeout(sT);sT=setTimeout(()=>{try{STORE.set(SKEY,JSON.stringify(state));}catch(e){}},450);}
 
-/* =================== VIEW TOGGLE (mobile) =================== */
-function setView(v){const vp=$('#viewport');vp.classList.toggle('view-editor',v==='editor');vp.classList.toggle('view-preview',v==='preview');$('#mt-edit').classList.toggle('on',v==='editor');$('#mt-view').classList.toggle('on',v==='preview');if(v==='preview')requestAnimationFrame(fitPreview);}
+function hydrate(){$$('[data-bind]').forEach(el=>{const v=gp(state,el.dataset.bind);if(el.type==='checkbox')el.checked=!!v;else el.value=v==null?'':v;});$('#showPhoto').checked=!!state.meta.showPhoto;$('#photoRow').style.display=state.meta.showPhoto?'flex':'none';paintPhoto();paintSwatches();syncSw();syncSegs();buildSummaryPool();rAllLists();renderCV();updateNav();save();}
 
-/* =================== TOAST =================== */
-let toastT=null;
-function toast(msg){$('#toastMsg').textContent=msg;const t=$('#toast');t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),1900);}
-
-/* =================== HYDRATE (full re-sync of editor from state) =================== */
-function hydrateAll(){
-  $$('[data-bind]').forEach(el=>{const v=getPath(state,el.dataset.bind);if(el.type==='checkbox')el.checked=!!v;else el.value=v==null?'':v;});
-  $('#showPhoto').checked=!!state.meta.showPhoto;$('#photoRow').style.display=state.meta.showPhoto?'flex':'none';paintPhoto();
-  $$('#tplSeg button').forEach(x=>x.classList.toggle('on',x.dataset.tpl===state.meta.template));
-  $$('#langSeg button').forEach(x=>x.classList.toggle('on',x.dataset.lang===state.meta.lang));
-  $$('#fsSeg button').forEach(x=>x.classList.toggle('on',parseFloat(x.dataset.fs)===state.meta.fontScale));
-  buildSummaryPool();syncSwatch();renderAllLists();renderCV();updateNav();scheduleSave();
-}
-
-/* =================== BOOT =================== */
-buildNav();buildSwatches();bindStatic();buildSummaryPool();
+/* boot */
+$('#editorSections').innerHTML=editorHTML();
+buildNav();bindStatic();bindPhoto();buildToolbar();buildSummaryPool();
 $('#showPhoto').checked=!!state.meta.showPhoto;$('#photoRow').style.display=state.meta.showPhoto?'flex':'none';paintPhoto();
-$$('#tplSeg button').forEach(x=>x.classList.toggle('on',x.dataset.tpl===state.meta.template));
-$$('#langSeg button').forEach(x=>x.classList.toggle('on',x.dataset.lang===state.meta.lang));
-$$('#fsSeg button').forEach(x=>x.classList.toggle('on',parseFloat(x.dataset.fs)===state.meta.fontScale));
-renderAllLists();renderCV();updateNav();setActiveNav('personal');
-
-// keep preview fitted
-if('ResizeObserver'in window){new ResizeObserver(()=>fitPreview()).observe($('#pvScroll'));}
+rAllLists();renderCV();updateNav();setActive('personal');syncSw();syncSegs();
+if('ResizeObserver'in window)new ResizeObserver(()=>fitPreview()).observe($('#pvScroll'));
 window.addEventListener('resize',fitPreview);
-if(document.fonts&&document.fonts.ready){document.fonts.ready.then(fitPreview);}
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitPreview);
 setTimeout(fitPreview,300);
-
-// active nav on scroll
-if('IntersectionObserver'in window){
-  const map={};SECTIONS.forEach(([k])=>map[secId[k]]=k);
-  const io=new IntersectionObserver(ents=>{ents.forEach(en=>{if(en.isIntersecting)setActiveNav(map[en.target.id]);});},{root:$('#editor'),rootMargin:'-10% 0px -75% 0px',threshold:0});
-  Object.keys(map).forEach(id=>{const el=document.getElementById(id);if(el)io.observe(el);});
-}
+if('IntersectionObserver'in window){const map={};SECTIONS.forEach(([k])=>map[secId[k]]=k);const io=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting)setActive(map[en.target.id]);});},{root:$('#editor'),rootMargin:'-10% 0px -75% 0px'});Object.keys(map).forEach(id=>{const el=document.getElementById(id);if(el)io.observe(el);});}
 </script>
 </body>
 </html>
