@@ -441,10 +441,33 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
   body.mw #wzWelcome .wz-or{font-size:11px;color:var(--muted2);letter-spacing:.12em;text-transform:uppercase}
 }
 
+@media(max-width:900px){
+  body.mw #wzTop .wz-meta>div{display:flex;align-items:center;gap:12px}
+  body.mw .wz-eye{display:inline-flex;align-items:center;gap:5px;border:1px solid rgba(91,157,255,.35);background:rgba(91,157,255,.1);color:var(--blue);padding:6px 11px;border-radius:9px;font-size:12px;font-weight:600}
+  body.mw .wz-eye svg{width:15px;height:15px}
+  body.mw .wz-eye:active{transform:scale(.96)}
+  body.mw-peek{overflow:hidden}
+  body.mw-peek .preview{position:fixed;inset:0;z-index:75;display:flex!important;flex-direction:column}
+  body.mw-peek .preview .pv-scroll{padding:70px 12px 22px}
+  #wzPeekBar{display:none}
+  body.mw-peek #wzPeekBar{display:flex;position:fixed;top:0;left:0;right:0;z-index:76;align-items:center;justify-content:space-between;padding:13px 16px;background:rgba(8,12,20,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  #wzPeekBar .pk-t{font-family:var(--font-disp);font-size:15px;display:flex;align-items:center;gap:8px}
+  #wzPeekBar .pk-t .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px rgba(55,211,155,.2)}
+  #wzPeekBar .pk-x{border:1px solid var(--line);background:var(--panel);color:var(--ink);width:36px;height:36px;border-radius:10px;display:grid;place-items:center}
+  #wzPeekBar .pk-x svg{width:18px;height:18px}
+  body.mw .designpane .wz-gallery{margin-top:8px}
+  body.mw .wzg-h{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted2);font-weight:600;margin:6px 0 10px}
+  body.mw .wzg-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+  body.mw .wz-gallery .gcard .thumb{height:66px}
+  body.mw .wz-gallery .gcard .meta{padding:6px 8px}
+  body.mw .wz-gallery .gcard .meta b{font-size:11.5px}
+}
 @media print{
   @page{size:A4;margin:0}
   html,body{height:auto;overflow:visible;background:#fff}
-  .topbar,.rail,.editor,.pv-toolbar,.mobsel,.mobtab,.toast,.designpane,.modal{display:none!important}
+  .topbar,.rail,.editor,.pv-toolbar,.mobsel,.mobtab,.toast,.designpane,.modal,#wzTop,#wzBar,#wzWelcome,#wzLoad,#wzPeekBar{display:none!important}
+  body.mw{overflow:visible!important}
+  body.mw .app{height:auto!important}
   .app,.body,.preview,.pv-scroll,.paper-scale{display:block!important;height:auto!important;overflow:visible!important;padding:0!important;margin:0!important;border:none!important;background:#fff!important}
   .paper-scale{width:auto!important;height:auto!important}
   .cv{transform:none!important;box-shadow:none!important;border-radius:0!important;width:100%!important;margin:0!important}
@@ -475,7 +498,7 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
   </header>
 
   <div class="body view-editor" id="viewport">
-    <div id="wzTop"><div class="wz-meta"><span class="wz-step" id="wzStep">Paso 1</span><span class="wz-quality">Calidad <b id="wzQual">0%</b></span></div><div class="wz-bar"><i id="wzBarFill"></i></div><h2 id="wzTitle"></h2><div class="wz-coach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span id="wzCoach"></span></div></div>
+    <div id="wzTop"><div class="wz-meta"><span class="wz-step" id="wzStep">Paso 1</span><div><span class="wz-quality">Calidad <b id="wzQual">0%</b></span><button class="wz-eye" onclick="mwPeek(true)" aria-label="Vista previa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Ver</span></button></div></div><div class="wz-bar"><i id="wzBarFill"></i></div><h2 id="wzTitle"></h2><div class="wz-coach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span id="wzCoach"></span></div></div>
     <nav class="rail">
       <div class="rail-h">Secciones</div>
       <div id="navList"></div>
@@ -500,6 +523,7 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
   <div class="modal-grid" id="tplGrid"></div>
 </div></div>
 
+<div id="wzPeekBar"><span class="pk-t"><span class="dot"></span>Vista previa en directo</span><button class="pk-x" onclick="mwPeek(false)" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
 <div id="wzLoad"><div class="spin"></div><div class="wzl-t">Leyendo tu CV…</div><div class="wzl-s">Detectando tus datos automáticamente</div></div>\n<div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span id="toastMsg"></span></div>
 
 <script>
@@ -777,8 +801,8 @@ function toolbarHTML(inPane){return `
 <div class="tgroup"><span class="tlab">Tamaño</span><div class="seg segF"><button data-fs="0.92">A-</button><button data-fs="1">A</button><button data-fs="1.08">A+</button></div></div>
 ${inPane?'':'<div class="pv-actions"><button class="btn sm" onclick="downloadPDF()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>PDF</button></div>'}`;}
 function swHTML(list,cur,attr){return list.map(([hex,nm])=>`<button class="sw ${hex===cur?'on':''}" title="${nm}" data-${attr}="${hex}" style="background:${hex}"></button>`).join('');}
-function buildToolbar(){$('#pvToolbar').innerHTML=toolbarHTML(false);$('#designPane').innerHTML='<h2 style="font-family:var(--font-disp);font-size:17px;margin:0 0 6px">Diseño</h2><p class="sec-sub">Plantilla, colores y ajustes del CV.</p>'+toolbarHTML(true);
-  paintSwatches();bindToolbar();syncSegs();}
+function buildToolbar(){$('#pvToolbar').innerHTML=toolbarHTML(false);$('#designPane').innerHTML='<h2 style="font-family:var(--font-disp);font-size:17px;margin:0 0 6px">Diseño</h2><p class="sec-sub">Plantilla, colores y ajustes del CV.</p>'+toolbarHTML(true)+'<div class="wz-gallery" id="wzGallery"></div>';
+  paintSwatches();bindToolbar();syncSegs();buildWzGallery();}
 function paintSwatches(){$$('.sw-accent').forEach(el=>el.innerHTML=swHTML(ACCENTS,state.meta.accent,'accent'));$$('.sw-dark').forEach(el=>el.innerHTML=swHTML(DARKS,state.meta.dark,'dark'));$$('.sw-paper').forEach(el=>el.innerHTML=swHTML(PAPERS,state.meta.paper,'paper'));}
 function bindToolbar(){
   $$('[data-accent]').forEach(b=>b.onclick=()=>{state.meta.accent=b.dataset.accent;renderCV();syncSw();save();});
@@ -789,7 +813,7 @@ function bindToolbar(){
   $$('[data-fs]').forEach(b=>b.onclick=()=>{state.meta.fontScale=parseFloat(b.dataset.fs);renderCV();syncSegs();save();});
 }
 function syncSw(){$$('[data-accent]').forEach(b=>b.classList.toggle('on',b.dataset.accent===state.meta.accent));$$('[data-dark]').forEach(b=>b.classList.toggle('on',b.dataset.dark===state.meta.dark));$$('[data-paper]').forEach(b=>b.classList.toggle('on',b.dataset.paper===state.meta.paper));}
-function syncSegs(){$$('[data-density]').forEach(b=>b.classList.toggle('on',b.dataset.density===state.meta.density));$$('[data-lang]').forEach(b=>b.classList.toggle('on',b.dataset.lang===state.meta.lang));$$('[data-fs]').forEach(b=>b.classList.toggle('on',parseFloat(b.dataset.fs)===state.meta.fontScale));$$('.tplName').forEach(e=>e.textContent=TPL[state.meta.template].name);}
+function syncSegs(){$$('[data-density]').forEach(b=>b.classList.toggle('on',b.dataset.density===state.meta.density));$$('[data-lang]').forEach(b=>b.classList.toggle('on',b.dataset.lang===state.meta.lang));$$('[data-fs]').forEach(b=>b.classList.toggle('on',parseFloat(b.dataset.fs)===state.meta.fontScale));$$('.tplName').forEach(e=>e.textContent=TPL[state.meta.template].name);document.querySelectorAll('[data-wztpl]').forEach(x=>x.classList.toggle('on',x.dataset.wztpl===state.meta.template));}
 
 /* mini thumbnails for gallery */
 function miniThumb(id){const a=state.meta.accent,d=state.meta.dark;
@@ -903,7 +927,7 @@ function mwGo(i){
  document.body.classList.add('mw-'+s.t);
  document.querySelectorAll('#editorSections .sec').forEach(el=>el.classList.remove('wz-on'));
  if(s.t==='sec'){const el=document.getElementById(s.id);if(el)el.classList.add('wz-on');}
- if(s.t==='final'){renderCV();requestAnimationFrame(fitPreview);}
+ if(s.t==='final'){renderCV();requestAnimationFrame(fitPreview);setTimeout(fitPreview,140);}
  mwChrome();
  const map={welcome:'#wzWelcome',sec:'.editor',design:'.designpane',final:'.preview .pv-scroll'};
  const reg=document.querySelector(map[s.t]);if(reg)reg.scrollTop=0;
@@ -928,6 +952,8 @@ function mwSync(){
   document.querySelectorAll('#editorSections .sec').forEach(el=>el.classList.remove('wz-on'));
  }
 }
+function mwPeek(on){if(on){document.body.classList.add('mw-peek');renderCV();requestAnimationFrame(fitPreview);setTimeout(fitPreview,140);}else{document.body.classList.remove('mw-peek');requestAnimationFrame(fitPreview);}}
+function buildWzGallery(){const g=document.getElementById('wzGallery');if(!g)return;g.innerHTML='<div class="wzg-h">Plantillas</div><div class="wzg-grid">'+TPL_ORDER.map(id=>`<button class="gcard ${id===state.meta.template?'on':''}" data-wztpl="${id}"><div class="thumb">${miniThumb(id)}</div><div class="meta"><b>${TPL[id].name}</b></div></button>`).join('')+'</div>';g.querySelectorAll('[data-wztpl]').forEach(b=>b.onclick=()=>{state.meta.template=b.dataset.wztpl;renderCV();save();syncSegs();});}
 /* boot */
 $('#editorSections').innerHTML=editorHTML();
 buildNav();bindStatic();bindPhoto();buildToolbar();buildSummaryPool();
