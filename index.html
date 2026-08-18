@@ -115,6 +115,7 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .sw{width:20px;height:20px;border-radius:6px;border:2px solid transparent;cursor:pointer;transition:.14s}
 .sw.on{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.15)}
 .pv-actions{margin-left:auto;display:flex;gap:8px}
+.ord-hint{font-size:10.5px;color:var(--muted2);align-self:center;white-space:nowrap}
 .pv-scroll{flex:1;overflow:auto;padding:24px;display:flex;justify-content:center;align-items:flex-start}
 .paper-scale{position:relative}
 
@@ -481,7 +482,7 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
   body.mw #wzWelcome .wz-beta{font-size:11.5px;color:var(--muted);line-height:1.5;margin-top:8px;padding:11px 13px;border:1px dashed var(--line);border-radius:12px;text-align:left}
   body.mw #wzWelcome .wz-beta b{color:var(--ink)}
 }
-#coach{position:fixed;left:22px;bottom:22px;z-index:55;width:300px;display:none;gap:12px;padding:15px 16px;background:linear-gradient(180deg,rgba(20,28,44,.98),rgba(12,18,30,.98));border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 50px -14px rgba(0,0,0,.6);align-items:flex-start}
+#coach{position:fixed;right:22px;bottom:22px;z-index:55;width:285px;display:none;gap:12px;padding:15px 16px;background:linear-gradient(180deg,rgba(20,28,44,.98),rgba(12,18,30,.98));border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 50px -14px rgba(0,0,0,.6);align-items:flex-start}
 body.coach-on #coach{display:flex}
 #coach .coach-av{width:36px;height:36px;border-radius:11px;background:var(--grad);display:grid;place-items:center;font-size:19px;flex:none}
 #coach .coach-tx b{font-size:12.5px;color:var(--blue);display:block;margin-bottom:3px}
@@ -827,9 +828,10 @@ function toolbarHTML(inPane){return `
 <div class="tgroup"><span class="tlab">Densidad</span><div class="seg segD"><button data-density="compact">Compacto</button><button data-density="regular">Normal</button><button data-density="airy">Aireado</button></div></div>
 <div class="tgroup"><span class="tlab">Idioma</span><div class="seg segL"><button data-lang="es">ES</button><button data-lang="en">EN</button></div></div>
 <div class="tgroup"><span class="tlab">Tamaño</span><div class="seg segF"><button data-fs="0.92">A-</button><button data-fs="1">A</button><button data-fs="1.08">A+</button></div></div>
+<div class="tgroup"><span class="tlab">Bloques</span><button class="btn sm ghost" onclick="resetOrder()" title="Restablecer el orden de las secciones">↺ Orden</button><span class="ord-hint">✋ arrastra en el CV</span></div>
 ${inPane?'':'<div class="pv-actions"><button class="btn sm" onclick="downloadPDF()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>PDF</button></div>'}`;}
 function swHTML(list,cur,attr){return list.map(([hex,nm])=>`<button class="sw ${hex===cur?'on':''}" title="${nm}" data-${attr}="${hex}" style="background:${hex}"></button>`).join('');}
-function buildToolbar(){$('#pvToolbar').innerHTML=toolbarHTML(false);$('#designPane').innerHTML='<div id="wzDesignPrev"><div class="mini-scale"><div class="cv legacy" id="miniCv"></div></div></div><h2 style="font-family:var(--font-disp);font-size:17px;margin:0 0 6px">Diseño</h2><p class="sec-sub">Plantilla, colores y ajustes del CV.</p>'+toolbarHTML(true)+'<div class="wz-gallery" id="wzGallery"></div>';
+function buildToolbar(){$('#pvToolbar').innerHTML=toolbarHTML(false);$('#designPane').innerHTML='<div id="wzDesignPrev" onclick="mwPeek(true)" style="cursor:pointer"><div class="mini-scale"><div class="cv legacy" id="miniCv"></div></div></div><h2 style="font-family:var(--font-disp);font-size:17px;margin:0 0 6px">Diseño</h2><p class="sec-sub">Plantilla, colores y ajustes del CV.</p>'+toolbarHTML(true)+'<div class="wz-gallery" id="wzGallery"></div>';
   paintSwatches();bindToolbar();syncSegs();buildWzGallery();}
 function paintSwatches(){$$('.sw-accent').forEach(el=>el.innerHTML=swHTML(ACCENTS,state.meta.accent,'accent'));$$('.sw-dark').forEach(el=>el.innerHTML=swHTML(DARKS,state.meta.dark,'dark'));$$('.sw-paper').forEach(el=>el.innerHTML=swHTML(PAPERS,state.meta.paper,'paper'));}
 function bindToolbar(){}
@@ -1011,7 +1013,7 @@ function mwSync(){
   document.querySelectorAll('#editorSections .sec').forEach(el=>el.classList.remove('wz-on'));
  }
 }
-function mwPeek(on){if(on){document.body.classList.add('mw-peek');renderCV();requestAnimationFrame(fitPreview);setTimeout(fitPreview,140);}else{document.body.classList.remove('mw-peek');requestAnimationFrame(fitPreview);}}
+function mwPeek(on){if(on){document.body.classList.add('mw-peek');renderCV();requestAnimationFrame(fitPreview);setTimeout(fitPreview,140);if(!window.__pkh){window.__pkh=1;setTimeout(()=>toast('✋ Mantén pulsado un bloque para reordenarlo'),650);}}else{document.body.classList.remove('mw-peek');requestAnimationFrame(fitPreview);}}
 function buildWzGallery(){const g=document.getElementById('wzGallery');if(!g)return;g.innerHTML='<div class="wzg-h">Plantillas</div><div class="wzg-grid">'+TPL_ORDER.map(id=>`<button class="gcard ${id===state.meta.template?'on':''}" data-wztpl="${id}"><div class="thumb">${miniThumb(id)}</div><div class="meta"><b>${TPL[id].name}</b><span>${TPL[id].desc||""}</span></div></button>`).join('')+'</div>';g.querySelectorAll('[data-wztpl]').forEach(b=>b.onclick=()=>{state.meta.template=b.dataset.wztpl;renderCV();save();syncSegs();});}
 /* ===== drag-reorder blocks on the CV ===== */
 function applyOrder(){const cv=document.getElementById('cvPaper');const order=state.meta.order||[];if(!order.length)return;const groups=new Map();cv.querySelectorAll('.blk[data-sec]').forEach(b=>{const par=b.parentNode;if(!groups.has(par))groups.set(par,[]);groups.get(par).push(b);});groups.forEach((blocks,par)=>{if(blocks.length<2)return;const sorted=blocks.slice().sort((x,y)=>{let ix=order.indexOf(x.dataset.sec),iy=order.indexOf(y.dataset.sec);if(ix<0)ix=999;if(iy<0)iy=999;return ix!==iy?ix-iy:blocks.indexOf(x)-blocks.indexOf(y);});sorted.forEach(b=>par.appendChild(b));});}
@@ -1030,9 +1032,9 @@ const EDU_PROGRAMS=["ATPL(A) Integrado (frozen)","ATPL(A) Modular","ATPL(A) teó
 let acEl=null,acType=null,acItems=[],acIdx=-1,acSuppress=false;
 function acSource(t){return t==='aircraft'?AIRCRAFT:t==='ratings'?RATINGS:t==='edu'?EDU_PROGRAMS:[];}
 function acToken(el){if(el.dataset.ac==='ratings'){const p=el.value.split(',');return p[p.length-1].trim();}return el.value.trim();}
-function acMatch(t,tok){const src=acSource(t);const q=(tok||'').toLowerCase();if(!q)return src.slice(0,8);const nq=q.replace(/[\s.\-()]/g,'');const st=[],inc=[];src.forEach(x=>{const xl=x.toLowerCase();const nx=xl.replace(/[\s.\-()]/g,'');if(xl.indexOf(q)===0||(nq&&nx.indexOf(nq)===0))st.push(x);else if(xl.indexOf(q)>-1||(nq&&nx.indexOf(nq)>-1))inc.push(x);});return st.concat(inc).slice(0,8);}
+function acMatch(t,tok){const src=acSource(t);const q=(tok||'').toLowerCase().trim();if(!q)return src.slice(0,8);const nq=q.replace(/[\s.\-()]/g,'');const st=[],inc=[];src.forEach(x=>{const low=x.toLowerCase();const base=low.replace(/[\s.\-()]/g,'');const mf=low.split(' ')[0];const im=(mf?mf[0]:'')+low.slice(mf.length).replace(/[\s.\-()]/g,'');if(low.indexOf(q)===0||base.indexOf(nq)===0||im.indexOf(nq)===0)st.push(x);else if(low.indexOf(q)>-1||base.indexOf(nq)>-1||im.indexOf(nq)>-1)inc.push(x);});return st.concat(inc).slice(0,8);}
 function acEnsure(){let b=document.getElementById('acbox');if(!b){b=document.createElement('div');b.id='acbox';document.body.appendChild(b);const pick=e=>{const it=e.target.closest('.ac-item');if(it){e.preventDefault();acPick(+it.dataset.i);}};b.addEventListener('mousedown',pick);b.addEventListener('touchstart',pick,{passive:false});}return b;}
-function acPos(el,b){const r=el.getBoundingClientRect();b.style.left=Math.max(6,r.left)+'px';b.style.width=Math.max(r.width,190)+'px';b.style.top=(r.bottom+4)+'px';const bh=b.offsetHeight;if(r.bottom+6+bh>window.innerHeight){const tp=r.top-6-bh;b.style.top=(tp>6?tp:6)+'px';}}
+function acPos(el,b){const r=el.getBoundingClientRect();b.style.left=Math.max(6,r.left)+'px';b.style.width=Math.max(r.width,190)+'px';b.style.top=(r.bottom+4)+'px';const vh=(window.visualViewport&&window.visualViewport.height)||window.innerHeight;const bh=b.offsetHeight;if(r.bottom+6+bh>vh){const tp=r.top-6-bh;b.style.top=(tp>6?tp:6)+'px';}}
 function acShow(el){const t=el.dataset.ac;const items=acMatch(t,acToken(el));if(!items.length){acHide();return;}acEl=el;acType=t;acItems=items;acIdx=-1;const b=acEnsure();b.innerHTML=items.map((x,i)=>'<div class="ac-item" data-i="'+i+'">'+esc(x)+'</div>').join('');b.style.display='block';acPos(el,b);}
 function acPick(i){if(i<0||i>=acItems.length||!acEl)return;const val=acItems[i],el=acEl;if(acType==='ratings'){const p=el.value.split(',');p[p.length-1]=' '+val;el.value=p.join(',').replace(/^\s+/,'')+', ';}else{el.value=val;}acSuppress=true;el.dispatchEvent(new Event('input',{bubbles:true}));acSuppress=false;acHide();try{el.focus();const L=el.value.length;el.setSelectionRange(L,L);}catch(e){}}
 function acHide(){const b=document.getElementById('acbox');if(b)b.style.display='none';acEl=null;acItems=[];acIdx=-1;}
@@ -1047,6 +1049,7 @@ function updateCoach(k){const m={exp:'experience',edu:'education',lang:'language
 function applyCoach(){document.body.classList.toggle('coach-on',!!state.meta.coach);const a=document.querySelector('.navitem.active');updateCoach(a?a.dataset.nav:'personal');}
 function coachToggle(){state.meta.coach=!state.meta.coach;applyCoach();save();if(!state.meta.coach)toast('Guía desactivada');else toast('Guía del instructor activada');}
 function coachOff(){state.meta.coach=false;applyCoach();save();}
+function resetOrder(){state.meta.order=[];renderCV();save();toast('Orden de secciones restablecido');}
 /* boot */
 $('#editorSections').innerHTML=editorHTML();
 buildNav();bindStatic();bindPhoto();buildToolbar();buildSummaryPool();
