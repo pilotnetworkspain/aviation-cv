@@ -101,7 +101,9 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .chip.refresh::after{content:none}
 .chip.refresh svg{width:15px;height:15px}
 .photo-row{display:flex;align-items:center;gap:14px}
-.photo-prev{width:60px;height:60px;border-radius:12px;border:1px solid var(--line);background:var(--panel) center/cover no-repeat;flex:none;display:grid;place-items:center;color:var(--muted2);overflow:hidden}
+.photo-prev{width:60px;height:60px;border-radius:12px;border:1px solid var(--line);background:var(--panel) center/cover no-repeat;flex:none;display:grid;place-items:center;color:var(--muted2);overflow:hidden;touch-action:none}
+.photo-prev img{display:block}
+.cv .qr{width:58px;height:58px;border-radius:7px;display:inline-block;vertical-align:middle;margin-left:9px;background:#fff;padding:3px;box-shadow:0 0 0 1px rgba(0,0,0,.09)}
 .photo-prev svg{width:22px;height:22px}
 
 .preview{background:linear-gradient(180deg,#060911,#0a0f1a);border-left:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
@@ -572,7 +574,7 @@ const STORE=(()=>{try{const t='__pn';localStorage.setItem(t,'1');localStorage.re
 const SKEY='pn_cv_builder_v2';
 
 function demoData(){return {
-  meta:{template:'legacy',accent:'#2563eb',dark:'#0f172a',paper:'#ffffff',density:'regular',fontScale:1,lang:'es',showPhoto:true,photo:null,order:[],coach:true},
+  meta:{template:'legacy',accent:'#2563eb',dark:'#0f172a',paper:'#ffffff',density:'regular',fontScale:1,lang:'es',showPhoto:true,photo:null,photoZoom:1,photoX:50,photoY:50,showQR:false,order:[],coach:true},
   personal:{fullName:'Pilot Network',title:'First Officer · Airbus A320',email:'info@pilotnetwork.es',phone:'+34 612 345 678',location:'Madrid, España',nationality:'Española · UE',linkedin:'linkedin.com/in/pilotnetwork',website:'',dob:'',address:''},
   summary:'First Officer con licencia ATPL(A) (EASA) y más de 4.500 horas de vuelo, 3.200 en familia A320. Inglés OACI Nivel 6. Type rating A320neo en vigor y línea operativa desde base MAD. Sólida cultura de seguridad, CRM y mentoría de cadetes. Busco progresión a Comandante en aerolínea europea legacy o de bandera.',
   licenses:[{type:'ATPL(A)',authority:'EASA (AESA)',validUntil:'',number:''}],
@@ -591,7 +593,7 @@ function demoData(){return {
   extras:{availableFrom:'01/09/2026',noticePeriod:'30 días',rightToWork:'UE/EEE + Reino Unido',additional:'Pasaporte UE. Derecho a trabajar en UE/EEE y Reino Unido. Carné de conducir B. Movilidad total.',references:'Disponibles a petición'}
 };}
 function emptyData(){return {
-  meta:{template:'legacy',accent:'#2563eb',dark:'#0f172a',paper:'#ffffff',density:'regular',fontScale:1,lang:'es',showPhoto:false,photo:null,order:[],coach:true},
+  meta:{template:'legacy',accent:'#2563eb',dark:'#0f172a',paper:'#ffffff',density:'regular',fontScale:1,lang:'es',showPhoto:false,photo:null,photoZoom:1,photoX:50,photoY:50,showQR:false,order:[],coach:true},
   personal:{fullName:'',title:'',email:'',phone:'',location:'',nationality:'',linkedin:'',website:'',dob:'',address:''},
   summary:'',licenses:[],certs:{medical:'',ratings:''},typeRatings:[],
   hours:{total:'',pic:'',sic:'',picus:'',dual:'',multiEngine:'',multiPilot:'',singleEngine:'',turbine:'',jet:'',ifr:'',night:'',xc:'',instructor:'',simulator:'',last90:'',last12:'',onType:'',onTypeName:''},
@@ -637,7 +639,7 @@ function editorHTML(){return `
 </div>
 <div class="field" style="margin-top:12px"><label class="chkrow"><input type="checkbox" id="showPhoto"> Incluir fotografía <span class="hint" style="margin-left:2px">(ATS la oculta siempre)</span></label>
 <div class="photo-row" id="photoRow" style="margin-top:10px"><div class="photo-prev" id="photoPrev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></div>
-<div style="display:flex;gap:8px;flex-wrap:wrap"><input type="file" id="photoFile" accept="image/*" hidden><button class="btn sm" onclick="document.getElementById('photoFile').click()">Subir foto</button><button class="btn sm ghost" onclick="clearPhoto()">Quitar</button></div></div></div></section>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><input type="file" id="photoFile" accept="image/*" hidden><button class="btn sm" onclick="document.getElementById('photoFile').click()">Subir foto</button><button class="btn sm ghost" onclick="clearPhoto()">Quitar</button></div></div><div id="photoCtl" style="display:none;margin-top:12px"><label style="font-size:11.5px;color:var(--muted);display:block;margin-bottom:6px">🔍 Zoom · arrastra la foto para encuadrar</label><input type="range" id="photoZoom" min="1" max="3" step="0.05" value="1" style="width:100%;accent-color:var(--blue)"></div></div><div class="field" style="margin-top:6px"><label class="chkrow"><input type="checkbox" id="showQR"> Mostrar código QR de LinkedIn en el CV <span class="hint" style="margin-left:2px">(usa tu LinkedIn o web)</span></label></div></section>
 
 <section class="sec" id="sec-summary" data-title="Perfil profesional"><div class="sec-head"><span class="kx">02</span><h2>Perfil profesional</h2></div><p class="sec-sub">3–4 líneas: experiencia, tipo de operación y qué buscas.</p>
 <div class="field"><textarea id="f_summary" data-bind="summary" style="min-height:120px" placeholder="First Officer con licencia ATPL(A)…"></textarea>
@@ -745,62 +747,62 @@ function bigTotal(){const h=state.hours,l=L();return has(h.total)?`<div class="b
 function logbookGrid(){const p=hoursPairs(['total','pic','sic','multiEngine','ifr','night','instructor','simulator','xc']);return p.length?`<div class="lgrid">${p.map(([k,v])=>`<div class="lcell"><span class="mut">${k}</span><b>${v}</b></div>`).join('')}</div>`:'';}
 function typeLogEntries(){const l=L();return state.typeRatings.filter(t=>has(t.aircraft)).map(t=>`<div class="lentry"><div class="ld">${has(t.date)?esc(t.date):''}</div><div class="lm"><span class="lco">${esc(t.aircraft)}</span> <span class="mut" style="font-size:.85em">${t.status==='current'?l.current:l.expired}</span></div></div>`).join('');}
 
-function photo(){return (state.meta.showPhoto&&state.meta.photo)?`<img class="ph" src="${state.meta.photo}">`:'';}
+function photo(){const m=state.meta;return (m.showPhoto&&m.photo)?`<img class="ph" src="${m.photo}" style="object-position:${m.photoX==null?50:m.photoX}% ${m.photoY==null?50:m.photoY}%;transform:scale(${m.photoZoom||1});transform-origin:center">`:'';}
 function nameH(){const[a,b]=nameParts();return `${esc(a)}${b?' '+esc(b):''}`;}
 function nameH2(){const[a,b]=nameParts();return `${esc(a)}${b?'<br>'+esc(b):''}`;}
 
 const TPL={
- legacy:{name:'Legacy Carrier',desc:'Serif · una columna',render:()=>{const l=L();return `<div class="pg"><div class="head">${photo()}<div><h1>${nameH()}</h1><div class="role">${roleText()}</div><div class="contact">${contactInline()}</div></div></div>`
+ legacy:{name:'Legacy Carrier',desc:'Serif · una columna',render:()=>{const l=L();return `<div class="pg"><div class="head">${photo()}${qr()}<div><h1>${nameH()}</h1><div class="role">${roleText()}</div><div class="contact">${contactInline()}</div></div></div>`
   +sec(l.summary,summaryP())
   +`<div class="twocol"><div>${sec(l.hours,hoursRows(['total','pic','sic','ifr','night','multiEngine','simulator']))}</div><div>${sec(l.types,ratingLines())}${sec(l.lic,licLines()+medLine()+ratingsPills())}</div></div>`
   +sec(l.experience,expEntries())
   +`<div class="twocol">${sec(l.education,courseLines())}${sec(l.languages,langLines())}</div>`
   +sec(l.additional,addInfo())+`</div>`;}},
- modern:{name:'Modern Minimal',desc:'Sidebar oscuro',render:()=>{const l=L();return `<aside>${photo()}<h1>${nameH2()}</h1><div class="role">${roleText()}</div>`
+ modern:{name:'Modern Minimal',desc:'Sidebar oscuro',render:()=>{const l=L();return `<aside>${photo()}${qr()}<h1>${nameH2()}</h1><div class="role">${roleText()}</div>`
   +sec(l.contact,contactParts().map(c=>`<div class="mut" style="margin-bottom:2px;font-size:.9em">${c}</div>`).join(''))
   +sec(l.hoursShort,hoursRows(['total','pic','sic','ifr','night','simulator']))
   +sec(l.lic,licLines()+medLine())+sec(l.languages,langLines())
   +`</aside><main>`+sec(l.profile,summaryP())+sec(l.expShort,expEntries())+sec(l.types,`<div class="pills">${ratingChips()}</div>`)+sec(l.education,courseLines())+sec(l.additional,addInfo())+`</main>`;}},
- captain:{name:'Captain Prestige',desc:'Banda oscura · barras',render:()=>{const l=L();return `<div class="banner"><div><h1>${nameH()}</h1><div class="role">${roleText()}</div><div class="contact">${contactInline()}</div></div>${photo()}</div><div class="body">`
+ captain:{name:'Captain Prestige',desc:'Banda oscura · barras',render:()=>{const l=L();return `<div class="banner"><div><h1>${nameH()}</h1><div class="role">${roleText()}</div><div class="contact">${contactInline()}</div></div>${photo()}${qr()}</div><div class="body">`
   +sec(l.experience,expEntries())+sec(l.hours,hoursBars())
   +`<div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">${sec(l.lic,licLines()+medLine()+ratingsPills())}${sec(l.types,ratingLines())}</div>`+sec(l.additional,addInfo())+`</div>`;}},
- exec:{name:'Executive',desc:'Masthead serif',render:()=>{const l=L();return `<div class="pg"><div class="mast">${photo()}<h1>${nameH()}</h1><div class="role">${roleText()}</div><div class="rule"></div><div class="contact">${contactInline('   ·   ')}</div></div>`
+ exec:{name:'Executive',desc:'Masthead serif',render:()=>{const l=L();return `<div class="pg"><div class="mast">${photo()}${qr()}<h1>${nameH()}</h1><div class="role">${roleText()}</div><div class="rule"></div><div class="contact">${contactInline('   ·   ')}</div></div>`
   +(has(state.summary)?`<p class="lead">${esc(state.summary)}</p>`:'')+`<div class="divider"></div>`
   +`<div class="cols"><div>${sec(l.experience,expEntries())}${sec(l.education,courseLines())}</div><div>${sec(l.hours,hoursRows(['total','pic','sic','multiEngine','ifr','night','instructor','simulator']))}${sec(l.types,ratingLines())}${sec(l.lic,licLines()+medLine())}${sec(l.languages,langLines())}${sec(l.additional,addInfo())}</div></div></div>`;}},
- euro:{name:'European Standard',desc:'Tabla logbook',render:()=>{const l=L();const p=state.personal;return `<div class="pg"><div class="head">${photo()}<div><h1>${nameH()}</h1><div class="role">${roleText()}</div>${has(p.nationality)?`<div class="born">${l.nationality}: ${esc(p.nationality)}</div>`:''}${has(p.dob)?`<div class="born">${state.meta.lang==='es'?'Fecha nac.':'DOB'}: ${esc(p.dob)}</div>`:''}<div class="contact">${contactInline()}</div></div></div>`
+ euro:{name:'European Standard',desc:'Tabla logbook',render:()=>{const l=L();const p=state.personal;return `<div class="pg"><div class="head">${photo()}${qr()}<div><h1>${nameH()}</h1><div class="role">${roleText()}</div>${has(p.nationality)?`<div class="born">${l.nationality}: ${esc(p.nationality)}</div>`:''}${has(p.dob)?`<div class="born">${state.meta.lang==='es'?'Fecha nac.':'DOB'}: ${esc(p.dob)}</div>`:''}<div class="contact">${contactInline()}</div></div></div>`
   +sec(l.hoursBreak,hoursTable())
   +sec(l.licenses,licLines()+medLine()+(state.typeRatings.length?`<div style="margin-top:4px">${ratingLines()}</div>`:''))
   +sec(l.experience,expEntries())
   +`<div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">${sec(l.education,courseLines())}<div>${sec(l.languages,langLines())}${sec(l.additional,addInfo())}</div></div></div>`;}},
- deck:{name:'Flight Deck',desc:'Dashboard · mono',render:()=>{const l=L();return `<div class="head"><div><h1>${nameH()}</h1><div class="role">${roleText()}</div><div class="contact">${contactInline('  //  ')}</div></div>${photo()}</div><div class="body">`
+ deck:{name:'Flight Deck',desc:'Dashboard · mono',render:()=>{const l=L();return `<div class="head"><div><h1>${nameH()}</h1><div class="role">${roleText()}</div><div class="contact">${contactInline('  //  ')}</div></div>${photo()}${qr()}</div><div class="body">`
   +hoursStats()+sec(l.profile,summaryP())
   +`<div class="cols"><div>${sec(l.expShort,expEntries())}${sec(l.education,courseLines())}</div><div>${sec(l.types,`<div class="pills">${ratingChips()}</div>`)}${sec(l.lic,licLines()+medLine())}${sec(l.languages,langLines())}${sec(l.additional,addInfo())}</div></div></div>`;}},
- timeline:{name:'Command Timeline',desc:'Raíl vertical',render:()=>{const l=L();return `<div class="pg"><div class="head">${photo()}<div><h1>${nameH()}</h1><div class="role">${roleText()}</div><div class="contact">${contactInline()}</div></div></div>`
+ timeline:{name:'Command Timeline',desc:'Raíl vertical',render:()=>{const l=L();return `<div class="pg"><div class="head">${photo()}${qr()}<div><h1>${nameH()}</h1><div class="role">${roleText()}</div><div class="contact">${contactInline()}</div></div></div>`
   +sec(l.summary,summaryP())+sec(l.timelineT,expEntries('timeline'))
   +`<div class="twocol"><div>${sec(l.types,`<div class="pills">${ratingChips()}</div>`)}${sec(l.lic,licLines()+medLine())}</div><div>${sec(l.hours,hoursRows(['total','pic','sic','ifr','night','simulator']))}${sec(l.languages,langLines())}${sec(l.additional,addInfo())}</div></div></div>`;}},
- logbook:{name:'Logbook',desc:'Cuaderno de vuelo',render:()=>{const l=L();const h=state.hours;return `<div class="pg"><div class="head"><div style="display:flex;align-items:flex-end;flex:1">${photo()}<div><h1>${nameH()}</h1><div class="role">${roleText()}</div><div class="contact">${contactInline('   ·   ')}</div></div></div>${has(h.total)?`<div class="tot"><b>${fmtNum(h.total)}</b><span>${l.totalHrs}</span></div>`:''}</div>`
+ logbook:{name:'Logbook',desc:'Cuaderno de vuelo',render:()=>{const l=L();const h=state.hours;return `<div class="pg"><div class="head"><div style="display:flex;align-items:flex-end;flex:1">${photo()}${qr()}<div><h1>${nameH()}</h1><div class="role">${roleText()}</div><div class="contact">${contactInline('   ·   ')}</div></div></div>${has(h.total)?`<div class="tot"><b>${fmtNum(h.total)}</b><span>${l.totalHrs}</span></div>`:''}</div>`
   +(has(state.summary)?`<p style="margin-top:8px">${esc(state.summary)}</p>`:'')
   +sec(l.flightTime,logbookGrid())+(state.typeRatings.length?sec(l.types,typeLogEntries()):'')+sec(l.expShort,expEntries('logbook'))
   +`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">${sec(l.lic,licLines()+medLine())}${sec(l.languages,langLines())}${sec(l.education,courseLines())}</div>`+sec(l.additional,addInfo())+`</div>`;}},
- horizon:{name:'Horizon',desc:'Banda + instrumentos',render:()=>{const l=L();return `<div class="band"><div><h1>${nameH()}</h1><div class="role">${roleText()}</div><div class="contact">${contactInline('    ·    ')}</div></div>${photo()}</div><div class="hz"></div>`
+ horizon:{name:'Horizon',desc:'Banda + instrumentos',render:()=>{const l=L();return `<div class="band"><div><h1>${nameH()}</h1><div class="role">${roleText()}</div><div class="contact">${contactInline('    ·    ')}</div></div>${photo()}${qr()}</div><div class="hz"></div>`
   +metricStrip()+`<div class="body">${summaryP()}`+sec(l.expShort,expEntries())+sec(l.types,ratingLines())
   +`<div class="twocol">${sec(l.lic,licLines()+medLine())}${sec(l.languages,langLines())}${sec(l.education,courseLines())}</div>`+sec(l.additional,addInfo())+`</div>`;}},
- swiss:{name:'Swiss Grid',desc:'Rejilla tipográfica',render:()=>{const l=L();return `<div class="pg"><div style="display:flex;align-items:flex-start"><div style="flex:1"><h1>${nameH2()}</h1><div class="role">${roleText()}</div></div>${photo()}</div><div class="toprule"></div>`
+ swiss:{name:'Swiss Grid',desc:'Rejilla tipográfica',render:()=>{const l=L();return `<div class="pg"><div style="display:flex;align-items:flex-start"><div style="flex:1"><h1>${nameH2()}</h1><div class="role">${roleText()}</div></div>${photo()}${qr()}</div><div class="toprule"></div>`
   +`<div class="cols"><div>`
   +(has(state.hours.total)?`<div class="blk">${bh(l.totalTime)}${bigTotal()}</div>`:'')
   +sec(l.breakdown,hoursRows(['pic','sic','multiEngine','ifr','night','simulator']))
   +sec(l.contact,contactParts().map(c=>`<div style="font-size:.9em;margin-bottom:2px">${c}</div>`).join(''))
   +sec(l.lic,licLines()+medLine())+sec(l.languages,langLines())
   +`</div><div>`+sec(l.profile,summaryP())+sec(l.expShort,expEntries())+sec(l.types,ratingLines())+sec(l.education,courseLines())+sec(l.additional,addInfo())+`</div></div></div>`;}},
- contrast:{name:'Contrast Split',desc:'Sidebar de color',render:()=>{const l=L();return `<aside>${photo()}<h1>${nameH2()}</h1><div class="role">${roleText()}</div>`
+ contrast:{name:'Contrast Split',desc:'Sidebar de color',render:()=>{const l=L();return `<aside>${photo()}${qr()}<h1>${nameH2()}</h1><div class="role">${roleText()}</div>`
   +sec(l.contact,contactParts().map(c=>`<div style="margin-bottom:2px;font-size:.9em">${c}</div>`).join(''))
   +sec(l.hours,hoursRows(['total','pic','sic','ifr','night','simulator']))+sec(l.lic,licLines()+medLine())+sec(l.languages,langLines())
   +`</aside><main>`+sec(l.profile,summaryP())+sec(l.expShort,expEntries())+sec(l.types,ratingLines())+sec(l.education,courseLines())+sec(l.additional,addInfo())+`</main>`;}},
- editorial:{name:'Editorial',desc:'Revista premium',render:()=>{const l=L();const numbered=[[l.expShort,expEntries()],[l.education,courseLines()],[l.additional,addInfo()]].filter(x=>x[1]).map(([t,b],i)=>sec(`<span class="secnum">${String(i+1).padStart(2,'0')}</span>${t}`,b)).join('');return `<div class="pg"><div class="mast"><div><h1>${nameH()}</h1><div class="role">${roleText()}</div></div>${photo()}</div><div class="kicker">${contactInline('    ·    ')}</div>`
+ editorial:{name:'Editorial',desc:'Revista premium',render:()=>{const l=L();const numbered=[[l.expShort,expEntries()],[l.education,courseLines()],[l.additional,addInfo()]].filter(x=>x[1]).map(([t,b],i)=>sec(`<span class="secnum">${String(i+1).padStart(2,'0')}</span>${t}`,b)).join('');return `<div class="pg"><div class="mast"><div><h1>${nameH()}</h1><div class="role">${roleText()}</div></div>${photo()}${qr()}</div><div class="kicker">${contactInline('    ·    ')}</div>`
   +`<div class="cols"><div class="rail">`+sec(l.hours,hoursRows(['total','pic','sic','multiEngine','ifr','night','simulator']))+sec(l.types,ratingLines())+sec(l.lic,licLines()+medLine())+sec(l.languages,langLines())
   +`</div><div class="main">`+(has(state.summary)?`<p class="lead">${esc(state.summary)}</p>`:'')
   +numbered+`</div></div></div>`;}},
- meridian:{name:'Meridian',desc:'Espina de acento',render:()=>{const l=L();return `<div class="spine"></div><div class="pg"><div class="head"><div style="flex:1;display:flex;align-items:center">${photo()}<div><h1>${nameH()}</h1><div class="role">${roleText()}</div></div></div><div class="coords">${contactParts().map(c=>`<div>${c}</div>`).join('')}</div></div><div class="rule"></div>`
+ meridian:{name:'Meridian',desc:'Espina de acento',render:()=>{const l=L();return `<div class="spine"></div><div class="pg"><div class="head"><div style="flex:1;display:flex;align-items:center">${photo()}${qr()}<div><h1>${nameH()}</h1><div class="role">${roleText()}</div></div></div><div class="coords">${contactParts().map(c=>`<div>${c}</div>`).join('')}</div></div><div class="rule"></div>`
   +summaryP()+`<div class="cols"><div>${sec(l.expShort,expEntries())}${sec(l.education,courseLines())}</div><div>${sec(l.hours,hoursRows(['total','pic','sic','multiEngine','ifr','night','simulator']))}${sec(l.types,ratingLines())}${sec(l.lic,licLines()+medLine())}${sec(l.languages,langLines())}${sec(l.additional,addInfo())}</div></div></div>`;}},
  compact:{name:'Compact One-pager',desc:'Una página · cadete',render:()=>{const l=L();const h=state.hours;return `<div class="pg"><div class="head"><div><h1>${nameH()}</h1><div class="role">${roleText()}</div><div class="contact">${contactInline(' · ')}</div></div>${has(h.total)?`<div class="tot"><b>${fmtNum(h.total)}</b><span>${l.hoursShort}</span></div>`:''}</div>`+sec(l.summary,summaryP())+`<div class="cols3"><div>${sec(l.hoursShort,hoursRows(['pic','sic','multiEngine','ifr','night','simulator']))}</div><div>${sec(l.types,ratingLines())}</div><div>${sec(l.lic,licLines()+medLine())}</div></div>`+sec(l.expShort,expEntries('compact'))+sec(l.education,courseLines())+`<div class="cols2">${sec(l.languages,langLines())}${sec(l.additional,addInfo())}</div></div>`;}},
  ats:{name:'ATS (texto plano)',desc:'Óptimo para filtros',render:()=>{const l=L();const p=state.personal;const cl=[has(p.phone)?p.phone:'',has(p.email)?p.email:'',has(p.location)?p.location:'',has(p.address)?p.address:'',has(p.nationality)?l.nationality+': '+p.nationality:'',has(p.dob)?'DOB '+p.dob:'',has(p.linkedin)?p.linkedin:'',has(p.website)?p.website:''].filter(Boolean).map(esc).join(' | ');return `<div class="pg"><h1>${nameH()}</h1><div class="role">${roleText()}</div>${cl?`<div class="contact">${cl}</div>`:''}<div class="rule"></div>`
@@ -820,7 +822,7 @@ function renderCV(){const c=$('#cvPaper');const t=state.meta.template;c.classNam
   c.style.setProperty('--acc2',t==='ats'?'#111':accDark(state.meta.accent));
   c.style.setProperty('--fs',state.meta.fontScale);
   c.style.setProperty('--pad',padFor());
-  c.innerHTML=(TPL[t]||TPL.legacy).render()+(isEmpty()?'<div class="wm">EJEMPLO</div>':'');applyOrder();syncMini();
+  c.innerHTML=(TPL[t]||TPL.legacy).render()+(isEmpty()?'<div class="wm">EJEMPLO</div>':'');applyOrder();syncMini();genQR();
   fitPreview();
 }
 let curScale=1;
@@ -913,9 +915,12 @@ let sumOff=0;
 function buildSummaryPool(){const el=$('#summaryPool');if(!el)return;const arr=SUM[state.meta.lang];const ix=[0,1,2].map(j=>(sumOff+j)%arr.length);el.innerHTML=ix.map(k=>`<button class="chip" data-sum="${k}">${esc(arr[k])}</button>`).join('')+`<button class="chip refresh" data-sumrefresh="1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> Ver otros ejemplos</button>`;}
 
 function bindPhoto(){$('#showPhoto').addEventListener('change',function(){state.meta.showPhoto=this.checked;$('#photoRow').style.display=this.checked?'flex':'none';renderCV();save();});
-$('#photoFile').addEventListener('change',function(){const f=this.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{state.meta.photo=r.result;paintPhoto();renderCV();save();};r.readAsDataURL(f);});}
+$('#photoFile').addEventListener('change',function(){const f=this.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{state.meta.photo=r.result;state.meta.photoZoom=1;state.meta.photoX=50;state.meta.photoY=50;paintPhoto();renderCV();save();};r.readAsDataURL(f);});
+const z=$('#photoZoom');if(z)z.addEventListener('input',function(){state.meta.photoZoom=parseFloat(this.value);const im=$('#photoPrev').querySelector('img');if(im)im.style.transform='scale('+this.value+')';sr();save();});
+const pv=$('#photoPrev');let pd=false,x0,y0,ox,oy;if(pv){pv.addEventListener('pointerdown',function(e){if(!state.meta.photo)return;pd=true;x0=e.clientX;y0=e.clientY;ox=state.meta.photoX==null?50:state.meta.photoX;oy=state.meta.photoY==null?50:state.meta.photoY;pv.style.cursor='grabbing';try{pv.setPointerCapture(e.pointerId);}catch(_){}});pv.addEventListener('pointermove',function(e){if(!pd)return;state.meta.photoX=Math.max(0,Math.min(100,ox-(e.clientX-x0)*0.9));state.meta.photoY=Math.max(0,Math.min(100,oy-(e.clientY-y0)*0.9));const im=pv.querySelector('img');if(im)im.style.objectPosition=state.meta.photoX+'% '+state.meta.photoY+'%';sr();});pv.addEventListener('pointerup',function(){if(pd){pd=false;pv.style.cursor='grab';save();}});}
+const qc=$('#showQR');if(qc)qc.addEventListener('change',function(){state.meta.showQR=this.checked;genQR();renderCV();save();});}
 function clearPhoto(){state.meta.photo=null;const pf=$('#photoFile');if(pf)pf.value='';paintPhoto();renderCV();save();}
-function paintPhoto(){const pv=$('#photoPrev');if(!pv)return;if(state.meta.photo){pv.style.backgroundImage=`url('${state.meta.photo}')`;pv.innerHTML='';}else{pv.style.backgroundImage='';pv.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>';}}
+function paintPhoto(){const pv=$('#photoPrev');if(!pv)return;const m=state.meta;if(m.photo){pv.style.backgroundImage='';pv.innerHTML=`<img src="${m.photo}" style="width:100%;height:100%;object-fit:cover;object-position:${m.photoX==null?50:m.photoX}% ${m.photoY==null?50:m.photoY}%;transform:scale(${m.photoZoom||1});transform-origin:center;pointer-events:none">`;pv.style.cursor='grab';}else{pv.style.backgroundImage='';pv.style.cursor='';pv.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>';}const z=$('#photoZoom');if(z)z.value=m.photoZoom||1;const pc=$('#photoCtl');if(pc)pc.style.display=m.photo?'block':'none';}
 
 function exportJSON(){const b=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='cv-pilot-network.json';a.click();URL.revokeObjectURL(a.href);toast('Copia descargada');}
 $('#importFile').addEventListener('change',function(){const f=this.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{state=merge(emptyData(),JSON.parse(r.result));hydrate();toast('Importado');}catch(e){toast('Archivo no válido');}};r.readAsText(f);this.value='';});
@@ -970,7 +975,7 @@ function setActive(k){$$('.navitem').forEach(b=>b.classList.toggle('active',b.da
 let raf=null;function sr(){if(raf)return;raf=requestAnimationFrame(()=>{raf=null;renderCV();updateNav();});}
 let sT=null;function save(){clearTimeout(sT);sT=setTimeout(()=>{try{STORE.set(SKEY,JSON.stringify(state));}catch(e){}},450);}
 
-function hydrate(){$$('[data-bind]').forEach(el=>{const v=gp(state,el.dataset.bind);if(el.type==='checkbox')el.checked=!!v;else el.value=v==null?'':v;});$('#showPhoto').checked=!!state.meta.showPhoto;$('#photoRow').style.display=state.meta.showPhoto?'flex':'none';paintPhoto();paintSwatches();syncSw();syncSegs();buildSummaryPool();rAllLists();renderCV();updateNav();applyCoach();save();}
+function hydrate(){$$('[data-bind]').forEach(el=>{const v=gp(state,el.dataset.bind);if(el.type==='checkbox')el.checked=!!v;else el.value=v==null?'':v;});$('#showPhoto').checked=!!state.meta.showPhoto;$('#photoRow').style.display=state.meta.showPhoto?'flex':'none';paintPhoto();if($('#showQR'))$('#showQR').checked=!!state.meta.showQR;paintSwatches();syncSw();syncSegs();buildSummaryPool();rAllLists();renderCV();updateNav();applyCoach();save();}
 
 /* ===== MOBILE WIZARD ===== */
 const MW=[
@@ -1062,10 +1067,16 @@ function wordDoc(){const l=L(),p=state.personal,acc=state.meta.accent,h=state.ho
 function exportWord(){try{const html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>CV</title><style>@page{margin:2cm}body{margin:0}</style></head><body>'+wordDoc()+'</body></html>';const blob=new Blob(['\ufeff'+html],{type:'application/msword'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=((state.personal.fullName||'CV Pilot Network').replace(/[^\w\s-]/g,'').trim()||'CV')+'.doc';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},120);toast('CV en Word descargado');}catch(e){toast('No pude generar el Word');}}
 /* ===== Share via link ===== */
 function shareLink(){try{const clean=JSON.parse(JSON.stringify(state));if(clean.meta)clean.meta.photo=null;const j=JSON.stringify(clean);const enc=encodeURIComponent(btoa(unescape(encodeURIComponent(j))));const url=location.origin+location.pathname+'#cv='+enc;const done=()=>toast('¡Enlace copiado! (sin la foto) Pégalo donde quieras');if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(done).catch(()=>{prompt('Copia tu enlace:',url);});}else{prompt('Copia tu enlace:',url);}}catch(e){toast('No pude generar el enlace');}}
+/* ===== QR (LinkedIn/web) ===== */
+const QRCDN='https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js';
+let qrCache={t:'',data:''};
+function qrTarget(){const p=state.personal;let u=(p.linkedin||p.website||'').trim();if(u&&u.indexOf('http')!==0)u='https://'+u.replace(/^\/+/,'');return u;}
+function genQR(){const t=qrTarget();if(!state.meta.showQR||!t){if(qrCache.data)qrCache={t:'',data:''};return;}if(qrCache.t===t&&qrCache.data)return;loadScript(QRCDN).then(()=>{try{const q=window.qrcode(0,'M');q.addData(t);q.make();qrCache={t:t,data:q.createDataURL(5,0)};renderCV();}catch(e){}}).catch(()=>{});}
+function qr(){return (state.meta.showQR&&qrCache.data)?`<img class="qr" src="${qrCache.data}" alt="QR">`:'';}
 /* boot */
 $('#editorSections').innerHTML=editorHTML();
 buildNav();bindStatic();bindPhoto();buildToolbar();buildSummaryPool();
-$('#showPhoto').checked=!!state.meta.showPhoto;$('#photoRow').style.display=state.meta.showPhoto?'flex':'none';paintPhoto();
+$('#showPhoto').checked=!!state.meta.showPhoto;$('#photoRow').style.display=state.meta.showPhoto?'flex':'none';paintPhoto();if($('#showQR'))$('#showQR').checked=!!state.meta.showQR;
 rAllLists();renderCV();updateNav();setActive('personal');syncSw();syncSegs();mwSync();applyCoach();
 if('ResizeObserver'in window)new ResizeObserver(()=>fitPreview()).observe($('#pvScroll'));
 window.addEventListener('resize',()=>{fitPreview();mwSync();});
