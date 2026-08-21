@@ -30,7 +30,8 @@ button{font-family:inherit;cursor:pointer}
 .app{display:flex;flex-direction:column;height:100vh;height:100dvh}
 .topbar{display:flex;align-items:center;gap:14px;padding:11px 18px;border-bottom:1px solid var(--line);background:rgba(8,12,20,.72);backdrop-filter:blur(14px);z-index:40}
 .brand{display:flex;align-items:center;gap:11px;font-family:var(--font-disp);font-weight:600;letter-spacing:-.01em}
-.brand .glyph{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--grad);box-shadow:0 6px 18px -6px rgba(91,157,255,.6);flex:none}
+.brand .glyph{width:37px;height:37px;border-radius:11px;display:grid;place-items:center;background:var(--grad);box-shadow:0 8px 22px -7px rgba(91,157,255,.7);flex:none}
+.glyph svg{width:22px;height:22px}
 .brand .glyph svg{width:20px;height:20px;color:#081018}
 .brand b{font-size:15px}.brand span{display:block;font-size:11px;color:var(--muted);font-weight:400;font-family:var(--font-ui);margin-top:-1px}
 .beta-tag{font-size:8.5px;font-weight:700;letter-spacing:.08em;color:#07101f;background:linear-gradient(135deg,#ffd166,#ff9f5b);padding:1.5px 5px;border-radius:5px;vertical-align:middle;margin-left:4px}
@@ -140,6 +141,12 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .gcard .meta{padding:7px 9px}.gcard .meta b{font-size:12px;display:block}.gcard .meta span{font-size:10.5px;color:var(--muted2)}
 
 .modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;background:rgba(4,7,12,.72);backdrop-filter:blur(4px);padding:20px}
+.modal.open{display:flex}
+.cv{overflow-wrap:anywhere}
+.cv *{min-width:0}
+.cv img{max-width:100%}
+.lang-sel{background:var(--panel);border:1px solid var(--line);border-radius:9px;color:var(--ink);padding:7px 9px;font-size:13px;font-weight:600;cursor:pointer;max-width:150px;font-family:var(--font-ui)}
+.lang-sel:focus{border-color:var(--blue);outline:none}
 .modal.show{display:flex}
 .modal-inner{background:var(--bg2);border:1px solid var(--line);border-radius:16px;max-width:920px;width:100%;max-height:86vh;overflow:auto;padding:20px}
 .modal-h{display:flex;align-items:center;margin-bottom:14px}.modal-h h3{font-family:var(--font-disp);margin:0;font-size:17px}
@@ -595,7 +602,7 @@ body.coach-on #coach{display:flex}
 <div class="app">
   <header class="topbar">
     <div class="brand">
-      <div class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></div>
+      <div class="glyph"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21.6 2.4 2.7 11.1c-.7.3-.7 1.3.05 1.6l5.2 1.8 1.8 5.2c.25.75 1.3.8 1.6.05l2.05-4.05 4.35 3.2c.5.37 1.2.1 1.35-.5L23 3.7c.2-.85-.6-1.6-1.4-1.3z" fill="#fff"/><path d="M8 14.5 21.6 2.4 9.75 15.75z" fill="#0a1428" opacity=".18"/></svg></div>
       <div><b>Aviation CV Builder <span class="beta-tag">BETA</span></b><span>by Pilot Network</span></div>
     </div>
     <div class="mobtab">
@@ -915,7 +922,7 @@ function toolbarHTML(inPane){return `
 <div class="tgroup"><span class="tlab">Papel</span><div class="swatches sw-paper"></div><input type="color" class="sw-pick paper-pick" title="Elige cualquier tono de papel"></div>
 <div class="tgroup"><span class="tlab">Temas</span><div class="themes"></div></div>
 <div class="tgroup"><span class="tlab">Densidad</span><div class="seg segD"><button data-density="compact">Compacto</button><button data-density="regular">Normal</button><button data-density="airy">Aireado</button></div></div>
-<div class="tgroup"><span class="tlab">Idioma</span><div class="seg segL"><button data-lang="es">ES</button><button data-lang="en">EN</button><button data-lang="fr">FR</button><button data-lang="de">DE</button><button data-lang="it">IT</button></div></div>
+<div class="tgroup"><span class="tlab">Idioma</span><select class="lang-sel" onchange="setLang(this.value)" title="Idioma del CV" aria-label="Idioma del CV"><option value="es">🌐 Español</option><option value="en">🌐 English</option><option value="fr">🌐 Français</option><option value="de">🌐 Deutsch</option><option value="it">🌐 Italiano</option></select></div>
 <div class="tgroup"><span class="tlab">Tamaño</span><div class="seg segF"><button data-fs="0.92">A-</button><button data-fs="1">A</button><button data-fs="1.08">A+</button></div></div>
 <div class="tgroup"><span class="tlab">Bloques</span><button class="btn sm ghost" onclick="resetOrder()" title="Restablecer el orden de las secciones">↺ Orden</button><span class="ord-hint">✋ arrastra en el CV</span></div>
 ${inPane?'':'<div class="pv-actions"><button class="btn sm" onclick="downloadPDF()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>PDF</button></div>'}`;}
@@ -933,7 +940,7 @@ document.addEventListener('click',function(e){
   const fz=e.target.closest('[data-fs]');if(fz){state.meta.fontScale=parseFloat(fz.dataset.fs);renderCV();syncSegs();save();return;}
 });
 function syncSw(){$$('.accent-pick').forEach(x=>{x.value=state.meta.accent});$$('.dark-pick').forEach(x=>{x.value=state.meta.dark});$$('.paper-pick').forEach(x=>{x.value=state.meta.paper});$$('[data-accent]').forEach(b=>b.classList.toggle('on',b.dataset.accent===state.meta.accent));$$('[data-dark]').forEach(b=>b.classList.toggle('on',b.dataset.dark===state.meta.dark));$$('[data-paper]').forEach(b=>b.classList.toggle('on',b.dataset.paper===state.meta.paper));}
-function syncSegs(){$$('[data-density]').forEach(b=>b.classList.toggle('on',b.dataset.density===state.meta.density));$$('[data-lang]').forEach(b=>b.classList.toggle('on',b.dataset.lang===state.meta.lang));$$('[data-fs]').forEach(b=>b.classList.toggle('on',parseFloat(b.dataset.fs)===state.meta.fontScale));$$('.tplName').forEach(e=>e.textContent=TPL[state.meta.template].name);document.querySelectorAll('[data-wztpl]').forEach(x=>x.classList.toggle('on',x.dataset.wztpl===state.meta.template));}
+function syncSegs(){$$('[data-density]').forEach(b=>b.classList.toggle('on',b.dataset.density===state.meta.density));$$('[data-lang]').forEach(b=>b.classList.toggle('on',b.dataset.lang===state.meta.lang));$$('.lang-sel').forEach(x=>{x.value=state.meta.lang});$$('[data-fs]').forEach(b=>b.classList.toggle('on',parseFloat(b.dataset.fs)===state.meta.fontScale));$$('.tplName').forEach(e=>e.textContent=TPL[state.meta.template].name);document.querySelectorAll('[data-wztpl]').forEach(x=>x.classList.toggle('on',x.dataset.wztpl===state.meta.template));}
 
 /* mini thumbnails for gallery */
 function miniThumb(id){const a=state.meta.accent,d=state.meta.dark,p=state.meta.paper||'#fff';
@@ -1197,6 +1204,7 @@ function deleteProfile(id){const o=profilesGet();if(o[id]){if(!confirm('¿Borrar
 function renderProfiles(){const o=profilesGet();const el=document.getElementById('profList');if(!el)return;const E=v=>String(v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');const ids=Object.keys(o).sort((a,b)=>o[b].ts-o[a].ts);el.innerHTML=ids.length?ids.map(id=>`<div class="prof-row"><div class="prof-info"><b>${E(o[id].name)}</b><span>${new Date(o[id].ts).toLocaleDateString('es-ES')}</span></div><div class="prof-act"><button onclick="loadProfile('${id}')">Cargar</button><button class="prof-del" onclick="deleteProfile('${id}')">Borrar</button></div></div>`).join(''):'<p class="sec-sub" style="margin:0">Aún no has guardado ningún CV. Escribe un nombre (ej. "Ryanair FO") y pulsa Guardar para tener varias versiones.</p>';}
 function openProfiles(){renderProfiles();document.getElementById('profilesModal').classList.add('open');}
 function closeProfiles(){document.getElementById('profilesModal').classList.remove('open');}
+function setLang(l){state.meta.lang=l;rE();buildSummaryPool();renderCV();syncSegs();buildWzGallery();save();}
 function openActions(){document.getElementById('actionSheet').classList.add('open');}
 function closeActions(){document.getElementById('actionSheet').classList.remove('open');}
 function startFresh(){state=emptyData();hydrate();if(document.body.classList.contains('mw'))mwGo(1);toast('Empezamos de cero ✏️');}
