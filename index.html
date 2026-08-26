@@ -87,6 +87,22 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .card .card-top{display:flex;align-items:center;gap:8px;margin-bottom:12px}
 .card .card-top .idx{font-family:var(--font-mono);font-size:11px;color:var(--muted2)}.card .card-top .grow{flex:1}
 .iconbtn{border:1px solid var(--line);background:var(--panel);color:var(--muted);width:30px;height:30px;border-radius:8px;display:grid;place-items:center;transition:.14s}
+button,a,label,select,input,textarea,.chip,.pchip,.seg button,.nav,.ac-item,.thm,.iconbtn,.btn,.x,[role=button],[data-add],[data-move],[data-remove],[data-ordmove]{touch-action:manipulation}
+body.touch .iconbtn{width:40px;height:40px}
+body.touch .seg button{padding:10px 14px;font-size:13px}
+body.touch .pchip{padding:10px 15px;font-size:13px}
+body.touch .ac-item{padding:13px 14px;font-size:14px}
+body.touch .btn.sm{padding:10px 15px}
+body.touch .addbtn{padding:16px}
+body.touch .chkrow{padding:9px 0}
+body.touch .x{width:42px;height:42px}
+body.touch .ord-btns button{width:40px;height:40px}
+body.touch .thm{min-width:34px;min-height:34px}
+body.touch .nav{padding:12px 14px}
+body.touch .lang-sel{padding:9px 12px;font-size:14px}
+body.touch input:not([type=color]):not([type=range]),body.touch textarea,body.touch select{font-size:16px}
+body.touch .card-top .iconbtn svg{width:18px;height:18px}
+body.touch .sheet button,body.touch .share-btn{padding:15px 16px}
 .iconbtn:hover{color:var(--ink);border-color:rgba(120,150,200,.3)}
 .iconbtn.danger:hover{color:#ff7a7a;border-color:rgba(255,120,120,.4);background:rgba(255,80,80,.08)}.iconbtn svg{width:15px;height:15px}
 .addbtn{display:inline-flex;align-items:center;gap:8px;width:100%;justify-content:center;border:1px dashed var(--line);background:transparent;color:var(--muted);padding:11px;border-radius:11px;font-size:13px;font-weight:500;transition:.15s}
@@ -1173,7 +1189,7 @@ function buildWzGallery(){const g=document.getElementById('wzGallery');if(!g)ret
 function applyOrder(){const cv=document.getElementById('cvPaper');const order=state.meta.order||[];if(!order.length)return;const groups=new Map();cv.querySelectorAll('.blk[data-sec]').forEach(b=>{const par=b.parentNode;if(!groups.has(par))groups.set(par,[]);groups.get(par).push(b);});groups.forEach((blocks,par)=>{if(blocks.length<2)return;const sorted=blocks.slice().sort((x,y)=>{let ix=order.indexOf(x.dataset.sec),iy=order.indexOf(y.dataset.sec);if(ix<0)ix=999;if(iy<0)iy=999;return ix!==iy?ix-iy:blocks.indexOf(x)-blocks.indexOf(y);});sorted.forEach(b=>par.appendChild(b));});}
 function commitOrder(keys){let order=(state.meta.order||[]).slice();keys.forEach(k=>{if(order.indexOf(k)<0)order.push(k);});const pos=keys.map(k=>order.indexOf(k)).sort((x,y)=>x-y);keys.forEach((k,i)=>{order[pos[i]]=k;});state.meta.order=order;}
 let dEl=null,dPar=null,dSY=0,dSX=0,dOY=0,dTimer=null,dGo=false;
-function cvDown(e){const cv=document.getElementById('cvPaper');const blk=e.target.closest&&e.target.closest('.blk[data-sec]');if(!blk||!cv.contains(blk))return;if(e.target.closest('a'))return;const sibs=[].slice.call(blk.parentNode.children).filter(x=>x.classList&&x.classList.contains('blk'));if(sibs.length<2)return;dEl=blk;dPar=blk.parentNode;dSY=e.clientY;dSX=e.clientX;dGo=false;if(e.pointerType==='touch'){dTimer=setTimeout(()=>dStart(),200);}window.addEventListener('pointermove',cvMove,{passive:false});window.addEventListener('pointerup',cvUp);}
+function cvDown(e){if(e.pointerType==='touch')return;const cv=document.getElementById('cvPaper');const blk=e.target.closest&&e.target.closest('.blk[data-sec]');if(!blk||!cv.contains(blk))return;if(e.target.closest('a'))return;const sibs=[].slice.call(blk.parentNode.children).filter(x=>x.classList&&x.classList.contains('blk'));if(sibs.length<2)return;dEl=blk;dPar=blk.parentNode;dSY=e.clientY;dSX=e.clientX;dGo=false;if(e.pointerType==='touch'){dTimer=setTimeout(()=>dStart(),200);}window.addEventListener('pointermove',cvMove,{passive:false});window.addEventListener('pointerup',cvUp);}
 function dStart(){if(!dEl||dGo)return;dGo=true;const r=dEl.getBoundingClientRect();dOY=dSY-r.top;dEl.classList.add('dragging');dEl.style.position='relative';dEl.style.zIndex='50';dEl.style.pointerEvents='none';dEl.style.willChange='transform';if(navigator.vibrate)navigator.vibrate(10);}
 function cvMove(e){if(!dEl)return;if(!dGo){const moved=Math.abs(e.clientY-dSY)>7||Math.abs(e.clientX-dSX)>7;if(!moved)return;if(e.pointerType==='touch'){clearTimeout(dTimer);cvEnd(false);return;}dStart();}e.preventDefault();const cy=e.clientY;const kids=[].slice.call(dPar.children).filter(x=>x.classList&&x.classList.contains('blk')&&x!==dEl);let ref=null;for(const sN of kids){const rr=sN.getBoundingClientRect();if(cy<rr.top+rr.height/2){ref=sN;break;}}const need=ref?(dEl.nextSibling!==ref):(dPar.lastElementChild!==dEl);if(need){const first=new Map();kids.forEach(k=>first.set(k,k.getBoundingClientRect().top));if(ref)dPar.insertBefore(dEl,ref);else dPar.appendChild(dEl);kids.forEach(k=>{const dd=first.get(k)-k.getBoundingClientRect().top;if(dd){k.style.transition='none';k.style.transform='translateY('+(dd/(curScale||1))+'px)';requestAnimationFrame(()=>{k.style.transition='transform .18s ease';k.style.transform='';});}});}dEl.style.transition='none';dEl.style.transform='';const nat=dEl.getBoundingClientRect().top;dEl.style.transform='translateY('+(((cy-dOY)-nat)/(curScale||1))+'px)';}
 function cvUp(){cvEnd(true);}
@@ -1333,6 +1349,7 @@ rAllLists();renderCV();updateNav();setActive('personal');syncSw();syncSegs();mwS
 window.addEventListener('message',function(e){try{var ok=['https://www.pilotnetwork.es','https://pilotnetwork.es'];if(ok.indexOf(e.origin)<0)return;var d=e.data;if(d&&d.type==='pn-language'&&(d.lang==='es'||d.lang==='en')){state.meta.lang=d.lang;rE();buildSummaryPool();renderCV();syncSegs();buildWzGallery();setUILang(d.lang);}}catch(err){}});
 if('ResizeObserver'in window)new ResizeObserver(()=>fitPreview()).observe($('#pvScroll'));
 window.addEventListener('resize',()=>{fitPreview();mwSync();});
+if(('ontouchstart' in window)||navigator.maxTouchPoints>0||(window.matchMedia&&matchMedia('(pointer:coarse)').matches))document.body.classList.add('touch');
 document.getElementById('cvPaper').addEventListener('pointerdown',cvDown);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitPreview);
 setTimeout(fitPreview,300);
