@@ -1151,7 +1151,7 @@ const MW=[
  {t:'final',title:'Tu CV',coach:'¡Listo! Revísalo y descárgalo en PDF.'}
 ];
 let mwStep=0;
-function isMobileWz(){return window.innerWidth<=900;}
+function isMobileWz(){return window.innerWidth<=900||(window.matchMedia&&window.matchMedia('(pointer:coarse)').matches);}
 function mwGo(i){
  mwStep=Math.max(0,Math.min(MW.length-1,i));const s=MW[mwStep];
  document.body.classList.remove('mw-welcome','mw-sec','mw-design','mw-final');
