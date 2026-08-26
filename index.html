@@ -491,10 +491,10 @@ body.touch .dp-open{width:40px;height:36px;font-size:16px}
 @keyframes wzIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
 @media(max-width:1100px),(pointer:coarse){
   body.mw{overflow:hidden}
-  body.mw .app{height:var(--mw-vh,100dvh)}
+  body.mw .app{height:var(--mw-vh,100svh)}
   body.embed.mw{overflow:hidden}
-  body.embed.mw .app{height:var(--mw-vh,100%);min-height:520px}
-  body.embed.mw .editor,body.embed.mw .designpane,body.embed.mw .preview,body.embed.mw #wzWelcome{-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;touch-action:pan-y}
+  body.embed.mw .app{height:100%;min-height:900px}
+  body.embed.mw .editor,body.embed.mw .designpane,body.embed.mw .preview,body.embed.mw #wzWelcome{-webkit-overflow-scrolling:touch;overscroll-behavior-y:auto;touch-action:auto}
   html,body.embed{height:100%}
   body.embed{overflow-x:hidden}
   body.mw .topbar{display:none}
@@ -534,6 +534,8 @@ body.mw #wzTop .wz-meta{position:relative}
   body.mw #wzBar .btn.primary{flex:2.2}
   /* bigger inputs */
   body.mw input,body.mw select,body.mw textarea{padding:14px 15px;font-size:16px;border-radius:13px}
+  body.mw .sugg>summary{min-height:44px;padding:11px 2px;position:relative;z-index:2;touch-action:manipulation}
+  body.mw .sugg .chip{min-height:48px;padding:12px 38px 12px 13px;touch-action:manipulation}
   body.mw .field{gap:8px}body.mw .grid{gap:14px}
 body.mw .grid.g2{grid-template-columns:1fr}
 body.mw .grid.g3{grid-template-columns:1fr 1fr}
@@ -728,7 +730,7 @@ body.mw details.more-fields{margin-top:4px}
   </header>
 
   <div class="body view-editor" id="viewport">
-    <div id="wzTop"><div class="wz-meta" data-build="v5.3-mobile"><span class="wz-step" id="wzStep">Paso 1</span><div><span class="wz-quality">Calidad <b id="wzQual">0%</b></span><button class="wz-menu" onclick="openActions()" aria-label="Exportar y compartir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></button><button class="wz-eye" onclick="mwPeek(true)" aria-label="Vista previa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Ver</span></button><button class="wz-ctog" onclick="coachToggle()" aria-label="Guía del instructor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></button></div></div><div class="wz-bar"><i id="wzBarFill"></i></div><h2 id="wzTitle"></h2><div class="wz-coach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span id="wzCoach"></span></div></div>
+    <div id="wzTop"><div class="wz-meta" data-build="v5.4-touch"><span class="wz-step" id="wzStep">Paso 1</span><div><span class="wz-quality">Calidad <b id="wzQual">0%</b></span><button class="wz-menu" onclick="openActions()" aria-label="Exportar y compartir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></button><button class="wz-eye" onclick="mwPeek(true)" aria-label="Vista previa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Ver</span></button><button class="wz-ctog" onclick="coachToggle()" aria-label="Guía del instructor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></button></div></div><div class="wz-bar"><i id="wzBarFill"></i></div><h2 id="wzTitle"></h2><div class="wz-coach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span id="wzCoach"></span></div></div>
     <nav class="rail">
       <div class="rail-h">Secciones</div>
       <div id="navList"></div>
@@ -1112,7 +1114,7 @@ document.addEventListener('click',e=>{
 function reList(l){({licenses:rL,typeRatings:rT,experience:rE,education:rEd,languages:rLa}[l])();i18nApply(uiLang());paintExpiry();}
 function focusNew(l){const id={licenses:'#licenseList',typeRatings:'#typeList',experience:'#expList',education:'#eduList',languages:'#langList'}[l];const c=$(id);if(!c)return;const cards=c.querySelectorAll('.card');const last=cards[cards.length-1];if(last){const inp=last.querySelector('input,select,textarea');if(inp)inp.focus();}}
 let sumOff=0;
-function buildSummaryPool(){const el=$('#summaryPool');if(!el)return;const arr=SUM[state.meta.lang]||SUM.en;const ix=[0,1,2].map(j=>(sumOff+j)%arr.length);el.innerHTML=ix.map(k=>`<button class="chip" data-sum="${k}">${esc(arr[k])}</button>`).join('')+`<button class="chip refresh" data-sumrefresh="1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> Ver otros ejemplos</button>`;}
+function buildSummaryPool(){const el=$('#summaryPool');if(!el)return;const arr=SUM[state.meta.lang]||SUM.en;const ix=[0,1,2].map(j=>(sumOff+j)%arr.length);el.innerHTML=ix.map(k=>`<button type="button" class="chip" data-sum="${k}">${esc(arr[k])}</button>`).join('')+`<button type="button" class="chip refresh" data-sumrefresh="1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> Ver otros ejemplos</button>`;}
 
 function bindPhoto(){$('#showPhoto').addEventListener('change',function(){state.meta.showPhoto=this.checked;$('#photoRow').style.display=this.checked?'flex':'none';renderCV();save();});
 $('#photoFile').addEventListener('change',function(){const f=this.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{state.meta.photo=r.result;state.meta.photoZoom=1;state.meta.photoX=50;state.meta.photoY=50;paintPhoto();renderCV();save();};r.readAsDataURL(f);});
@@ -1196,9 +1198,12 @@ let mwStep=0;
 const MW_QUERY='(max-width:1100px), (pointer:coarse)';
 const mwMedia=window.matchMedia?window.matchMedia(MW_QUERY):null;
 function isMobileWz(){return mwMedia?mwMedia.matches:window.innerWidth<=1100;}
+function isEditingField(){const a=document.activeElement;return !!(a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName));}
 function syncMobileHeight(){
  const root=document.documentElement;
  if(!isMobileWz()){root.style.removeProperty('--mw-vh');return;}
+ if(document.body.classList.contains('embed')){root.style.removeProperty('--mw-vh');return;}
+ if(isEditingField())return;
  const h=Math.round((window.visualViewport&&window.visualViewport.height)||window.innerHeight||0);
  if(h>0)root.style.setProperty('--mw-vh',h+'px');
 }
@@ -1438,9 +1443,10 @@ rAllLists();renderCV();updateNav();setActive('personal');syncSw();syncSegs();mwS
 window.addEventListener('message',function(e){try{var ok=['https://www.pilotnetwork.es','https://pilotnetwork.es'];if(ok.indexOf(e.origin)<0)return;var d=e.data;if(d&&d.type==='pn-language'&&(d.lang==='es'||d.lang==='en')){state.meta.lang=d.lang;rE();buildSummaryPool();renderCV();syncSegs();buildWzGallery();setUILang(d.lang);}}catch(err){}});
 if('ResizeObserver'in window)new ResizeObserver(()=>fitPreview()).observe($('#pvScroll'));
 let resizeRaf=0;
-function onViewportResize(){if(resizeRaf)return;resizeRaf=requestAnimationFrame(()=>{resizeRaf=0;fitPreview();syncMobileHeight();});}
+function onViewportResize(){if(document.body.classList.contains('mw')&&isEditingField())return;if(resizeRaf)return;resizeRaf=requestAnimationFrame(()=>{resizeRaf=0;if(document.body.classList.contains('mw-final')||document.body.classList.contains('mw-design')||document.body.classList.contains('mw-peek'))fitPreview();syncMobileHeight();});}
 window.addEventListener('resize',onViewportResize,{passive:true});
 if(window.visualViewport)window.visualViewport.addEventListener('resize',onViewportResize,{passive:true});
+document.addEventListener('focusout',()=>setTimeout(syncMobileHeight,180));
 if(mwMedia){const onModeChange=()=>mwSync(true);if(mwMedia.addEventListener)mwMedia.addEventListener('change',onModeChange);else if(mwMedia.addListener)mwMedia.addListener(onModeChange);}
 if(('ontouchstart' in window)||navigator.maxTouchPoints>0||(window.matchMedia&&matchMedia('(pointer:coarse)').matches))document.body.classList.add('touch');
 document.getElementById('cvPaper').addEventListener('pointerdown',cvDown);
