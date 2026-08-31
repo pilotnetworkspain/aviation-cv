@@ -751,7 +751,7 @@ button,.btn,.iconbtn,.nav,.chip,.pchip,.thm,.seg button,summary,.wz-step,.ord-bt
 input,textarea,select{-webkit-user-select:text!important;user-select:text!important}
 button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
 
-/* === v7.6: embedded desktop must not inherit Webador's 2400px bootstrap height.
+/* === v7.7: embedded desktop must not inherit Webador's 2400px bootstrap height.
    A bounded viewport restores the three internal scroll panes and keeps fixed
    modals (Letter, Share, Profiles, ATS) inside the visible area. === */
 @media(min-width:1101px) and (pointer:fine){
@@ -805,7 +805,7 @@ button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
   </header>
 
   <div class="body view-editor" id="viewport">
-    <div id="wzTop"><div class="wz-meta" data-build="v7.6"><span class="wz-step" id="wzStep">Paso 1</span><div><span class="wz-quality">Calidad <b id="wzQual">0%</b></span><button class="wz-menu" onclick="openActions()" aria-label="Exportar y compartir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></button><button class="wz-eye" onclick="mwPeek(true)" aria-label="Vista previa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Ver</span></button><button class="wz-ctog" onclick="coachToggle()" aria-label="Guía del instructor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></button></div></div><div class="wz-bar"><i id="wzBarFill"></i></div><h2 id="wzTitle"></h2><div class="wz-coach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span id="wzCoach"></span></div></div>
+    <div id="wzTop"><div class="wz-meta" data-build="v7.7"><span class="wz-step" id="wzStep">Paso 1</span><div><span class="wz-quality">Calidad <b id="wzQual">0%</b></span><button class="wz-menu" onclick="openActions()" aria-label="Exportar y compartir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></button><button class="wz-eye" onclick="mwPeek(true)" aria-label="Vista previa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Ver</span></button><button class="wz-ctog" onclick="coachToggle()" aria-label="Guía del instructor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></button></div></div><div class="wz-bar"><i id="wzBarFill"></i></div><h2 id="wzTitle"></h2><div class="wz-coach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span id="wzCoach"></span></div></div>
     <nav class="rail">
       <div class="rail-h">Secciones</div>
       <div id="navList"></div>
@@ -1323,6 +1323,34 @@ function bindWizardTouchNav(){
  };
  bind('wzNext',mwNext);bind('wzBack',mwPrev);
 }
+/* Every other mobile control must receive touch events on the element itself.
+   WebKit inside a cross-origin iframe may never promote a tap to `click`.
+   This mirrors the proven Next/Back path and also covers controls created later. */
+function pnTouchMode(){return document.body.classList.contains('mw')||document.body.classList.contains('touch');}
+function bindDirectTouchAction(el){
+ if(!el||el.__pnTouchAction||el.id==='wzNext'||el.id==='wzBack')return;el.__pnTouchAction=true;
+ let armed=false,sx=0,sy=0;
+ el.addEventListener('touchstart',e=>{if(!pnTouchMode()||e.touches.length!==1)return;const t=e.touches[0];armed=true;sx=t.clientX;sy=t.clientY;},{passive:true});
+ el.addEventListener('touchmove',e=>{if(!armed||!e.touches.length)return;const t=e.touches[0];if(Math.abs(t.clientX-sx)>14||Math.abs(t.clientY-sy)>14)armed=false;},{passive:true});
+ el.addEventListener('touchend',e=>{if(!pnTouchMode()||!armed)return;armed=false;if(el.disabled||el.getAttribute('aria-disabled')==='true')return;e.preventDefault();e.stopPropagation();el.__pnDispatchingTouch=true;try{el.click();}finally{el.__pnDispatchingTouch=false;el.__pnTouchAt=Date.now();}},{passive:false});
+ el.addEventListener('touchcancel',()=>{armed=false;},{passive:true});
+ el.addEventListener('click',e=>{if(!el.__pnDispatchingTouch&&Date.now()-(el.__pnTouchAt||0)<750){e.preventDefault();e.stopImmediatePropagation();}},true);
+}
+function bindDirectTouchField(el){
+ if(!el||el.__pnTouchField)return;el.__pnTouchField=true;let armed=false,sx=0,sy=0;
+ el.addEventListener('touchstart',e=>{if(!pnTouchMode()||e.touches.length!==1)return;const t=e.touches[0];armed=true;sx=t.clientX;sy=t.clientY;},{passive:true});
+ el.addEventListener('touchmove',e=>{if(!armed||!e.touches.length)return;const t=e.touches[0];if(Math.abs(t.clientX-sx)>14||Math.abs(t.clientY-sy)>14)armed=false;},{passive:true});
+ el.addEventListener('touchend',()=>{if(!pnTouchMode()||!armed)return;armed=false;if(el.disabled||el.readOnly)return;try{el.focus({preventScroll:true});}catch(_){try{el.focus();}catch(__){}}if((el.tagName==='SELECT'||/^(color|date|month)$/.test(el.type||''))&&typeof el.showPicker==='function'){try{el.showPicker();}catch(_){}}},{passive:true});
+ el.addEventListener('touchcancel',()=>{armed=false;},{passive:true});
+}
+function bindDirectTouchTree(root){
+ if(!root||root.nodeType!==1)return;const aq='button:not(#wzNext):not(#wzBack),summary,[role="button"]';const fq='textarea,select,input:not([type]),input[type="text"],input[type="email"],input[type="tel"],input[type="url"],input[type="number"],input[type="date"],input[type="month"],input[type="search"],input[type="password"],input[type="color"]';
+ if(root.matches(aq))bindDirectTouchAction(root);root.querySelectorAll(aq).forEach(bindDirectTouchAction);
+ if(root.matches(fq))bindDirectTouchField(root);root.querySelectorAll(fq).forEach(bindDirectTouchField);
+}
+function bindMobileTouchLayer(){
+ bindDirectTouchTree(document.body);if(window.__pnTouchObserver)return;window.__pnTouchObserver=new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(bindDirectTouchTree)));window.__pnTouchObserver.observe(document.body,{childList:true,subtree:true});
+}
 function mwChrome(){
  const s=MW[mwStep],last=MW.length-1;
  const T=document.getElementById('wzTitle');if(T)T.textContent=s.title?_t(s.title,UIT[s.title]||s.title):'';
@@ -1558,7 +1586,7 @@ bindWizardTouchNav();
 buildNav();bindStatic();bindPhoto();buildToolbar();buildSummaryPool();
 $('#showPhoto').checked=!!state.meta.showPhoto;$('#photoRow').style.display=state.meta.showPhoto?'flex':'none';paintPhoto();if($('#showQR'))$('#showQR').checked=!!state.meta.showQR;
 try{if(window.self!==window.top){document.body.classList.add('embed');document.documentElement.classList.add('embed-h');}}catch(e){document.body.classList.add('embed');document.documentElement.classList.add('embed-h');}
-rAllLists();renderCV();updateNav();setActive('personal');syncSw();syncSegs();mwSync();applyCoach();
+rAllLists();renderCV();updateNav();setActive('personal');syncSw();syncSegs();mwSync();applyCoach();bindMobileTouchLayer();
 (function(){try{var il=initialLang();if(!state.meta.lang||state.meta.lang==='es'||state.meta.lang==='en')state.meta.lang=il;state.meta.uiLang=il;rE();buildSummaryPool();renderCV();syncSegs();buildWzGallery();i18nApply(il);try{var u=new URL(location.href);u.searchParams.set('lang',il);history.replaceState({},'',u);}catch(e){}document.documentElement.lang=il;track('cv_app_open',{lang:il});i18nWatch();pnHeightWatch();}catch(e){}})();
 window.addEventListener('message',function(e){try{var ok=['https://www.pilotnetwork.es','https://pilotnetwork.es'];if(ok.indexOf(e.origin)<0)return;var d=e.data;if(d&&d.type==='pn-language'&&(d.lang==='es'||d.lang==='en')){state.meta.lang=d.lang;rE();buildSummaryPool();renderCV();syncSegs();buildWzGallery();setUILang(d.lang);}}catch(err){}});
 if('ResizeObserver'in window)new ResizeObserver(()=>fitPreview()).observe($('#pvScroll'));
