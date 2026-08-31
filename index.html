@@ -129,6 +129,11 @@ body.touch .sheet button,body.touch .share-btn{padding:15px 16px}
 .sugg>summary::after{content:' ▾';color:var(--blue)}
 .sugg[open]>summary::after{content:' ▴'}
 .sugg-title{font-size:12px;color:var(--blue);font-weight:600;padding:8px 0 2px}
+.sugg-toggle{margin-top:9px;min-height:44px;padding:10px 2px;border:0;background:transparent;color:var(--blue);display:inline-flex;align-items:center;gap:7px;font:600 12px var(--font-ui);text-align:left;cursor:pointer}
+.sugg-toggle svg{width:14px;height:14px;transition:transform .18s}
+.sugg-toggle[aria-expanded="true"] svg{transform:rotate(180deg)}
+#summaryPool{display:flex;flex-direction:column;gap:7px;margin-top:7px}
+#summaryPool[hidden]{display:none!important}
 .chip{text-align:left;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:8px 11px;border-radius:9px;font-size:12.5px;line-height:1.45;transition:.14s;position:relative;padding-right:30px}
 .chip:hover{border-color:var(--blue);background:rgba(91,157,255,.06)}.chip::after{content:"+";position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--blue);font-weight:700;font-size:15px}
 .chip .chip-use{display:none}
@@ -556,7 +561,9 @@ body.mw #wzTop .wz-meta{position:relative}
   body.mw input,body.mw select,body.mw textarea{padding:14px 15px;font-size:16px;border-radius:13px;position:relative;z-index:3;touch-action:auto!important;pointer-events:auto!important}
   body.mw input,body.mw textarea{-webkit-appearance:auto!important;appearance:auto!important}
   body.mw select{-webkit-appearance:menulist!important;appearance:auto!important;background-image:none!important;padding-right:15px}
-  body.mw button{touch-action:manipulation!important}
+  body.mw button{touch-action:manipulation!important;pointer-events:auto!important}
+  body.mw .sugg-toggle{width:100%;min-height:48px;padding:12px 2px;font-size:13px}
+  body.mw #summaryPool .chip{min-height:52px;padding:13px 48px 13px 14px}
   body.mw .sugg>summary{min-height:44px;padding:11px 2px;position:relative;z-index:2;touch-action:manipulation}
   body.mw .sugg .chip{min-height:48px;padding:12px 38px 12px 13px;touch-action:manipulation}
   body.mw .field{gap:8px}body.mw .grid{gap:14px}
@@ -744,7 +751,7 @@ button,.btn,.iconbtn,.nav,.chip,.pchip,.thm,.seg button,summary,.wz-step,.ord-bt
 input,textarea,select{-webkit-user-select:text!important;user-select:text!important}
 button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
 
-/* === v7.5: embedded desktop must not inherit Webador's 2400px bootstrap height.
+/* === v7.6: embedded desktop must not inherit Webador's 2400px bootstrap height.
    A bounded viewport restores the three internal scroll panes and keeps fixed
    modals (Letter, Share, Profiles, ATS) inside the visible area. === */
 @media(min-width:1101px) and (pointer:fine){
@@ -798,7 +805,7 @@ button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
   </header>
 
   <div class="body view-editor" id="viewport">
-    <div id="wzTop"><div class="wz-meta" data-build="v7.5"><span class="wz-step" id="wzStep">Paso 1</span><div><span class="wz-quality">Calidad <b id="wzQual">0%</b></span><button class="wz-menu" onclick="openActions()" aria-label="Exportar y compartir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></button><button class="wz-eye" onclick="mwPeek(true)" aria-label="Vista previa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Ver</span></button><button class="wz-ctog" onclick="coachToggle()" aria-label="Guía del instructor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></button></div></div><div class="wz-bar"><i id="wzBarFill"></i></div><h2 id="wzTitle"></h2><div class="wz-coach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span id="wzCoach"></span></div></div>
+    <div id="wzTop"><div class="wz-meta" data-build="v7.6"><span class="wz-step" id="wzStep">Paso 1</span><div><span class="wz-quality">Calidad <b id="wzQual">0%</b></span><button class="wz-menu" onclick="openActions()" aria-label="Exportar y compartir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></button><button class="wz-eye" onclick="mwPeek(true)" aria-label="Vista previa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Ver</span></button><button class="wz-ctog" onclick="coachToggle()" aria-label="Guía del instructor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></button></div></div><div class="wz-bar"><i id="wzBarFill"></i></div><h2 id="wzTitle"></h2><div class="wz-coach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span id="wzCoach"></span></div></div>
     <nav class="rail">
       <div class="rail-h">Secciones</div>
       <div id="navList"></div>
@@ -919,7 +926,7 @@ function editorHTML(){return `
 
 <section class="sec" id="sec-summary" data-title="Perfil profesional"><div class="sec-head"><span class="kx">02</span><h2>Perfil profesional</h2></div><p class="sec-sub">3–4 líneas: experiencia, tipo de operación y qué buscas.</p>
 <div class="field"><textarea id="f_summary" data-bind="summary" inputmode="text" enterkeyhint="done" autocapitalize="sentences" style="min-height:120px" placeholder="First Officer con licencia ATPL(A)…"></textarea>
-<details class="sugg"><summary class="sugg-title">Ejemplos redactados — toca para verlos</summary><div class="pool" id="summaryPool"></div></details></div></section>
+<button type="button" class="sugg-toggle" id="summaryToggle" aria-expanded="false" onclick="toggleSummaryExamples()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg><span>Ejemplos redactados — toca para verlos</span></button><div class="pool" id="summaryPool" hidden></div></div></section>
 
 <section class="sec" id="sec-licenses" data-title="Licencias y habilitaciones"><div class="sec-head"><span class="kx">03</span><h2>Licencias y habilitaciones</h2></div><p class="sec-sub">Licencias EASA/AESA, médico y habilitaciones asociadas.</p>
 <div id="licenseList"></div><button class="addbtn" data-add="licenses"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Añadir licencia</button>
@@ -1194,13 +1201,14 @@ document.addEventListener('click',e=>{
   const mv=e.target.closest('[data-move]');if(mv){const l=mv.dataset.move,i=+mv.dataset.idx,j=i+ +mv.dataset.dir,a=state[l];if(j<0||j>=a.length)return;[a[i],a[j]]=[a[j],a[i]];reList(l);sr();save();return;}
   const exb=e.target.closest('[data-exb]');if(exb){const ix=+exb.dataset.idx,it=state.experience[ix];it.bullets=(it.bullets?it.bullets.replace(/\s*$/,'')+'\n':'')+(EXB[state.meta.lang]||EXB.en)[+exb.dataset.exb];rE();sr();save();const ta=document.querySelector(`textarea[data-list="experience"][data-idx="${ix}"][data-field="bullets"]`);if(ta){ta.classList.add('example-applied');setTimeout(()=>ta.classList.remove('example-applied'),700);pnScrollElement(ta,'center');}toast('Logro añadido');return;}
   const ltn=e.target.closest('[data-lttone]');if(ltn){ltTone=ltn.dataset.lttone;renderTones();letterRegen();return;}
-  const srf=e.target.closest('[data-sumrefresh]');if(srf){sumOff=(sumOff+3)%(SUM[state.meta.lang]||SUM.en).length;buildSummaryPool();return;}
-  const sm=e.target.closest('[data-sum]');if(sm){state.summary=(SUM[state.meta.lang]||SUM.en)[+sm.dataset.sum];const ta=$('#f_summary');if(ta){ta.value=state.summary;ta.classList.add('example-applied');setTimeout(()=>ta.classList.remove('example-applied'),700);pnScrollElement(ta,'center');}sr();save();toast('Ejemplo aplicado');return;}
 });
 function reList(l){({licenses:rL,typeRatings:rT,experience:rE,education:rEd,languages:rLa}[l])();i18nApply(uiLang());paintExpiry();}
-function focusNew(l){const id={licenses:'#licenseList',typeRatings:'#typeList',experience:'#expList',education:'#eduList',languages:'#langList'}[l];const c=$(id);if(!c)return;const cards=c.querySelectorAll('.card');const last=cards[cards.length-1];if(last){const inp=last.querySelector('input,select,textarea');if(inp)inp.focus();}}
+function focusNew(l){const id={licenses:'#licenseList',typeRatings:'#typeList',experience:'#expList',education:'#eduList',languages:'#langList'}[l];const c=$(id);if(!c)return;const cards=c.querySelectorAll('.card');const last=cards[cards.length-1];if(!last)return;last.classList.add('example-applied');setTimeout(()=>last.classList.remove('example-applied'),700);if(document.body.classList.contains('touch')||document.body.classList.contains('mw')){setTimeout(()=>pnScrollElement(last,'center'),40);return;}const inp=last.querySelector('input,select,textarea');if(inp)inp.focus();}
 let sumOff=0;
-function buildSummaryPool(){const el=$('#summaryPool');if(!el)return;const arr=SUM[state.meta.lang]||SUM.en;const ix=[0,1,2].map(j=>(sumOff+j)%arr.length);el.innerHTML=ix.map(k=>`<button type="button" class="chip" data-sum="${k}" aria-label="${_t('Usar este ejemplo','Use this example')}">${esc(arr[k])}<span class="chip-use">${_t('Usar','Use')}</span></button>`).join('')+`<button type="button" class="chip refresh" data-sumrefresh="1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> ${_t('Ver otros ejemplos','See more examples')}</button>`;}
+function toggleSummaryExamples(force){const pool=$('#summaryPool'),btn=$('#summaryToggle');if(!pool||!btn)return;const open=force==null?pool.hidden:!!force;pool.hidden=!open;btn.setAttribute('aria-expanded',open?'true':'false');const tx=btn.querySelector('span');if(tx)tx.textContent=open?_t('Ejemplos redactados — toca uno para usarlo','Written examples — tap one to use it'):_t('Ejemplos redactados — toca para verlos','Written examples — tap to see them');setTimeout(()=>{pnHeight();if(open)pnScrollElement(btn,'start');},40);}
+function nextSummaryExamples(){const arr=SUM[state.meta.lang]||SUM.en;sumOff=(sumOff+3)%arr.length;buildSummaryPool();toast(_t('Ejemplos ','Examples ')+(sumOff+1)+'–'+Math.min(sumOff+3,arr.length)+_t(' de ',' of ')+arr.length);}
+function useSummaryExample(k){const arr=SUM[state.meta.lang]||SUM.en;k=+k;if(!arr[k])return;state.summary=arr[k];const ta=$('#f_summary');if(ta){ta.value=state.summary;ta.classList.add('example-applied');setTimeout(()=>ta.classList.remove('example-applied'),700);pnScrollElement(ta,'center');try{ta.focus({preventScroll:true});}catch(_){}}sr();save();toast('Ejemplo aplicado');}
+function buildSummaryPool(){const el=$('#summaryPool');if(!el)return;const arr=SUM[state.meta.lang]||SUM.en;const ix=[0,1,2].map(j=>(sumOff+j)%arr.length);el.innerHTML=ix.map(k=>`<button type="button" class="chip" onclick="useSummaryExample(${k})" aria-label="${_t('Usar este ejemplo','Use this example')}">${esc(arr[k])}<span class="chip-use">${_t('Usar','Use')}</span></button>`).join('')+`<button type="button" class="chip refresh" onclick="nextSummaryExamples()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> ${_t('Ver otros ejemplos','See more examples')} · ${sumOff+1}–${Math.min(sumOff+3,arr.length)}/${arr.length}</button>`;}
 
 function bindPhoto(){$('#showPhoto').addEventListener('change',function(){state.meta.showPhoto=this.checked;$('#photoRow').style.display=this.checked?'flex':'none';renderCV();save();});
 $('#photoFile').addEventListener('change',function(){const f=this.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{state.meta.photo=r.result;state.meta.photoZoom=1;state.meta.photoX=50;state.meta.photoY=50;paintPhoto();renderCV();save();};r.readAsDataURL(f);});
@@ -1314,16 +1322,6 @@ function bindWizardTouchNav(){
   el.addEventListener('click',e=>{if(Date.now()-(el.__pnTouchAt||0)<750){e.preventDefault();e.stopImmediatePropagation();}},true);
  };
  bind('wzNext',mwNext);bind('wzBack',mwPrev);
-}
-/* iOS may also drop clicks on summaries, example chips and design controls
-   inside a cross-origin iframe. Turn a short touch into one explicit click. */
-function bindMobileTapActions(){if(window.__pnTapActions)return;window.__pnTapActions=1;let el=null,sx=0,sy=0,moved=false;
- const pick=t=>t&&t.closest?t.closest('button:not(#wzNext):not(#wzBack),summary,[role="button"]'):null;
- document.addEventListener('touchstart',e=>{if(!document.body.classList.contains('mw')||e.touches.length!==1)return;const p=pick(e.target);if(!p||p.disabled)return;el=p;moved=false;sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
- document.addEventListener('touchmove',e=>{if(!el||!e.touches.length)return;const t=e.touches[0];if(Math.abs(t.clientX-sx)>14||Math.abs(t.clientY-sy)>14)moved=true;},{passive:true});
- document.addEventListener('touchend',e=>{if(!el)return;const p=el;el=null;if(moved||pick(e.target)!==p)return;e.preventDefault();e.stopPropagation();if(p.tagName==='SUMMARY'&&p.parentElement&&p.parentElement.tagName==='DETAILS'){const d=p.parentElement;d.open=!d.open;p.__pnTouchAt=Date.now();setTimeout(()=>{pnHeight();if(d.open)pnScrollElement(d,'center');},60);return;}p.click();p.__pnTouchAt=Date.now();},{passive:false});
- document.addEventListener('touchcancel',()=>{el=null;moved=false;},{passive:true});
- document.addEventListener('click',e=>{const p=pick(e.target);if(p&&e.isTrusted&&Date.now()-(p.__pnTouchAt||0)<750){e.preventDefault();e.stopImmediatePropagation();}},true);
 }
 function mwChrome(){
  const s=MW[mwStep],last=MW.length-1;
@@ -1557,7 +1555,6 @@ function coverRand(){coverIdx=Math.floor(Math.random()*coverArr().length);coverR
 /* boot */
 $('#editorSections').innerHTML=editorHTML();
 bindWizardTouchNav();
-bindMobileTapActions();
 buildNav();bindStatic();bindPhoto();buildToolbar();buildSummaryPool();
 $('#showPhoto').checked=!!state.meta.showPhoto;$('#photoRow').style.display=state.meta.showPhoto?'flex':'none';paintPhoto();if($('#showQR'))$('#showQR').checked=!!state.meta.showQR;
 try{if(window.self!==window.top){document.body.classList.add('embed');document.documentElement.classList.add('embed-h');}}catch(e){document.body.classList.add('embed');document.documentElement.classList.add('embed-h');}
@@ -1572,7 +1569,6 @@ if(window.visualViewport)window.visualViewport.addEventListener('resize',onViewp
 document.addEventListener('focusout',()=>setTimeout(syncMobileHeight,180));
 if(mwMedia){const onModeChange=()=>mwSync(true);if(mwMedia.addEventListener)mwMedia.addEventListener('change',onModeChange);else if(mwMedia.addListener)mwMedia.addListener(onModeChange);}
 if(('ontouchstart' in window)||navigator.maxTouchPoints>0||(window.matchMedia&&matchMedia('(pointer:coarse)').matches))document.body.classList.add('touch');
-document.addEventListener('touchend',function(e){const el=e.target&&e.target.closest?e.target.closest('input:not([type="button"]):not([type="submit"]):not([type="file"]):not([type="checkbox"]):not([type="radio"]),textarea'):null;if(!el||el.disabled||el.readOnly||document.activeElement===el)return;try{el.focus({preventScroll:false});}catch(_){try{el.focus();}catch(__){}}},{capture:true,passive:true});
 document.getElementById('cvPaper').addEventListener('pointerdown',cvDown);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitPreview);
 setTimeout(fitPreview,300);
