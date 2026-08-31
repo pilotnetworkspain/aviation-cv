@@ -739,8 +739,22 @@ button,.btn,.iconbtn,.nav,.chip,.pchip,.thm,.seg button,summary,.wz-step,.ord-bt
 input,textarea,select{-webkit-user-select:text!important;user-select:text!important}
 button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
 
-html.embed-h,body.embed{height:auto!important;min-height:0!important}
-body.embed .app,body.embed.mw .app{height:auto!important;min-height:0!important}
+/* === v7.4: embedded desktop must not inherit Webador's 2400px bootstrap height.
+   A bounded viewport restores the three internal scroll panes and keeps fixed
+   modals (Letter, Share, Profiles, ATS) inside the visible area. === */
+@media(min-width:1101px) and (pointer:fine){
+  html.embed-h,body.embed{height:900px!important;min-height:900px!important;overflow:hidden!important}
+  body.embed .app{height:900px!important;min-height:900px!important;overflow:hidden!important}
+}
+/* Mobile/tablet keeps content-driven height because iOS does not reliably
+   scroll an iframe. Touch navigation is handled explicitly in JS below. */
+@media(max-width:1100px),(pointer:coarse){
+  html.embed-h,body.embed{height:auto!important;min-height:0!important;overflow:visible!important}
+  body.embed.mw .app{height:auto!important;min-height:0!important;overflow:visible!important}
+  body.mw #wzNext,body.mw #wzBack{touch-action:manipulation!important;-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important}
+  body.embed.mw .modal.open,body.embed.mw .sheet-wrap.open{position:absolute;inset:0 0 auto;height:600px;min-height:600px}
+  body.embed.mw .modal.open .modal-card,body.embed.mw .modal.open .modal-inner{max-height:560px;overflow:auto}
+}
 </style>
 </head>
 <body>
@@ -765,7 +779,7 @@ body.embed .app,body.embed.mw .app{height:auto!important;min-height:0!important}
   </header>
 
   <div class="body view-editor" id="viewport">
-    <div id="wzTop"><div class="wz-meta" data-build="v7.3"><span class="wz-step" id="wzStep">Paso 1</span><div><span class="wz-quality">Calidad <b id="wzQual">0%</b></span><button class="wz-menu" onclick="openActions()" aria-label="Exportar y compartir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></button><button class="wz-eye" onclick="mwPeek(true)" aria-label="Vista previa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Ver</span></button><button class="wz-ctog" onclick="coachToggle()" aria-label="Guía del instructor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></button></div></div><div class="wz-bar"><i id="wzBarFill"></i></div><h2 id="wzTitle"></h2><div class="wz-coach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span id="wzCoach"></span></div></div>
+    <div id="wzTop"><div class="wz-meta" data-build="v7.4"><span class="wz-step" id="wzStep">Paso 1</span><div><span class="wz-quality">Calidad <b id="wzQual">0%</b></span><button class="wz-menu" onclick="openActions()" aria-label="Exportar y compartir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></button><button class="wz-eye" onclick="mwPeek(true)" aria-label="Vista previa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Ver</span></button><button class="wz-ctog" onclick="coachToggle()" aria-label="Guía del instructor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></button></div></div><div class="wz-bar"><i id="wzBarFill"></i></div><h2 id="wzTitle"></h2><div class="wz-coach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span id="wzCoach"></span></div></div>
     <nav class="rail">
       <div class="rail-h">Secciones</div>
       <div id="navList"></div>
@@ -1251,6 +1265,19 @@ function mwGo(i){setTimeout(function(){try{i18nApply(uiLang());}catch(e){}try{pn
 }
 function mwNext(){if(mwStep>=MW.length-1){downloadPDF();return;}mwGo(mwStep+1);}
 function mwPrev(){mwGo(mwStep-1);}
+/* iOS inside a cross-origin iframe can turn a normal tap into text selection
+   and never emit click. Handle the two wizard controls at the touch layer and
+   suppress the delayed synthetic click so navigation fires exactly once. */
+function bindWizardTouchNav(){
+ const bind=(id,go)=>{const el=document.getElementById(id);if(!el||el.__pnTouchNav)return;el.__pnTouchNav=true;let armed=false,sx=0,sy=0;
+  el.addEventListener('touchstart',e=>{if(!document.body.classList.contains('mw')||e.touches.length!==1)return;const t=e.touches[0];armed=true;sx=t.clientX;sy=t.clientY;e.preventDefault();},{passive:false});
+  el.addEventListener('touchmove',e=>{if(!armed||!e.touches.length)return;const t=e.touches[0];if(Math.abs(t.clientX-sx)>14||Math.abs(t.clientY-sy)>14)armed=false;if(armed)e.preventDefault();},{passive:false});
+  el.addEventListener('touchend',e=>{if(!document.body.classList.contains('mw')||!armed)return;armed=false;e.preventDefault();e.stopPropagation();el.__pnTouchAt=Date.now();go();},{passive:false});
+  el.addEventListener('touchcancel',()=>{armed=false;},{passive:true});
+  el.addEventListener('click',e=>{if(Date.now()-(el.__pnTouchAt||0)<750){e.preventDefault();e.stopImmediatePropagation();}},true);
+ };
+ bind('wzNext',mwNext);bind('wzBack',mwPrev);
+}
 function mwChrome(){
  const s=MW[mwStep],last=MW.length-1;
  const T=document.getElementById('wzTitle');if(T)T.textContent=s.title||'';
@@ -1354,7 +1381,11 @@ function letterWord(){track('cv_letter_word');const html='<html xmlns:w="urn:sch
 function letterPDF(){track('cv_letter_pdf');const w2=window.open('','_blank');if(!w2){toast('Permite ventanas emergentes para el PDF');return;}w2.document.write('<html><head><meta charset="utf-8"><title>Carta de presentación</title></head><body style="font-family:Georgia,serif;font-size:12pt;line-height:1.65;padding:2.5cm;max-width:19cm;color:#111">'+letterBodyHTML()+'</body></html>');w2.document.close();setTimeout(()=>{try{w2.print();}catch(_){}}, 300);}
 document.addEventListener('click',function(e){const th=e.target.closest&&e.target.closest('[data-thm]');if(th){const q=th.dataset.thm.split('|');state.meta.accent=q[0];state.meta.dark=q[1];state.meta.paper=q[2];renderCV();syncSw();syncSegs();buildWzGallery();save();}});
 document.addEventListener('input',function(e){if(!e.target.classList)return;if(e.target.classList.contains('accent-pick')){state.meta.accent=e.target.value;renderCV();syncSw();buildWzGallery();save();}else if(e.target.classList.contains('dark-pick')){state.meta.dark=e.target.value;renderCV();syncSw();buildWzGallery();save();}else if(e.target.classList.contains('paper-pick')){state.meta.paper=e.target.value;renderCV();syncSw();buildWzGallery();save();}});
-function toggleFull(){try{var d=document,el=d.documentElement;if(!d.fullscreenElement&&!d.webkitFullscreenElement){(el.requestFullscreen||el.webkitRequestFullscreen||function(){}).call(el);}else{(d.exitFullscreen||d.webkitExitFullscreen||function(){}).call(d);}}catch(e){}}
+function toggleFull(){try{var d=document,el=d.documentElement,embedded=window.self!==window.top;if(!d.fullscreenElement&&!d.webkitFullscreenElement){
+ if(embedded&&d.fullscreenEnabled===false){var nw=window.open(location.href,'_blank');if(!nw)toast(_t('Webador bloquea la pantalla completa. Abre la app directa.','Webador blocks fullscreen. Open the app directly.'));return;}
+ var req=el.requestFullscreen||el.webkitRequestFullscreen;if(!req){if(embedded){var nw2=window.open(location.href,'_blank');if(!nw2)toast(_t('Abre la app directa para usar pantalla completa.','Open the app directly to use fullscreen.'));}return;}
+ var p=req.call(el);if(p&&p.catch)p.catch(()=>toast(_t('Añade permiso de pantalla completa al iframe de Webador.','Add fullscreen permission to the Webador iframe.')));
+ }else{var ex=d.exitFullscreen||d.webkitExitFullscreen;if(ex)ex.call(d);}}catch(e){toast(_t('No se pudo activar la pantalla completa.','Fullscreen could not be activated.'));}}
 const PKEY='pn_cv_profiles_v1';
 function profilesGet(){try{return JSON.parse(STORE.get(PKEY)||'{}');}catch(e){return {};}}
 function profilesSet(o){STORE.set(PKEY,JSON.stringify(o));}
@@ -1470,6 +1501,7 @@ function coverNext(){coverIdx++;coverRegen();}
 function coverRand(){coverIdx=Math.floor(Math.random()*coverArr().length);coverRegen();}
 /* boot */
 $('#editorSections').innerHTML=editorHTML();
+bindWizardTouchNav();
 buildNav();bindStatic();bindPhoto();buildToolbar();buildSummaryPool();
 $('#showPhoto').checked=!!state.meta.showPhoto;$('#photoRow').style.display=state.meta.showPhoto?'flex':'none';paintPhoto();if($('#showQR'))$('#showQR').checked=!!state.meta.showQR;
 try{if(window.self!==window.top){document.body.classList.add('embed');document.documentElement.classList.add('embed-h');}}catch(e){document.body.classList.add('embed');document.documentElement.classList.add('embed-h');}
