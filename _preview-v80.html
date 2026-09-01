@@ -239,7 +239,7 @@ body.touch .dp-open{width:40px;height:36px;font-size:16px}
 .iconb:disabled{opacity:.32;cursor:default;pointer-events:none}
 .cv.cv-dark{background:#0f141d!important;color:#e7edf6!important;--paper:#0f141d;--ink2:#e7edf6;--ink:#e7edf6;--mut:#98a6bd;--line2:rgba(255,255,255,.16)}
 .cv.cv-dark .hbt{background:rgba(255,255,255,.16)}
-@media(max-width:1100px),(pointer:coarse){.ats-card{width:calc(100vw - 24px);max-height:90vh;overflow-y:auto}}
+@media(max-width:1100px){.ats-card{width:calc(100vw - 24px);max-height:90vh;overflow-y:auto}}
 .sw.on{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.15)}
 .pv-actions{margin-left:auto;display:flex;gap:8px}
 .ord-hint{font-size:10.5px;color:var(--muted2);align-self:center;white-space:nowrap}
@@ -501,7 +501,7 @@ body.touch .dp-open{width:40px;height:36px;font-size:16px}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}.toast svg{width:16px;height:16px;color:var(--ok)}
 
 .designpane{display:none}
-@media(max-width:1100px),(pointer:coarse){
+@media(max-width:1100px){
   body{overflow:auto}.app{height:auto;min-height:100dvh}
   .mobtab{display:flex}.top-actions .desk{display:none}
   .body{display:block}.rail{display:none}
@@ -520,13 +520,13 @@ body.touch .dp-open{width:40px;height:36px;font-size:16px}
 
 
 /* ===== MOBILE WIZARD ===== */
-#wzTop,#wzBar,#wzWelcome{display:none}
+#wzTop,#wzBar,#wzWelcome,#wzWelcomeVersion{display:none}
 .more-fields>summary{list-style:none;cursor:pointer;font-size:13px;color:var(--blue);font-weight:600;display:inline-flex;align-items:center;gap:7px;padding:8px 0 4px}
 .more-fields>summary::-webkit-details-marker{display:none}
 .more-fields>summary::before{content:"+";font-weight:700;font-size:15px;width:16px;height:16px;border-radius:5px;background:rgba(91,157,255,.14);display:inline-grid;place-items:center}
 .more-fields[open]>summary::before{content:"–"}
 @keyframes wzIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
-@media(max-width:1100px),(pointer:coarse){
+@media(max-width:1100px){
   body.mw{overflow:auto!important;height:auto!important;min-height:100%}
   body.mw .app{height:auto!important;min-height:100svh;overflow:visible}
   body.embed.mw{overflow:visible!important;height:auto!important;min-height:0!important}
@@ -625,7 +625,7 @@ body.mw .chkrow{padding:6px 0;font-size:14px}body.mw .card{padding:16px;border-r
   body.mw #wzWelcome .wz-or{font-size:11px;color:var(--muted2);letter-spacing:.12em;text-transform:uppercase}
 }
 
-@media(max-width:1100px),(pointer:coarse){
+@media(max-width:1100px){
   body.mw #wzTop .wz-meta>div{display:flex;align-items:center;gap:12px}
   body.mw .wz-eye{display:inline-flex;align-items:center;gap:5px;border:1px solid rgba(91,157,255,.35);background:rgba(91,157,255,.1);color:var(--blue);padding:6px 11px;border-radius:9px;font-size:12px;font-weight:600}
   body.mw .wz-eye svg{width:15px;height:15px}
@@ -646,13 +646,14 @@ body.mw .chkrow{padding:6px 0;font-size:14px}body.mw .card{padding:16px;border-r
   body.mw .wz-gallery .gcard .meta{padding:6px 8px}
   body.mw .wz-gallery .gcard .meta b{font-size:11.5px}
 }
-@media(max-width:1100px),(pointer:coarse){
+@media(max-width:1100px){
   body.mw #wzDesignPrev{margin:0 0 18px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:linear-gradient(180deg,#0a0f1a,#070b12);height:250px;position:relative}
   body.mw #wzDesignPrev .mini-scale{position:absolute;top:14px;left:14px;transform-origin:top left}
   body.mw #wzDesignPrev::after{content:attr(data-live-label);position:absolute;top:8px;right:9px;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:rgba(8,12,20,.65);padding:3px 7px;border-radius:6px;z-index:2}
   body.mw #wzWelcome .wz-badge{font-size:10px;background:var(--ok);color:#04140d;padding:2px 7px;border-radius:20px;font-weight:700;margin-left:6px;vertical-align:middle;white-space:nowrap}
   body.mw #wzWelcome .wz-beta{font-size:11.5px;color:var(--muted);line-height:1.5;margin-top:8px;padding:11px 13px;border:1px dashed var(--line);border-radius:12px;text-align:left}
   body.mw #wzWelcome .wz-beta b{color:var(--ink)}
+  body.mw.mw-welcome #wzWelcomeVersion{display:block;order:0;align-self:center;margin:14px 0 -6px;padding:5px 10px;border:1px solid rgba(91,157,255,.28);border-radius:999px;background:rgba(91,157,255,.08);color:#9cc4ff;font:700 10px/1 var(--font-mono);letter-spacing:.06em;z-index:2}
 }
 #coach{position:fixed;right:22px;bottom:22px;z-index:55;width:285px;display:none;gap:12px;padding:15px 16px;background:linear-gradient(180deg,rgba(20,28,44,.98),rgba(12,18,30,.98));border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 50px -14px rgba(0,0,0,.6);align-items:flex-start}
 body.coach-on #coach{display:flex}
@@ -661,14 +662,14 @@ body.coach-on #coach{display:flex}
 #coach .coach-tx p{font-size:12.5px;color:var(--ink2);line-height:1.5;margin:0}
 #coach .coach-x{position:absolute;top:7px;right:8px;width:22px;height:22px;border-radius:6px;border:0;background:transparent;color:var(--muted);font-size:17px;line-height:1;cursor:pointer}
 #coach .coach-x:hover{background:var(--panel);color:var(--ink)}
-@media(max-width:1100px),(pointer:coarse){#coach{display:none!important}
+@media(max-width:1100px){#coach{display:none!important}
   body.mw .wz-ctog{display:inline-flex;align-items:center;border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:6px 8px;border-radius:9px;margin-left:2px}
   body.mw.coach-on .wz-ctog{border-color:rgba(91,157,255,.35);background:rgba(91,157,255,.1);color:var(--blue)}
   body.mw .wz-ctog svg{width:15px;height:15px}
   body.mw:not(.coach-on) #wzTop .wz-coach{display:none}
 }
 #wzExport{display:none}
-@media(max-width:1100px),(pointer:coarse){
+@media(max-width:1100px){
   body.mw.mw-final #wzExport{display:flex;gap:8px;padding:12px 14px 4px;flex:none;justify-content:center;flex-wrap:wrap}
   body.mw.mw-final #wzExport button{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:10px 14px;border-radius:11px;font-size:13px;font-weight:600}
   body.mw.mw-final #wzExport button svg{width:16px;height:16px;color:var(--blue)}
@@ -705,7 +706,7 @@ body.mw details.more-fields{margin-top:4px}
 .prof-act{display:flex;gap:8px;flex:none}
 .prof-act button{padding:8px 12px;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font-size:13px;font-weight:600;cursor:pointer}
 .prof-del{color:#ff7a7a!important;border-color:rgba(255,122,122,.3)!important}
-@media(max-width:1100px),(pointer:coarse){.prof-card{width:calc(100vw - 24px);max-height:88vh;overflow-y:auto}}
+@media(max-width:1100px){.prof-card{width:calc(100vw - 24px);max-height:88vh;overflow-y:auto}}
 .wz-menu{background:none;border:none;color:var(--ink);cursor:pointer;padding:4px;display:inline-flex;align-items:center}
 .wz-menu svg{width:21px;height:21px}
 .sheet-wrap{position:fixed;inset:0;z-index:95;display:none}
@@ -726,7 +727,7 @@ body.mw details.more-fields{margin-top:4px}
 .share-grid button:hover{border-color:var(--blue);background:rgba(91,157,255,.06)}
 .share-grid button svg{width:20px;height:20px;flex:none;color:var(--blue)}
 .share-grid button:last-child{grid-column:1/-1}
-@media(max-width:1100px),(pointer:coarse){.share-card{width:calc(100vw - 24px)}}
+@media(max-width:1100px){.share-card{width:calc(100vw - 24px)}}
 .lt-form{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
 .lt-form input{padding:11px 12px;font-size:14px;border-radius:10px;background:var(--panel2);border:1px solid var(--line);color:var(--ink)}
 .lt-tones{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
@@ -739,7 +740,7 @@ body.mw details.more-fields{margin-top:4px}
 .lt-tone.on{border-color:var(--blue);background:rgba(91,157,255,.12);color:var(--blue)}
 #ltText{width:100%;min-height:320px;padding:16px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);color:var(--ink);font-family:var(--font-ui);font-size:13.5px;line-height:1.6;resize:vertical;white-space:pre-wrap}
 .lt-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap}
-@media(max-width:1100px),(pointer:coarse){.lt-form{grid-template-columns:1fr}.lt-card{width:calc(100vw - 24px);max-height:92vh;overflow-y:auto}#ltText{min-height:260px}}
+@media(max-width:1100px){.lt-form{grid-template-columns:1fr}.lt-card{width:calc(100vw - 24px);max-height:92vh;overflow-y:auto}#ltText{min-height:260px}}
 @media print{
   @page{size:A4;margin:0}
   html,body{height:auto;overflow:visible;background:#fff}
@@ -776,7 +777,7 @@ button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
 }
 /* Mobile/tablet keeps content-driven height because iOS does not reliably
    scroll an iframe. Touch navigation is handled explicitly in JS below. */
-@media(max-width:1100px),(pointer:coarse){
+@media(max-width:1100px){
   html.embed-h,body.embed{height:auto!important;min-height:0!important;overflow:visible!important}
   body.embed.mw .app{height:auto!important;min-height:0!important;overflow:visible!important}
   body.mw #wzNext,body.mw #wzBack{touch-action:manipulation!important;-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important}
@@ -847,6 +848,7 @@ button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
       <div class="mobsel"><select id="mobJump" onchange="jumpTo(this.value)"></select><button class="btn sm" onclick="setView('preview')">Ver CV</button></div>
       <div id="editorSections"></div>
     </main>
+    <div id="wzWelcomeVersion" data-app-version>v8.0</div>
     <div id="wzWelcome"><div class="wz-hero"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></div><h1>Tu CV de piloto</h1><p class="sub">Te guío paso a paso. En un par de minutos tienes un CV profesional listo para descargar.</p><button class="wz-card primary" onclick="startFresh()"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div><div><b>Empezar de cero <span class="wz-badge">Recomendado</span></b><span>Rellena guiado paso a paso — el mejor resultado, a tu medida</span></div></button><div class="wz-or">o</div><button class="wz-card" onclick="document.getElementById('importCV').click()"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></svg></div><div><b>Importar CV antiguo</b><span>PDF o Word — detecta tus datos (beta, puede fallar en algunos CVs)</span></div></button><div class="wz-beta">🧪 Estamos en <b>beta</b> — algunos detalles pueden fallar. ¡Tu feedback ayuda a mejorarlo!</div></div>
     <div class="designpane" id="designPane"></div>
     <section class="preview">
@@ -1323,7 +1325,7 @@ const MW=[
  {t:'final',title:'Tu CV',coach:'¡Listo! Revísalo y descárgalo en PDF.'}
 ];
 let mwStep=0;
-const MW_QUERY='(max-width:1100px), (pointer:coarse)';
+const MW_QUERY='(max-width:1100px)';
 const mwMedia=window.matchMedia?window.matchMedia(MW_QUERY):null;
 function isMobileWz(){return mwMedia?mwMedia.matches:window.innerWidth<=1100;}
 function isEditingField(){const a=document.activeElement;return !!(a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName));}
@@ -1418,7 +1420,7 @@ function dStart(){if(!dEl||dGo)return;dGo=true;const r=dEl.getBoundingClientRect
 function cvMove(e){if(!dEl)return;if(!dGo){const moved=Math.abs(e.clientY-dSY)>7||Math.abs(e.clientX-dSX)>7;if(!moved)return;if(e.pointerType==='touch'){clearTimeout(dTimer);cvEnd(false);return;}dStart();}e.preventDefault();const cy=e.clientY;const kids=[].slice.call(dPar.children).filter(x=>x.classList&&x.classList.contains('blk')&&x!==dEl);let ref=null;for(const sN of kids){const rr=sN.getBoundingClientRect();if(cy<rr.top+rr.height/2){ref=sN;break;}}const need=ref?(dEl.nextSibling!==ref):(dPar.lastElementChild!==dEl);if(need){const first=new Map();kids.forEach(k=>first.set(k,k.getBoundingClientRect().top));if(ref)dPar.insertBefore(dEl,ref);else dPar.appendChild(dEl);kids.forEach(k=>{const dd=first.get(k)-k.getBoundingClientRect().top;if(dd){k.style.transition='none';k.style.transform='translateY('+(dd/(curScale||1))+'px)';requestAnimationFrame(()=>{k.style.transition='transform .18s ease';k.style.transform='';});}});}dEl.style.transition='none';dEl.style.transform='';const nat=dEl.getBoundingClientRect().top;dEl.style.transform='translateY('+(((cy-dOY)-nat)/(curScale||1))+'px)';}
 function cvUp(){cvEnd(true);}
 function cvEnd(commit){window.removeEventListener('pointermove',cvMove);window.removeEventListener('pointerup',cvUp);clearTimeout(dTimer);const wasDrag=dGo;if(dGo&&commit&&dPar){const keys=[].slice.call(dPar.children).filter(x=>x.classList&&x.classList.contains('blk')&&x.dataset.sec).map(x=>x.dataset.sec);commitOrder(keys);save();}if(dEl){dEl.classList.remove('dragging');dEl.style.position='';dEl.style.zIndex='';dEl.style.pointerEvents='';dEl.style.transition='';dEl.style.transform='';dEl.style.willChange='';}if(dPar)[].slice.call(dPar.children).forEach(k=>{if(k.style){k.style.transition='';k.style.transform='';}});dEl=null;dPar=null;dTimer=null;dGo=false;if(wasDrag&&commit)renderCV();}
-function syncMini(){const m=document.getElementById('miniCv');if(!m||!document.body.classList.contains('mw'))return;const cv=document.getElementById('cvPaper');m.className=cv.className;m.setAttribute('style',cv.getAttribute('style')||'');m.style.transform='';m.style.transformOrigin='';const wrap=document.getElementById('wzDesignPrev');if(!wrap)return;const sb=m.parentNode;const availW=(wrap.clientWidth||340)-0;let sc=availW/794;if(!isFinite(sc)||sc<=0)sc=0.42;sb.style.transformOrigin='top left';sb.style.transform='scale('+sc+')';sb.style.width='794px';}
+function syncMini(){const m=document.getElementById('miniCv');if(!m||!document.body.classList.contains('mw'))return;const cv=document.getElementById('cvPaper');m.className=cv.className;m.setAttribute('style',cv.getAttribute('style')||'');m.innerHTML=cv.innerHTML;m.style.transform='';m.style.transformOrigin='';const wrap=document.getElementById('wzDesignPrev');if(!wrap)return;const sb=m.parentNode;const availW=(wrap.clientWidth||340)-0;let sc=availW/794;if(!isFinite(sc)||sc<=0)sc=0.42;sb.style.transformOrigin='top left';sb.style.transform='scale('+sc+')';sb.style.width='794px';}
 const AIRCRAFT=["Airbus A300","Airbus A310","Airbus A318","Airbus A319","Airbus A319neo","Airbus A320","Airbus A320neo","Airbus A321","Airbus A321neo","Airbus A321XLR","Airbus A330-200","Airbus A330-300","Airbus A330-800neo","Airbus A330-900neo","Airbus A340-300","Airbus A340-500","Airbus A340-600","Airbus A350-900","Airbus A350-1000","Airbus A380-800","Boeing 707","Boeing 717","Boeing 727","Boeing 737-200","Boeing 737-300","Boeing 737-400","Boeing 737-500","Boeing 737-600","Boeing 737-700","Boeing 737-800","Boeing 737-900","Boeing 737 MAX 7","Boeing 737 MAX 8","Boeing 737 MAX 9","Boeing 737 MAX 10","Boeing 747-200","Boeing 747-400","Boeing 747-8","Boeing 757-200","Boeing 757-300","Boeing 767-200","Boeing 767-300","Boeing 767-400","Boeing 777-200","Boeing 777-200ER","Boeing 777-300","Boeing 777-300ER","Boeing 777F","Boeing 787-8","Boeing 787-9","Boeing 787-10","Embraer E170","Embraer E175","Embraer E190","Embraer E195","Embraer E190-E2","Embraer E195-E2","Embraer ERJ-135","Embraer ERJ-145","Embraer Phenom 100","Embraer Phenom 300","Embraer Legacy 500","Embraer Legacy 650","Embraer Praetor 600","Bombardier CRJ-200","Bombardier CRJ-700","Bombardier CRJ-900","Bombardier CRJ-1000","Bombardier Dash 8 Q200","Bombardier Dash 8 Q300","Bombardier Dash 8 Q400","Bombardier Challenger 350","Bombardier Challenger 605","Bombardier Challenger 650","Bombardier Global 6000","Bombardier Global 7500","Bombardier Learjet 45","Bombardier Learjet 75","ATR 42","ATR 42-500","ATR 42-600","ATR 72","ATR 72-500","ATR 72-600","De Havilland DHC-6 Twin Otter","De Havilland Dash 8","Cessna 150","Cessna 152","Cessna 162 Skycatcher","Cessna 172 Skyhawk","Cessna 177 Cardinal","Cessna 182 Skylane","Cessna 206 Stationair","Cessna 208 Caravan","Cessna 210 Centurion","Cessna 310","Cessna 337 Skymaster","Cessna 340","Cessna 402","Cessna 421 Golden Eagle","Cessna Citation Mustang","Cessna Citation CJ1","Cessna Citation CJ2","Cessna Citation CJ3","Cessna Citation CJ4","Cessna Citation XLS","Cessna Citation Latitude","Cessna Citation Longitude","Cessna Citation X","Piper PA-28 Cherokee","Piper PA-28 Warrior","Piper PA-28 Archer","Piper PA-28R Arrow","Piper PA-32 Saratoga","Piper PA-34 Seneca","Piper PA-44 Seminole","Piper PA-46 Malibu","Piper PA-31 Navajo","Piper PA-23 Aztec","Diamond DA20","Diamond DA40","Diamond DA42 Twin Star","Diamond DA62","Cirrus SR20","Cirrus SR22","Cirrus SR22T","Cirrus Vision SF50","Beechcraft Bonanza","Beechcraft Baron 58","Beechcraft King Air 90","Beechcraft King Air 200","Beechcraft King Air 350","Beechcraft Premier I","Beechcraft Duchess 76","Tecnam P2002 Sierra","Tecnam P2006T","Tecnam P2008","Tecnam P2010","Tecnam P2012 Traveller","Robin DR400","Robin HR200","Robin Cadet","Socata TB9 Tampico","Socata TB10 Tobago","Socata TB20 Trinidad","Daher TBM 850","Daher TBM 930","Daher TBM 940","Daher TBM 960","Mooney M20","Grumman AA-5","Extra 300","Pilatus PC-6 Porter","Pilatus PC-12","Pilatus PC-24","Fokker 50","Fokker 70","Fokker 100","BAe 146","BAe Jetstream 31","BAe Jetstream 41","Avro RJ85","Avro RJ100","Saab 340","Saab 2000","McDonnell Douglas MD-11","McDonnell Douglas MD-82","McDonnell Douglas MD-83","McDonnell Douglas MD-87","McDonnell Douglas MD-88","Douglas DC-9","Douglas DC-10","Dornier 228","Dornier 328","Antonov An-2","Antonov An-24","Antonov An-26","Let L-410","Sukhoi Superjet 100","COMAC ARJ21","COMAC C919","Gulfstream G280","Gulfstream G450","Gulfstream G550","Gulfstream G650","Dassault Falcon 900","Dassault Falcon 2000","Dassault Falcon 7X","Dassault Falcon 8X","Hawker 800","Hawker 900XP","HondaJet HA-420","Ikarus C42","Evektor EuroStar","Pipistrel Virus","Pipistrel Alpha Trainer","Aquila A210","Flight Design CT","Robinson R22","Robinson R44","Airbus H125","Airbus H145","Bell 206","Bell 407","Leonardo AW139"];
 const RATINGS=["IR(A)","IR(SE)","IR(ME)","SE(P)","ME(L)","MEP (land)","SEP (land)","MEP (sea)","SEP (sea)","Night Rating","MCC","APS MCC","JOC","UPRT","CRM","PBN","RNAV","RNP","RNP AR","RVSM","ETOPS","LVO","LVO CAT II","LVO CAT III","LVO CAT IIIA","LVO CAT IIIB","EFIS","GNSS","TCAS II","ACAS","EFB","Dangerous Goods","SMS","Tailwheel","Aerobatics","Sailplane Towing","Banner Towing","Mountain Rating","Sea Rating (floatplane)","Ski Rating","FI(A)","CRI(A)","IRI(A)","TRI(A)","SFI(A)","TRE(A)","SFE(A)","English Proficiency Level 6","English Proficiency Level 5","Ground Instructor"];
 const EDU_PROGRAMS=["ATPL(A) Integrado (frozen)","ATPL(A) Modular","ATPL(A) teórico","CPL(A)","PPL(A)","Habilitación IR (Instrumental)","Habilitación ME (Multimotor)","Curso MCC","APS MCC","JOC (Jet Orientation Course)","UPRT","Type Rating A320","Type Rating B737","Type Rating ATR 72","Type Rating E-Jet","Curso de Inglés Aeronáutico (OACI)","CRM inicial","Human Factors","Dangerous Goods","SEP (Safety & Emergency Procedures)","Grado en Gestión Aeronáutica","Grado en Ingeniería Aeroespacial","Grado en Piloto de Transporte de Línea Aérea","Máster en Gestión y Operaciones Aeronáuticas","Curso de Despachante de Vuelo (FOO)","Instructor de Vuelo (FI)","Curso de Seguridad Aérea","Grado en Ciencias y Tecnologías de la Navegación Aérea"];
@@ -1643,6 +1645,7 @@ $('#showPhoto').checked=!!state.meta.showPhoto;$('#photoRow').style.display=stat
 try{if(window.self!==window.top){document.body.classList.add('embed');document.documentElement.classList.add('embed-h');}}catch(e){document.body.classList.add('embed');document.documentElement.classList.add('embed-h');}
 rAllLists();renderCV();updateNav();setActive('personal');syncSw();syncSegs();mwSync();applyCoach();bindMobileTouchLayer();
 (function(){try{var il=initialLang();if(!state.meta.lang||state.meta.lang==='es'||state.meta.lang==='en')state.meta.lang=il;state.meta.uiLang=il;rE();buildSummaryPool();renderCV();syncSegs();buildWzGallery();i18nApply(il);try{var u=new URL(location.href);u.searchParams.set('lang',il);history.replaceState({},'',u);}catch(e){}document.documentElement.lang=il;track('cv_app_open',{lang:il});i18nWatch();pnHeightWatch();}catch(e){}})();
+pushHist();
 window.addEventListener('message',function(e){try{var ok=['https://www.pilotnetwork.es','https://pilotnetwork.es'];if(ok.indexOf(e.origin)<0)return;var d=e.data;if(d&&d.type==='pn-language'&&(d.lang==='es'||d.lang==='en')){state.meta.lang=d.lang;rE();buildSummaryPool();renderCV();syncSegs();buildWzGallery();setUILang(d.lang);}}catch(err){}});
 if('ResizeObserver'in window)new ResizeObserver(()=>fitPreview()).observe($('#pvScroll'));
 let resizeRaf=0;
