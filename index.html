@@ -33,15 +33,30 @@ button{font-family:inherit;cursor:pointer}
 ::-webkit-scrollbar-thumb:hover{background:rgba(120,150,200,.4);background-clip:padding-box}
 
 .app{display:flex;flex-direction:column;height:100vh;height:100dvh}
-.topbar{display:flex;align-items:center;gap:14px;padding:11px 18px;border-bottom:1px solid var(--line);background:rgba(8,12,20,.72);backdrop-filter:blur(14px);z-index:40}
-.brand{display:flex;align-items:center;gap:11px;font-family:var(--font-disp);font-weight:600;letter-spacing:-.01em}
+.topbar{display:flex;align-items:center;gap:14px;min-height:64px;padding:10px 16px;border-bottom:1px solid var(--line);background:rgba(8,12,20,.88);backdrop-filter:blur(18px);z-index:40;flex-wrap:nowrap}
+.brand{display:flex;align-items:center;gap:11px;font-family:var(--font-disp);font-weight:600;letter-spacing:-.01em;flex:0 0 auto}
 .brand .glyph{width:37px;height:37px;border-radius:11px;display:grid;place-items:center;background:var(--grad);box-shadow:0 8px 22px -7px rgba(91,157,255,.7);flex:none}
 .glyph svg{width:22px;height:22px}
 .brand .glyph svg{width:20px;height:20px;color:#081018}
-.brand b{font-size:15px}.brand span{display:block;font-size:11px;color:var(--muted);font-weight:400;font-family:var(--font-ui);margin-top:-1px}
+.brand b{font-size:15px;white-space:nowrap}.brand>div:last-child>span:last-child{display:block;font-size:11px;color:var(--muted);font-weight:400;font-family:var(--font-ui);margin-top:-1px}
 .beta-tag{font-size:8.5px;font-weight:700;letter-spacing:.08em;color:#07101f;background:linear-gradient(135deg,#ffd166,#ff9f5b);padding:1.5px 5px;border-radius:5px;vertical-align:middle;margin-left:4px}
+.version-tag{display:inline-flex!important;align-items:center;margin:0 0 0 4px!important;padding:2px 6px;border:1px solid rgba(91,157,255,.32);border-radius:999px;background:rgba(91,157,255,.1);color:#9cc4ff!important;font:700 9px/1 var(--font-mono)!important;letter-spacing:.03em;vertical-align:middle}
 .beta-note{margin-top:12px;font-size:10.5px;color:var(--muted2);line-height:1.4;border-top:1px solid var(--line2);padding-top:10px}
-.top-actions{margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.top-actions{margin-left:auto;display:flex;align-items:center;justify-content:flex-end;gap:7px;flex-wrap:nowrap;min-width:0}
+.history-actions{display:flex;align-items:center;gap:4px;padding:0 3px;border-left:1px solid var(--line2);border-right:1px solid var(--line2)}
+.top-menu-wrap{position:relative;flex:none}
+.tools-menu{position:absolute;top:calc(100% + 11px);right:0;width:390px;display:none;grid-template-columns:1fr 1fr;gap:7px;padding:12px;background:rgba(12,18,31,.98);border:1px solid rgba(120,150,200,.24);border-radius:16px;box-shadow:0 24px 70px -22px rgba(0,0,0,.9);z-index:120;max-height:min(70vh,560px);overflow:auto}
+.tools-menu.open{display:grid;animation:menuIn .14s ease-out}
+.tools-menu:before{content:'';position:absolute;right:27px;top:-6px;width:11px;height:11px;transform:rotate(45deg);background:#0c121f;border-left:1px solid rgba(120,150,200,.24);border-top:1px solid rgba(120,150,200,.24)}
+.tools-menu .menu-head{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:2px 3px 7px;color:var(--muted2);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.tools-menu .menu-head b{color:#9cc4ff;font-family:var(--font-mono);letter-spacing:.02em}
+.tools-menu button{display:flex;align-items:center;gap:10px;min-height:44px;padding:10px 11px;text-align:left;border:1px solid var(--line2);border-radius:11px;background:rgba(120,150,200,.045);color:var(--ink);font-size:12.5px;font-weight:600;transition:.14s}
+.tools-menu button:hover{background:rgba(91,157,255,.11);border-color:rgba(91,157,255,.3);transform:translateY(-1px)}
+.tools-menu button svg{width:17px;height:17px;color:#83b4ff;flex:none}
+.tools-menu button.danger{color:#ff9b9b}.tools-menu button.danger svg{color:#ff7f7f}
+.tools-trigger[aria-expanded="true"]{border-color:rgba(91,157,255,.48);background:rgba(91,157,255,.12)}
+@keyframes menuIn{from{opacity:0;transform:translateY(-5px) scale(.985)}to{opacity:1;transform:none}}
+@media(max-width:1260px){.topbar{gap:10px;padding-inline:12px}.top-actions{gap:5px}.top-actions>.btn{padding-inline:10px}.brand .glyph{width:34px;height:34px}.brand b{font-size:14px}}
 .mobtab{display:none;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:3px;gap:2px}
 .mobtab button{border:none;background:transparent;color:var(--muted);padding:6px 12px;border-radius:6px;font-size:12.5px;font-weight:600;transition:.14s}
 .mobtab button.on{background:var(--grad);color:#07101f}
@@ -96,21 +111,21 @@ input,textarea{touch-action:auto!important;-webkit-user-select:text!important;us
 select{touch-action:auto!important;pointer-events:auto!important}
 input[readonly]{cursor:default}
 select{cursor:pointer}
-body.touch .iconbtn{width:40px;height:40px}
-body.touch .seg button{padding:10px 14px;font-size:13px}
-body.touch .pchip{padding:10px 15px;font-size:13px}
-body.touch .ac-item{padding:13px 14px;font-size:14px}
-body.touch .btn.sm{padding:10px 15px}
-body.touch .addbtn{padding:16px}
-body.touch .chkrow{padding:9px 0}
-body.touch .x{width:42px;height:42px}
-body.touch .ord-btns button{width:40px;height:40px}
-body.touch .thm{min-width:34px;min-height:34px}
-body.touch .nav{padding:12px 14px}
-body.touch .lang-sel{padding:9px 12px;font-size:14px}
-body.touch input:not([type=color]):not([type=range]),body.touch textarea,body.touch select{font-size:16px}
-body.touch .card-top .iconbtn svg{width:18px;height:18px}
-body.touch .sheet button,body.touch .share-btn{padding:15px 16px}
+body.touch.mw .iconbtn{width:40px;height:40px}
+body.touch.mw .seg button{padding:10px 14px;font-size:13px}
+body.touch.mw .pchip{padding:10px 15px;font-size:13px}
+body.touch.mw .ac-item{padding:13px 14px;font-size:14px}
+body.touch.mw .btn.sm{padding:10px 15px}
+body.touch.mw .addbtn{padding:16px}
+body.touch.mw .chkrow{padding:9px 0}
+body.touch.mw .x{width:42px;height:42px}
+body.touch.mw .ord-btns button{width:40px;height:40px}
+body.touch.mw .thm{min-width:34px;min-height:34px}
+body.touch.mw .nav{padding:12px 14px}
+body.touch.mw .lang-sel{padding:9px 12px;font-size:14px}
+body.touch.mw input:not([type=color]):not([type=range]),body.touch.mw textarea,body.touch.mw select{font-size:16px}
+body.touch.mw .card-top .iconbtn svg{width:18px;height:18px}
+body.touch.mw .sheet button,body.touch.mw .share-btn{padding:15px 16px}
 .iconbtn:hover{color:var(--ink);border-color:rgba(120,150,200,.3)}
 .iconbtn.danger:hover{color:#ff7a7a;border-color:rgba(255,120,120,.4);background:rgba(255,80,80,.08)}.iconbtn svg{width:15px;height:15px}
 .addbtn{display:inline-flex;align-items:center;gap:8px;width:100%;justify-content:center;border:1px dashed var(--line);background:transparent;color:var(--muted);padding:11px;border-radius:11px;font-size:13px;font-weight:500;transition:.15s}
@@ -180,6 +195,7 @@ body.touch .sheet button,body.touch .share-btn{padding:15px 16px}
 .page-badge{position:absolute;bottom:14px;right:16px;z-index:6;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:6px 12px;font-size:12px;font-weight:600;color:var(--muted);box-shadow:0 8px 20px -8px rgba(0,0,0,.65)}
 .page-badge.over{color:#ffb04a;border-color:rgba(255,176,74,.45)}
 .page-badge a{color:var(--blue);cursor:pointer;text-decoration:underline}
+.page-badge .badge-version{color:#8fbaff;font-family:var(--font-mono);font-size:10px;letter-spacing:.02em}
 .lt-sig{margin-top:12px;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
 .lt-sig summary{cursor:pointer;font-size:13.5px;font-weight:600;color:var(--ink)}
 .sig-wrap{margin-top:10px;background:#fff;border:1px dashed var(--line2);border-radius:10px}
@@ -223,7 +239,7 @@ body.touch .dp-open{width:40px;height:36px;font-size:16px}
 .iconb:disabled{opacity:.32;cursor:default;pointer-events:none}
 .cv.cv-dark{background:#0f141d!important;color:#e7edf6!important;--paper:#0f141d;--ink2:#e7edf6;--ink:#e7edf6;--mut:#98a6bd;--line2:rgba(255,255,255,.16)}
 .cv.cv-dark .hbt{background:rgba(255,255,255,.16)}
-@media(max-width:1100px),(pointer:coarse){.ats-card{width:calc(100vw - 24px);max-height:90vh;overflow-y:auto}}
+@media(max-width:1100px){.ats-card{width:calc(100vw - 24px);max-height:90vh;overflow-y:auto}}
 .sw.on{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.15)}
 .pv-actions{margin-left:auto;display:flex;gap:8px}
 .ord-hint{font-size:10.5px;color:var(--muted2);align-self:center;white-space:nowrap}
@@ -485,7 +501,7 @@ body.touch .dp-open{width:40px;height:36px;font-size:16px}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}.toast svg{width:16px;height:16px;color:var(--ok)}
 
 .designpane{display:none}
-@media(max-width:1100px),(pointer:coarse){
+@media(max-width:1100px){
   body{overflow:auto}.app{height:auto;min-height:100dvh}
   .mobtab{display:flex}.top-actions .desk{display:none}
   .body{display:block}.rail{display:none}
@@ -504,13 +520,13 @@ body.touch .dp-open{width:40px;height:36px;font-size:16px}
 
 
 /* ===== MOBILE WIZARD ===== */
-#wzTop,#wzBar,#wzWelcome{display:none}
+#wzTop,#wzBar,#wzWelcome,#wzWelcomeVersion{display:none}
 .more-fields>summary{list-style:none;cursor:pointer;font-size:13px;color:var(--blue);font-weight:600;display:inline-flex;align-items:center;gap:7px;padding:8px 0 4px}
 .more-fields>summary::-webkit-details-marker{display:none}
 .more-fields>summary::before{content:"+";font-weight:700;font-size:15px;width:16px;height:16px;border-radius:5px;background:rgba(91,157,255,.14);display:inline-grid;place-items:center}
 .more-fields[open]>summary::before{content:"–"}
 @keyframes wzIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
-@media(max-width:1100px),(pointer:coarse){
+@media(max-width:1100px){
   body.mw{overflow:auto!important;height:auto!important;min-height:100%}
   body.mw .app{height:auto!important;min-height:100svh;overflow:visible}
   body.embed.mw{overflow:visible!important;height:auto!important;min-height:0!important}
@@ -609,7 +625,7 @@ body.mw .chkrow{padding:6px 0;font-size:14px}body.mw .card{padding:16px;border-r
   body.mw #wzWelcome .wz-or{font-size:11px;color:var(--muted2);letter-spacing:.12em;text-transform:uppercase}
 }
 
-@media(max-width:1100px),(pointer:coarse){
+@media(max-width:1100px){
   body.mw #wzTop .wz-meta>div{display:flex;align-items:center;gap:12px}
   body.mw .wz-eye{display:inline-flex;align-items:center;gap:5px;border:1px solid rgba(91,157,255,.35);background:rgba(91,157,255,.1);color:var(--blue);padding:6px 11px;border-radius:9px;font-size:12px;font-weight:600}
   body.mw .wz-eye svg{width:15px;height:15px}
@@ -630,13 +646,14 @@ body.mw .chkrow{padding:6px 0;font-size:14px}body.mw .card{padding:16px;border-r
   body.mw .wz-gallery .gcard .meta{padding:6px 8px}
   body.mw .wz-gallery .gcard .meta b{font-size:11.5px}
 }
-@media(max-width:1100px),(pointer:coarse){
+@media(max-width:1100px){
   body.mw #wzDesignPrev{margin:0 0 18px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:linear-gradient(180deg,#0a0f1a,#070b12);height:250px;position:relative}
   body.mw #wzDesignPrev .mini-scale{position:absolute;top:14px;left:14px;transform-origin:top left}
   body.mw #wzDesignPrev::after{content:attr(data-live-label);position:absolute;top:8px;right:9px;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:rgba(8,12,20,.65);padding:3px 7px;border-radius:6px;z-index:2}
   body.mw #wzWelcome .wz-badge{font-size:10px;background:var(--ok);color:#04140d;padding:2px 7px;border-radius:20px;font-weight:700;margin-left:6px;vertical-align:middle;white-space:nowrap}
   body.mw #wzWelcome .wz-beta{font-size:11.5px;color:var(--muted);line-height:1.5;margin-top:8px;padding:11px 13px;border:1px dashed var(--line);border-radius:12px;text-align:left}
   body.mw #wzWelcome .wz-beta b{color:var(--ink)}
+  body.mw.mw-welcome #wzWelcomeVersion{display:block;order:0;align-self:center;margin:14px 0 -6px;padding:5px 10px;border:1px solid rgba(91,157,255,.28);border-radius:999px;background:rgba(91,157,255,.08);color:#9cc4ff;font:700 10px/1 var(--font-mono);letter-spacing:.06em;z-index:2}
 }
 #coach{position:fixed;right:22px;bottom:22px;z-index:55;width:285px;display:none;gap:12px;padding:15px 16px;background:linear-gradient(180deg,rgba(20,28,44,.98),rgba(12,18,30,.98));border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 50px -14px rgba(0,0,0,.6);align-items:flex-start}
 body.coach-on #coach{display:flex}
@@ -645,14 +662,14 @@ body.coach-on #coach{display:flex}
 #coach .coach-tx p{font-size:12.5px;color:var(--ink2);line-height:1.5;margin:0}
 #coach .coach-x{position:absolute;top:7px;right:8px;width:22px;height:22px;border-radius:6px;border:0;background:transparent;color:var(--muted);font-size:17px;line-height:1;cursor:pointer}
 #coach .coach-x:hover{background:var(--panel);color:var(--ink)}
-@media(max-width:1100px),(pointer:coarse){#coach{display:none!important}
+@media(max-width:1100px){#coach{display:none!important}
   body.mw .wz-ctog{display:inline-flex;align-items:center;border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:6px 8px;border-radius:9px;margin-left:2px}
   body.mw.coach-on .wz-ctog{border-color:rgba(91,157,255,.35);background:rgba(91,157,255,.1);color:var(--blue)}
   body.mw .wz-ctog svg{width:15px;height:15px}
   body.mw:not(.coach-on) #wzTop .wz-coach{display:none}
 }
 #wzExport{display:none}
-@media(max-width:1100px),(pointer:coarse){
+@media(max-width:1100px){
   body.mw.mw-final #wzExport{display:flex;gap:8px;padding:12px 14px 4px;flex:none;justify-content:center;flex-wrap:wrap}
   body.mw.mw-final #wzExport button{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:10px 14px;border-radius:11px;font-size:13px;font-weight:600}
   body.mw.mw-final #wzExport button svg{width:16px;height:16px;color:var(--blue)}
@@ -689,7 +706,7 @@ body.mw details.more-fields{margin-top:4px}
 .prof-act{display:flex;gap:8px;flex:none}
 .prof-act button{padding:8px 12px;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font-size:13px;font-weight:600;cursor:pointer}
 .prof-del{color:#ff7a7a!important;border-color:rgba(255,122,122,.3)!important}
-@media(max-width:1100px),(pointer:coarse){.prof-card{width:calc(100vw - 24px);max-height:88vh;overflow-y:auto}}
+@media(max-width:1100px){.prof-card{width:calc(100vw - 24px);max-height:88vh;overflow-y:auto}}
 .wz-menu{background:none;border:none;color:var(--ink);cursor:pointer;padding:4px;display:inline-flex;align-items:center}
 .wz-menu svg{width:21px;height:21px}
 .sheet-wrap{position:fixed;inset:0;z-index:95;display:none}
@@ -710,7 +727,7 @@ body.mw details.more-fields{margin-top:4px}
 .share-grid button:hover{border-color:var(--blue);background:rgba(91,157,255,.06)}
 .share-grid button svg{width:20px;height:20px;flex:none;color:var(--blue)}
 .share-grid button:last-child{grid-column:1/-1}
-@media(max-width:1100px),(pointer:coarse){.share-card{width:calc(100vw - 24px)}}
+@media(max-width:1100px){.share-card{width:calc(100vw - 24px)}}
 .lt-form{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
 .lt-form input{padding:11px 12px;font-size:14px;border-radius:10px;background:var(--panel2);border:1px solid var(--line);color:var(--ink)}
 .lt-tones{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
@@ -723,7 +740,7 @@ body.mw details.more-fields{margin-top:4px}
 .lt-tone.on{border-color:var(--blue);background:rgba(91,157,255,.12);color:var(--blue)}
 #ltText{width:100%;min-height:320px;padding:16px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);color:var(--ink);font-family:var(--font-ui);font-size:13.5px;line-height:1.6;resize:vertical;white-space:pre-wrap}
 .lt-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap}
-@media(max-width:1100px),(pointer:coarse){.lt-form{grid-template-columns:1fr}.lt-card{width:calc(100vw - 24px);max-height:92vh;overflow-y:auto}#ltText{min-height:260px}}
+@media(max-width:1100px){.lt-form{grid-template-columns:1fr}.lt-card{width:calc(100vw - 24px);max-height:92vh;overflow-y:auto}#ltText{min-height:260px}}
 @media print{
   @page{size:A4;margin:0}
   html,body{height:auto;overflow:visible;background:#fff}
@@ -751,7 +768,7 @@ button,.btn,.iconbtn,.nav,.chip,.pchip,.thm,.seg button,summary,.wz-step,.ord-bt
 input,textarea,select{-webkit-user-select:text!important;user-select:text!important}
 button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
 
-/* === v7.7: embedded desktop must not inherit Webador's 2400px bootstrap height.
+/* === v8.0: stable desktop command bar + direct mobile touch layer.
    A bounded viewport restores the three internal scroll panes and keeps fixed
    modals (Letter, Share, Profiles, ATS) inside the visible area. === */
 @media(min-width:1101px) and (pointer:fine){
@@ -760,7 +777,7 @@ button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
 }
 /* Mobile/tablet keeps content-driven height because iOS does not reliably
    scroll an iframe. Touch navigation is handled explicitly in JS below. */
-@media(max-width:1100px),(pointer:coarse){
+@media(max-width:1100px){
   html.embed-h,body.embed{height:auto!important;min-height:0!important;overflow:visible!important}
   body.embed.mw .app{height:auto!important;min-height:0!important;overflow:visible!important}
   body.mw #wzNext,body.mw #wzBack{touch-action:manipulation!important;-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important}
@@ -788,7 +805,7 @@ button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
   <header class="topbar">
     <div class="brand">
       <div class="glyph"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21.6 2.4 2.7 11.1c-.7.3-.7 1.3.05 1.6l5.2 1.8 1.8 5.2c.25.75 1.3.8 1.6.05l2.05-4.05 4.35 3.2c.5.37 1.2.1 1.35-.5L23 3.7c.2-.85-.6-1.6-1.4-1.3z" fill="#fff"/><path d="M8 14.5 21.6 2.4 9.75 15.75z" fill="#0a1428" opacity=".18"/></svg></div>
-      <div><b>Aviation CV Builder <span class="beta-tag">BETA</span></b><span>by Pilot Network</span></div>
+      <div><b>Aviation CV Builder <span class="beta-tag">BETA</span><span class="version-tag" data-app-version>v8.0</span></b><span>by Pilot Network</span></div>
     </div>
     <div class="mobtab">
       <button id="mt-edit" class="on" onclick="setView('editor')">Editar</button>
@@ -796,16 +813,32 @@ button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
       <button id="mt-view" onclick="setView('preview')">CV</button>
     </div>
     <div class="top-actions">
-      <input type="file" id="importFile" accept="application/json" hidden><input type="file" id="importCV" accept=".pdf,.doc,.docx,.txt" hidden><button class="btn ghost sm" onclick="document.getElementById('importCV').click()" title="Importa un CV antiguo (PDF/Word) y rellena los campos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></svg>Importar CV</button><button class="btn ghost sm desk iconb" id="undoBtn" onclick="undo()" title="Deshacer (Ctrl+Z)" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10H9"/></svg></button><button class="btn ghost sm desk iconb" id="redoBtn" onclick="redo()" title="Rehacer (Ctrl+Shift+Z)" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 14 5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h6"/></svg></button><button class="btn ghost sm desk" onclick="exportWord()" title="Descargar como documento Word editable"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13l1.5 5 1.5-4 1.5 4 1.5-5"/></svg>Word</button><button class="btn ghost sm desk" onclick="openShare()" title="Copiar un enlace para compartir tu CV"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>Compartir</button><button class="btn ghost sm desk" onclick="openLetterModal()" title="Generar carta de presentación"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 8h16M8 12h8M8 16h5"/></svg>Carta</button><button class="btn ghost sm desk" onclick="openProfiles()" title="Guardar y cargar varias versiones de tu CV"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>Mis CVs</button><button class="btn ghost sm desk" onclick="toggleFull()" title="Pantalla completa: más espacio para diseñar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>Pantalla</button><button class="btn ghost sm desk" onclick="openATS()" title="Comprobador ATS de palabras clave"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3 8-8"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>ATS</button><button class="btn ghost sm desk" onclick="bilingualPDF()" title="Descargar CV en dos idiomas (ES + EN)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6M4 14l6-6 2-3M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>Bilingüe</button>
-      <button class="btn ghost sm desk" onclick="document.getElementById('importFile').click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>Importar</button>
-      <button class="btn ghost sm desk" onclick="exportJSON()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>Guardar copia</button>
-      <button class="btn ghost sm desk" onclick="coachToggle()" title="Activa o desactiva la guía del instructor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>Guía</button><button class="btn ghost sm desk" onclick="resetAll()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>De cero</button>
-      <button class="btn primary" onclick="downloadPDFDirect()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>PDF</button>
+      <input type="file" id="importFile" accept="application/json" hidden><input type="file" id="importCV" accept=".pdf,.doc,.docx,.txt" hidden>
+      <button class="btn ghost sm" data-app-action="import-cv" title="Importa un CV antiguo (PDF/Word) y rellena los campos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></svg>Importar CV</button>
+      <div class="history-actions"><button class="btn ghost sm desk iconb" id="undoBtn" data-app-action="undo" title="Deshacer (Ctrl+Z)" aria-label="Deshacer (Ctrl+Z)" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10H9"/></svg></button><button class="btn ghost sm desk iconb" id="redoBtn" data-app-action="redo" title="Rehacer (Ctrl+Shift+Z)" aria-label="Rehacer (Ctrl+Shift+Z)" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 14 5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h6"/></svg></button></div>
+      <button class="btn ghost sm desk" data-app-action="share" title="Copiar un enlace para compartir tu CV"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>Compartir</button>
+      <button class="btn ghost sm desk" data-app-action="letter" title="Generar carta de presentación"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 8h16M8 12h8M8 16h5"/></svg>Carta</button>
+      <div class="top-menu-wrap desk">
+        <button class="btn ghost sm tools-trigger" data-app-action="toggle-tools" aria-expanded="false" aria-controls="desktopTools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>Herramientas</button>
+        <div class="tools-menu" id="desktopTools" role="menu"><div class="menu-head"><span>Herramientas del CV</span><b data-app-version>v8.0</b></div>
+          <button role="menuitem" data-app-action="word"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>Descargar Word</button>
+          <button role="menuitem" data-app-action="profiles"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8"/></svg>Mis CVs guardados</button>
+          <button role="menuitem" data-app-action="ats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 11 3 3 8-8"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Comprobador ATS</button>
+          <button role="menuitem" data-app-action="bilingual"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 8 6 6M4 14l6-6M2 5h12M22 22l-5-10-5 10"/></svg>CV bilingüe</button>
+          <button role="menuitem" data-app-action="fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>Pantalla completa</button>
+          <button role="menuitem" data-app-action="fit-one"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m0 8v3a2 2 0 0 0 2 2h3m8-16h3a2 2 0 0 1 2 2v3m0 8v3a2 2 0 0 1-2 2h-3"/><path d="M9 9h6v6H9z"/></svg>Ajustar a 1 página</button>
+          <button role="menuitem" data-app-action="import-json"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5M12 3v12"/></svg>Importar copia</button>
+          <button role="menuitem" data-app-action="export-json"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5M12 15V3"/></svg>Guardar copia</button>
+          <button role="menuitem" data-app-action="coach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>Guía del instructor</button>
+          <button role="menuitem" class="danger" data-app-action="reset"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Empezar de cero</button>
+        </div>
+      </div>
+      <button class="btn primary" data-app-action="pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>PDF</button>
     </div>
   </header>
 
   <div class="body view-editor" id="viewport">
-    <div id="wzTop"><div class="wz-meta" data-build="v7.7"><span class="wz-step" id="wzStep">Paso 1</span><div><span class="wz-quality">Calidad <b id="wzQual">0%</b></span><button class="wz-menu" onclick="openActions()" aria-label="Exportar y compartir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></button><button class="wz-eye" onclick="mwPeek(true)" aria-label="Vista previa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Ver</span></button><button class="wz-ctog" onclick="coachToggle()" aria-label="Guía del instructor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></button></div></div><div class="wz-bar"><i id="wzBarFill"></i></div><h2 id="wzTitle"></h2><div class="wz-coach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span id="wzCoach"></span></div></div>
+    <div id="wzTop"><div class="wz-meta" data-build="v8.0"><span class="wz-step" id="wzStep">Paso 1</span><div><span class="wz-quality">Calidad <b id="wzQual">0%</b></span><button class="wz-menu" onclick="openActions()" aria-label="Exportar y compartir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></button><button class="wz-eye" onclick="mwPeek(true)" aria-label="Vista previa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Ver</span></button><button class="wz-ctog" onclick="coachToggle()" aria-label="Guía del instructor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></button></div></div><div class="wz-bar"><i id="wzBarFill"></i></div><h2 id="wzTitle"></h2><div class="wz-coach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span id="wzCoach"></span></div></div>
     <nav class="rail">
       <div class="rail-h">Secciones</div>
       <div id="navList"></div>
@@ -815,6 +848,7 @@ button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
       <div class="mobsel"><select id="mobJump" onchange="jumpTo(this.value)"></select><button class="btn sm" onclick="setView('preview')">Ver CV</button></div>
       <div id="editorSections"></div>
     </main>
+    <div id="wzWelcomeVersion" data-app-version>v8.0</div>
     <div id="wzWelcome"><div class="wz-hero"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></div><h1>Tu CV de piloto</h1><p class="sub">Te guío paso a paso. En un par de minutos tienes un CV profesional listo para descargar.</p><button class="wz-card primary" onclick="startFresh()"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div><div><b>Empezar de cero <span class="wz-badge">Recomendado</span></b><span>Rellena guiado paso a paso — el mejor resultado, a tu medida</span></div></button><div class="wz-or">o</div><button class="wz-card" onclick="document.getElementById('importCV').click()"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></svg></div><div><b>Importar CV antiguo</b><span>PDF o Word — detecta tus datos (beta, puede fallar en algunos CVs)</span></div></button><div class="wz-beta">🧪 Estamos en <b>beta</b> — algunos detalles pueden fallar. ¡Tu feedback ayuda a mejorarlo!</div></div>
     <div class="designpane" id="designPane"></div>
     <section class="preview">
@@ -842,7 +876,9 @@ button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
 
 <script>
 const STORE=(()=>{try{const t='__pn';localStorage.setItem(t,'1');localStorage.removeItem(t);return{get:k=>localStorage.getItem(k),set:(k,v)=>localStorage.setItem(k,v)};}catch(e){let m={};return{get:k=>k in m?m[k]:null,set:(k,v)=>{m[k]=v}};}})();
+const APP_VERSION='8.0';
 const SKEY='pn_cv_builder_v2';
+function syncAppVersion(){document.body.dataset.buildVersion=APP_VERSION;document.querySelectorAll('[data-app-version]').forEach(el=>el.textContent='v'+APP_VERSION);const wz=document.querySelector('#wzTop .wz-meta');if(wz)wz.dataset.build='v'+APP_VERSION;}
 
 function demoData(lang){lang=lang==='en'?'en':'es';const d={
   meta:{template:'legacy',accent:'#2563eb',dark:'#0f172a',paper:'#ffffff',density:'regular',fontScale:1,fontMode:'auto',lang:lang,showPhoto:true,photo:null,photoZoom:1,photoX:50,photoY:50,showQR:false,photoShape:'',photoBW:false,hoursChart:false,signature:null,cvDark:false,uiLang:lang,order:[],coach:true,demo:true},
@@ -1188,8 +1224,8 @@ function miniThumb(id){const a=state.meta.accent,d=state.meta.dark,p=state.meta.
   return `<i style="position:absolute;inset:0;background:${p}"></i>`+h;}
 function openTplModal(){if(document.body.classList.contains('mw')){const wz=document.getElementById('wzGallery');if(wz){wz.classList.remove('wzg-focus');void wz.offsetWidth;wz.classList.add('wzg-focus');pnScrollElement(wz,'start');toast(_t('Elige una plantilla abajo','Choose a template below'));return;}}const g=$('#tplGrid');g.innerHTML=TPL_ORDER.map(id=>`<button class="gcard ${id===state.meta.template?'on':''}" data-tpl="${id}"><div class="thumb">${miniThumb(id)}</div><div class="meta"><b>${templateName(id)}</b><span>${templateDesc(id)}</span></div></button>`).join('');
   g.querySelectorAll('[data-tpl]').forEach(b=>b.onclick=()=>{state.meta.template=b.dataset.tpl;g.querySelectorAll('.gcard').forEach(x=>x.classList.toggle('on',x===b));syncSegs();renderCV();save();closeTplModal();toast(_t('Plantilla: ','Template: ')+templateName(b.dataset.tpl));});
-  $('#tplModal').classList.add('show');}
-function closeTplModal(){$('#tplModal').classList.remove('show');}
+  openOverlay('tplModal','show');}
+function closeTplModal(){closeOverlay('tplModal');}
 
 /* bindings */
 function bindStatic(){$$('[data-bind]').forEach(el=>{const p=el.dataset.bind,v=gp(state,p);if(el.type==='checkbox')el.checked=!!v;else el.value=v==null?'':v;const ev=el.tagName==='SELECT'?'change':'input';el.addEventListener(ev,()=>{sp(state,p,el.value);sr();save();});});}
@@ -1289,7 +1325,7 @@ const MW=[
  {t:'final',title:'Tu CV',coach:'¡Listo! Revísalo y descárgalo en PDF.'}
 ];
 let mwStep=0;
-const MW_QUERY='(max-width:1100px), (pointer:coarse)';
+const MW_QUERY='(max-width:1100px)';
 const mwMedia=window.matchMedia?window.matchMedia(MW_QUERY):null;
 function isMobileWz(){return mwMedia?mwMedia.matches:window.innerWidth<=1100;}
 function isEditingField(){const a=document.activeElement;return !!(a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName));}
@@ -1384,7 +1420,7 @@ function dStart(){if(!dEl||dGo)return;dGo=true;const r=dEl.getBoundingClientRect
 function cvMove(e){if(!dEl)return;if(!dGo){const moved=Math.abs(e.clientY-dSY)>7||Math.abs(e.clientX-dSX)>7;if(!moved)return;if(e.pointerType==='touch'){clearTimeout(dTimer);cvEnd(false);return;}dStart();}e.preventDefault();const cy=e.clientY;const kids=[].slice.call(dPar.children).filter(x=>x.classList&&x.classList.contains('blk')&&x!==dEl);let ref=null;for(const sN of kids){const rr=sN.getBoundingClientRect();if(cy<rr.top+rr.height/2){ref=sN;break;}}const need=ref?(dEl.nextSibling!==ref):(dPar.lastElementChild!==dEl);if(need){const first=new Map();kids.forEach(k=>first.set(k,k.getBoundingClientRect().top));if(ref)dPar.insertBefore(dEl,ref);else dPar.appendChild(dEl);kids.forEach(k=>{const dd=first.get(k)-k.getBoundingClientRect().top;if(dd){k.style.transition='none';k.style.transform='translateY('+(dd/(curScale||1))+'px)';requestAnimationFrame(()=>{k.style.transition='transform .18s ease';k.style.transform='';});}});}dEl.style.transition='none';dEl.style.transform='';const nat=dEl.getBoundingClientRect().top;dEl.style.transform='translateY('+(((cy-dOY)-nat)/(curScale||1))+'px)';}
 function cvUp(){cvEnd(true);}
 function cvEnd(commit){window.removeEventListener('pointermove',cvMove);window.removeEventListener('pointerup',cvUp);clearTimeout(dTimer);const wasDrag=dGo;if(dGo&&commit&&dPar){const keys=[].slice.call(dPar.children).filter(x=>x.classList&&x.classList.contains('blk')&&x.dataset.sec).map(x=>x.dataset.sec);commitOrder(keys);save();}if(dEl){dEl.classList.remove('dragging');dEl.style.position='';dEl.style.zIndex='';dEl.style.pointerEvents='';dEl.style.transition='';dEl.style.transform='';dEl.style.willChange='';}if(dPar)[].slice.call(dPar.children).forEach(k=>{if(k.style){k.style.transition='';k.style.transform='';}});dEl=null;dPar=null;dTimer=null;dGo=false;if(wasDrag&&commit)renderCV();}
-function syncMini(){const m=document.getElementById('miniCv');if(!m||!document.body.classList.contains('mw'))return;const cv=document.getElementById('cvPaper');m.className=cv.className;m.setAttribute('style',cv.getAttribute('style')||'');m.style.transform='';m.style.transformOrigin='';const wrap=document.getElementById('wzDesignPrev');if(!wrap)return;const sb=m.parentNode;const availW=(wrap.clientWidth||340)-0;let sc=availW/794;if(!isFinite(sc)||sc<=0)sc=0.42;sb.style.transformOrigin='top left';sb.style.transform='scale('+sc+')';sb.style.width='794px';}
+function syncMini(){const m=document.getElementById('miniCv');if(!m||!document.body.classList.contains('mw'))return;const cv=document.getElementById('cvPaper');m.className=cv.className;m.setAttribute('style',cv.getAttribute('style')||'');m.innerHTML=cv.innerHTML;m.style.transform='';m.style.transformOrigin='';const wrap=document.getElementById('wzDesignPrev');if(!wrap)return;const sb=m.parentNode;const availW=(wrap.clientWidth||340)-0;let sc=availW/794;if(!isFinite(sc)||sc<=0)sc=0.42;sb.style.transformOrigin='top left';sb.style.transform='scale('+sc+')';sb.style.width='794px';}
 const AIRCRAFT=["Airbus A300","Airbus A310","Airbus A318","Airbus A319","Airbus A319neo","Airbus A320","Airbus A320neo","Airbus A321","Airbus A321neo","Airbus A321XLR","Airbus A330-200","Airbus A330-300","Airbus A330-800neo","Airbus A330-900neo","Airbus A340-300","Airbus A340-500","Airbus A340-600","Airbus A350-900","Airbus A350-1000","Airbus A380-800","Boeing 707","Boeing 717","Boeing 727","Boeing 737-200","Boeing 737-300","Boeing 737-400","Boeing 737-500","Boeing 737-600","Boeing 737-700","Boeing 737-800","Boeing 737-900","Boeing 737 MAX 7","Boeing 737 MAX 8","Boeing 737 MAX 9","Boeing 737 MAX 10","Boeing 747-200","Boeing 747-400","Boeing 747-8","Boeing 757-200","Boeing 757-300","Boeing 767-200","Boeing 767-300","Boeing 767-400","Boeing 777-200","Boeing 777-200ER","Boeing 777-300","Boeing 777-300ER","Boeing 777F","Boeing 787-8","Boeing 787-9","Boeing 787-10","Embraer E170","Embraer E175","Embraer E190","Embraer E195","Embraer E190-E2","Embraer E195-E2","Embraer ERJ-135","Embraer ERJ-145","Embraer Phenom 100","Embraer Phenom 300","Embraer Legacy 500","Embraer Legacy 650","Embraer Praetor 600","Bombardier CRJ-200","Bombardier CRJ-700","Bombardier CRJ-900","Bombardier CRJ-1000","Bombardier Dash 8 Q200","Bombardier Dash 8 Q300","Bombardier Dash 8 Q400","Bombardier Challenger 350","Bombardier Challenger 605","Bombardier Challenger 650","Bombardier Global 6000","Bombardier Global 7500","Bombardier Learjet 45","Bombardier Learjet 75","ATR 42","ATR 42-500","ATR 42-600","ATR 72","ATR 72-500","ATR 72-600","De Havilland DHC-6 Twin Otter","De Havilland Dash 8","Cessna 150","Cessna 152","Cessna 162 Skycatcher","Cessna 172 Skyhawk","Cessna 177 Cardinal","Cessna 182 Skylane","Cessna 206 Stationair","Cessna 208 Caravan","Cessna 210 Centurion","Cessna 310","Cessna 337 Skymaster","Cessna 340","Cessna 402","Cessna 421 Golden Eagle","Cessna Citation Mustang","Cessna Citation CJ1","Cessna Citation CJ2","Cessna Citation CJ3","Cessna Citation CJ4","Cessna Citation XLS","Cessna Citation Latitude","Cessna Citation Longitude","Cessna Citation X","Piper PA-28 Cherokee","Piper PA-28 Warrior","Piper PA-28 Archer","Piper PA-28R Arrow","Piper PA-32 Saratoga","Piper PA-34 Seneca","Piper PA-44 Seminole","Piper PA-46 Malibu","Piper PA-31 Navajo","Piper PA-23 Aztec","Diamond DA20","Diamond DA40","Diamond DA42 Twin Star","Diamond DA62","Cirrus SR20","Cirrus SR22","Cirrus SR22T","Cirrus Vision SF50","Beechcraft Bonanza","Beechcraft Baron 58","Beechcraft King Air 90","Beechcraft King Air 200","Beechcraft King Air 350","Beechcraft Premier I","Beechcraft Duchess 76","Tecnam P2002 Sierra","Tecnam P2006T","Tecnam P2008","Tecnam P2010","Tecnam P2012 Traveller","Robin DR400","Robin HR200","Robin Cadet","Socata TB9 Tampico","Socata TB10 Tobago","Socata TB20 Trinidad","Daher TBM 850","Daher TBM 930","Daher TBM 940","Daher TBM 960","Mooney M20","Grumman AA-5","Extra 300","Pilatus PC-6 Porter","Pilatus PC-12","Pilatus PC-24","Fokker 50","Fokker 70","Fokker 100","BAe 146","BAe Jetstream 31","BAe Jetstream 41","Avro RJ85","Avro RJ100","Saab 340","Saab 2000","McDonnell Douglas MD-11","McDonnell Douglas MD-82","McDonnell Douglas MD-83","McDonnell Douglas MD-87","McDonnell Douglas MD-88","Douglas DC-9","Douglas DC-10","Dornier 228","Dornier 328","Antonov An-2","Antonov An-24","Antonov An-26","Let L-410","Sukhoi Superjet 100","COMAC ARJ21","COMAC C919","Gulfstream G280","Gulfstream G450","Gulfstream G550","Gulfstream G650","Dassault Falcon 900","Dassault Falcon 2000","Dassault Falcon 7X","Dassault Falcon 8X","Hawker 800","Hawker 900XP","HondaJet HA-420","Ikarus C42","Evektor EuroStar","Pipistrel Virus","Pipistrel Alpha Trainer","Aquila A210","Flight Design CT","Robinson R22","Robinson R44","Airbus H125","Airbus H145","Bell 206","Bell 407","Leonardo AW139"];
 const RATINGS=["IR(A)","IR(SE)","IR(ME)","SE(P)","ME(L)","MEP (land)","SEP (land)","MEP (sea)","SEP (sea)","Night Rating","MCC","APS MCC","JOC","UPRT","CRM","PBN","RNAV","RNP","RNP AR","RVSM","ETOPS","LVO","LVO CAT II","LVO CAT III","LVO CAT IIIA","LVO CAT IIIB","EFIS","GNSS","TCAS II","ACAS","EFB","Dangerous Goods","SMS","Tailwheel","Aerobatics","Sailplane Towing","Banner Towing","Mountain Rating","Sea Rating (floatplane)","Ski Rating","FI(A)","CRI(A)","IRI(A)","TRI(A)","SFI(A)","TRE(A)","SFE(A)","English Proficiency Level 6","English Proficiency Level 5","Ground Instructor"];
 const EDU_PROGRAMS=["ATPL(A) Integrado (frozen)","ATPL(A) Modular","ATPL(A) teórico","CPL(A)","PPL(A)","Habilitación IR (Instrumental)","Habilitación ME (Multimotor)","Curso MCC","APS MCC","JOC (Jet Orientation Course)","UPRT","Type Rating A320","Type Rating B737","Type Rating ATR 72","Type Rating E-Jet","Curso de Inglés Aeronáutico (OACI)","CRM inicial","Human Factors","Dangerous Goods","SEP (Safety & Emergency Procedures)","Grado en Gestión Aeronáutica","Grado en Ingeniería Aeroespacial","Grado en Piloto de Transporte de Línea Aérea","Máster en Gestión y Operaciones Aeronáuticas","Curso de Despachante de Vuelo (FOO)","Instructor de Vuelo (FI)","Curso de Seguridad Aérea","Grado en Ciencias y Tecnologías de la Navegación Aérea"];
@@ -1452,8 +1488,8 @@ function buildLetter(tone,ctx){const f=cvFacts();const L=state.meta.lang==='es'?
 function ltCtx(){return {airline:($('#ltAirline')||{}).value||'',position:($('#ltPosition')||{}).value||'',city:($('#ltCity')||{}).value||'',date:($('#ltDate')||{}).value||''};}
 function renderTones(){const c=$('#ltTones');if(!c)return;const es=state.meta.lang==='es';c.innerHTML=LT_TONES.map(t=>`<button class="lt-tone ${t.id===ltTone?'on':''}" data-lttone="${t.id}">${es?t.es:t.en}</button>`).join('');}
 function letterRegen(){const ta=$('#ltText');if(ta)ta.value=buildLetter(ltTone,ltCtx());}
-function openLetterModal(){const es=state.meta.lang==='es';const d=new Date();const dstr=es?(d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear()):d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});const dt=$('#ltDate');if(dt&&!dt.value)dt.value=dstr;coverIdx=0;coverRegen();sigLoad();$('#letterModal').classList.add('open');setTimeout(()=>pnScrollElement(document.querySelector('.app'),'start'),20);}
-function closeLetter(){$('#letterModal').classList.remove('open');}
+function openLetterModal(){const es=state.meta.lang==='es';const d=new Date();const dstr=es?(d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear()):d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});const dt=$('#ltDate');if(dt&&!dt.value)dt.value=dstr;coverIdx=0;coverRegen();sigLoad();openOverlay('letterModal');setTimeout(()=>pnScrollElement(document.querySelector('.app'),'start'),20);}
+function closeLetter(){closeOverlay('letterModal');}
 function letterCopy(){const t=($('#ltText')||{}).value||'';if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(()=>toast('Carta copiada')).catch(()=>toast('Selecciona y copia'));}else toast('Selecciona y copia');}
 function letterWord(){track('cv_letter_word');const html='<html xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"></head><body style="font-family:Arial,sans-serif;font-size:11pt;line-height:1.5">'+letterBodyHTML()+'</body></html>';const blob=new Blob(['\ufeff'+html],{type:'application/msword'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(_t('Carta ','Cover letter ')+(cvFacts().name||'')).replace(/[^\w\s-]/g,'').trim()+'.doc';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),120);toast('Carta en Word descargada');}
 function letterPDF(){track('cv_letter_pdf');const w2=window.open('','_blank');if(!w2){toast('Permite ventanas emergentes para el PDF');return;}w2.document.write('<html><head><meta charset="utf-8"><title>'+_t('Carta de presentación','Cover letter')+'</title></head><body style="font-family:Georgia,serif;font-size:12pt;line-height:1.65;padding:2.5cm;max-width:19cm;color:#111">'+letterBodyHTML()+'</body></html>');w2.document.close();setTimeout(()=>{try{w2.print();}catch(_){}}, 300);}
@@ -1471,10 +1507,10 @@ function saveProfile(){const inp=document.getElementById('profName');const nm=((
 function loadProfile(id){const o=profilesGet();if(!o[id])return;state=merge(emptyData(),o[id].data);hydrate();closeProfiles();toast(_t('CV cargado: ','CV loaded: ')+o[id].name);}
 function deleteProfile(id){const o=profilesGet();if(o[id]){if(!confirm('¿Borrar la versión "'+o[id].name+'"?'))return;delete o[id];profilesSet(o);renderProfiles();}}
 function renderProfiles(){const o=profilesGet();const el=document.getElementById('profList');if(!el)return;const E=v=>String(v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');const ids=Object.keys(o).sort((a,b)=>o[b].ts-o[a].ts);el.innerHTML=ids.length?ids.map(id=>`<div class="prof-row"><div class="prof-info"><b>${E(o[id].name)}</b><span>${new Date(o[id].ts).toLocaleDateString(uiLang()==='en'?'en-GB':'es-ES')}</span></div><div class="prof-act"><button onclick="loadProfile('${id}')">${_t('Cargar','Load')}</button><button class="prof-del" onclick="deleteProfile('${id}')">${_t('Borrar','Delete')}</button></div></div>`).join(''):`<p class="sec-sub" style="margin:0">${_t('Aún no has guardado ningún CV. Escribe un nombre (ej. "Ryanair FO") y pulsa Guardar para tener varias versiones.','You have not saved a CV yet. Enter a name (e.g. "Ryanair FO") and press Save to keep several versions.')}</p>`;}
-function openProfiles(){renderProfiles();document.getElementById('profilesModal').classList.add('open');setTimeout(()=>pnScrollElement(document.querySelector('.app'),'start'),20);}
-function closeProfiles(){document.getElementById('profilesModal').classList.remove('open');}
+function openProfiles(){renderProfiles();openOverlay('profilesModal');setTimeout(()=>pnScrollElement(document.querySelector('.app'),'start'),20);}
+function closeProfiles(){closeOverlay('profilesModal');}
 function setLang(l){state.meta.lang=l;rE();buildSummaryPool();renderCV();syncSegs();buildWzGallery();save();if(l==='es'||l==='en')setUILang(l);}
-function pageCheck(){try{const cv=document.getElementById('cvPaper');if(!cv)return;const inner=cv.querySelector('.pg')||cv;const pages=Math.max(1,Math.ceil((inner.scrollHeight-10)/1122));const over=pages>1;$$('.page-badge').forEach(el=>{el.style.display='';el.classList.toggle('over',over);el.innerHTML=(over?'\u26a0 ':'')+pages+(pages>1?_t(' páginas',' pages'):_t(' página',' page'))+(over?' \u00b7 <a onclick="fitOnePage()">'+_t('ajustar a 1','fit to 1')+'</a>':'');});}catch(e){}}
+function pageCheck(){try{const cv=document.getElementById('cvPaper');if(!cv)return;const inner=cv.querySelector('.pg')||cv;const pages=Math.max(1,Math.ceil((inner.scrollHeight-10)/1122));const over=pages>1;$$('.page-badge').forEach(el=>{el.style.display='';el.classList.toggle('over',over);el.innerHTML='<span class="badge-version">v'+APP_VERSION+'</span> · '+(over?'\u26a0 ':'')+pages+(pages>1?_t(' páginas',' pages'):_t(' página',' page'))+(over?' \u00b7 <a onclick="fitOnePage()">'+_t('ajustar a 1','fit to 1')+'</a>':'');});}catch(e){}}
 function fitOnePage(){const cvH=()=>{const c=document.getElementById('cvPaper');if(!c)return 0;const i=c.querySelector('.pg')||c;return i.scrollHeight;};if(cvH()>1128&&state.meta.density!=='compact'){state.meta.density='compact';renderCV();}let g=0;while(cvH()>1128&&g<16&&state.meta.fontScale>0.76){state.meta.fontScale=Math.round((state.meta.fontScale-0.03)*100)/100;renderCV();g++;}save();syncSegs();requestAnimationFrame(pageCheck);toast(cvH()>1128?'Reducido al m\u00ednimo \u2014 a\u00fan >1 p\u00e1g, recorta algo de contenido':'\u00a1Ajustado a 1 p\u00e1gina!');}
 /* ===== signature pad ===== */
 let letterSig=null,sigCtx=null,sigDrawing=false,sigInited=false;
@@ -1488,8 +1524,8 @@ function bilingualPDF(){track('cv_bilingual');try{const orig=state.meta.lang;con
 const ATS_KEYS=[{k:'ATPL',t:['atpl']},{k:'CPL',t:['cpl']},{k:'Frozen ATPL',t:['frozen atpl','fatpl']},{k:'Type Rating',t:['type rating','type-rating','habilitación de tipo','habilitacion de tipo']},{k:'Boeing 737',t:['737','b737','b738']},{k:'Airbus A320',t:['a320','a319','a321']},{k:'Boeing 787',t:['787','b787']},{k:'Boeing 777',t:['777','b777']},{k:'A330/A350',t:['a330','a350']},{k:'ATR',t:['atr 72','atr72','atr 42']},{k:'Embraer',t:['embraer','e190','e195','e-jet','ejet']},{k:'CRJ',t:['crj']},{k:'MCC',t:[' mcc']},{k:'APS MCC',t:['aps mcc','aps-mcc']},{k:'UPRT',t:['uprt']},{k:'JOC',t:['joc']},{k:'ETOPS',t:['etops']},{k:'LVO / CAT III',t:['lvo','low visibility','cat iii','cat 3']},{k:'RVSM',t:['rvsm']},{k:'CRM',t:['crm','crew resource']},{k:'TEM',t:['tem','threat and error']},{k:'EASA',t:['easa']},{k:'FAA',t:['faa']},{k:'ICAO English',t:['icao','english level','nivel de inglés','english proficiency','language proficiency']},{k:'Medical Class 1',t:['class 1','clase 1','medical certificate','certificado médico']},{k:'PIC',t:['pic ','pilot in command','comandante']},{k:'Multi-crew',t:['multi-crew','multicrew','multipilot','multipiloto']},{k:'Jet',t:['jet','reactor']},{k:'Turboprop',t:['turboprop','turbohélice','turbine']},{k:'IFR',t:[' ifr']},{k:'Line training',t:['line training','vuelo en línea']},{k:'SOP',t:['sop','standard operating','procedimientos operativos']},{k:'Safety',t:['safety','seguridad']},{k:'Teamwork',t:['teamwork','team player','trabajo en equipo']},{k:'Communication',t:['communication','comunicación']},{k:'Flexibility',t:['flexib','disponibilidad','availability']},{k:'Simulator',t:['simulator','simulador','sim check']},{k:'Instructor',t:['instructor',' tri',' tre',' sfi']},{k:'Right to work',t:['right to work','work permit','permiso de trabajo','eu passport']}];
 function atsText(){const p=state.personal,c=state.certs,x=state.extras;let parts=[p.title,state.summary,c.medical,c.ratings,x.additional,x.rightToWork];state.licenses.forEach(l=>parts.push(l.type,l.authority));state.typeRatings.forEach(t=>parts.push(t.aircraft));state.experience.forEach(e=>parts.push(e.role,e.company,e.aircraft,e.bullets));state.education.forEach(e=>parts.push(e.title,e.institution,e.detail));state.languages.forEach(l=>parts.push(l.name,l.level));Object.keys(state.hours).forEach(k=>{if(state.hours[k])parts.push(k);});return ' '+parts.filter(Boolean).join(' ').toLowerCase()+' ';}
 function atsAnalyze(){const offer=' '+((document.getElementById('atsOffer')||{}).value||'').toLowerCase()+' ';const res=document.getElementById('atsResult');if(offer.trim().length<20){res.innerHTML='<p class="sec-sub">Pega el texto de la oferta (unas líneas al menos) y pulsa Analizar.</p>';return;}const cv=atsText();const matched=[],missing=[];let present=0;ATS_KEYS.forEach(kw=>{const inOffer=kw.t.some(t=>offer.indexOf(t)>=0);if(!inOffer)return;present++;const inCV=kw.t.some(t=>cv.indexOf(t)>=0)||cv.indexOf(' '+kw.k.toLowerCase())>=0;(inCV?matched:missing).push(kw.k);});const score=present?Math.round(matched.length/present*100):100;let html='<div class="ats-score '+(score>=70?'good':score>=40?'mid':'low')+'"><b>'+score+'%</b><span>'+_t('compatibilidad ATS','ATS match')+'</span></div>';if(matched.length)html+='<div class="ats-sec"><h4>'+_t('✅ Ya lo tienes','✅ You already have')+' ('+matched.length+')</h4><div class="ats-chips">'+matched.map(m=>'<span class="ats-chip ok">'+m+'</span>').join('')+'</div></div>';if(missing.length)html+='<div class="ats-sec"><h4>'+_t('⚠️ Te faltan','⚠️ You are missing')+' ('+missing.length+')</h4><div class="ats-chips">'+missing.map(m=>'<span class="ats-chip no">'+m+'</span>').join('')+'</div><p class="sec-sub">'+_t('Si aplican a tu perfil, mételas en el resumen/experiencia/habilitaciones para pasar mejor los filtros.','If they apply to your profile, add them to your summary/experience/ratings to pass the filters better.')+'</p></div>';if(!present)html+='<p class="sec-sub">'+_t('No detecté palabras clave típicas de aviación. ¿Pegaste la oferta completa?','No typical aviation keywords detected. Did you paste the full offer?')+'</p>';res.innerHTML=html;}
-function openATS(){document.getElementById('atsModal').classList.add('open');setTimeout(()=>pnScrollElement(document.querySelector('.app'),'start'),20);}
-function closeATS(){document.getElementById('atsModal').classList.remove('open');}
+function openATS(){openOverlay('atsModal');setTimeout(()=>pnScrollElement(document.querySelector('.app'),'start'),20);}
+function closeATS(){closeOverlay('atsModal');}
 /* ===== one-click PDF ===== */
 const H2PDF='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
 function downloadPDFDirect(){track('cv_pdf_download',{template:state.meta.template});toast('Generando PDF…');loadScript(H2PDF).then(()=>{if(!window.html2pdf){downloadPDF();return;}const src=document.getElementById('cvPaper');const clone=src.cloneNode(true);clone.style.transform='none';clone.style.boxShadow='none';clone.style.margin='0';clone.style.borderRadius='0';clone.style.width='794px';const holder=document.createElement('div');holder.style.cssText='position:fixed;left:-10000px;top:0;background:#fff';holder.appendChild(clone);document.body.appendChild(holder);const name=((state.personal.fullName||'CV Pilot Network').replace(/[^\w\s-]/g,'').trim()||'CV')+'.pdf';const opt={margin:0,filename:name,image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff',windowWidth:794},jsPDF:{unit:'px',format:[794,1123],orientation:'portrait'},pagebreak:{mode:['css','legacy']}};window.html2pdf().set(opt).from(clone).save().then(()=>{holder.remove();toast('PDF descargado');}).catch(()=>{holder.remove();downloadPDF();});}).catch(()=>{downloadPDF();});}
@@ -1510,6 +1546,7 @@ Object.assign(UIT,{"Licencias": "Licences", "Experiencia": "Experience", "Formac
 Object.assign(UIT,{"Ejemplos redactados — toca para verlos": "Written examples — tap to see them", "Ejemplos redactados — toca uno para usarlo": "Written examples — tap one to use it", "Paso": "Step", "de 11": "of 11", "Atrás": "Back", "Siguiente": "Next"});Object.keys(UIT).forEach(k=>UIT_ES.add(k));
 Object.assign(UIT,{"Editar":"Edit","Ver CV":"View CV","Secciones":"Sections","Tu instructor":"Your instructor","o":"or","Incluir fotografía":"Include photo","(ATS la oculta siempre)":"(ATS always hides it)","usa tu LinkedIn o web":"uses your LinkedIn or website","(usa tu LinkedIn o web)":"(uses your LinkedIn or website)","— opcional":"— optional","— separadas por coma":"— comma-separated","Derecho a trabajar / visado":"Right to work / visa","Web / logbook":"Website / logbook","Validez":"Valid until","Eliminar":"Delete","Sin licencias.":"No licences yet.","Sin habilitaciones de tipo.":"No type ratings yet.","Habilitaciones":"Ratings","Trabajo aquí actualmente":"I currently work here","Logros":"Achievements","— una línea por logro":"— one per line","Detalle":"Details","Aerolínea":"Airline","ATO, escuela o universidad":"ATO, school or university","España":"Spain","30 días":"30 days","OACI Nivel 5 / C1 / Nativo":"ICAO Level 5 / C1 / Native","• Operación de vuelos…":"• Operated commercial flights…","Ver otros ejemplos":"See more examples","Usar":"Use","Usar este ejemplo":"Use this example","Ver mi CV":"View my CV","Abrir vista previa en vivo":"Open live preview","Toca una plantilla o un ajuste: la vista previa de arriba cambia al instante.":"Tap any template or setting: the preview above updates instantly.","Ver cambios ↑":"View changes ↑","Elige una plantilla abajo":"Choose a template below","Usa Diseño para cambiar plantilla, colores, letra, idioma y orden.":"Use Design to change template, colours, font, language and order.","ATS (texto plano)":"ATS (plain text)","Serif · una columna":"Serif · one column","Sidebar oscuro":"Dark sidebar","Banda oscura · barras":"Dark banner · bars","Tabla logbook":"Logbook table","Raíl vertical":"Vertical timeline","Cuaderno de vuelo":"Flight logbook","Banda + instrumentos":"Banner + instruments","Rejilla tipográfica":"Typographic grid","Sidebar de color":"Colour sidebar","Revista premium":"Premium editorial","Espina de acento":"Accent spine","Una página · cadete":"One page · cadet","Óptimo para filtros":"Optimised for filters","Azul":"Blue","Azul Pilot":"Pilot Blue","Violeta":"Violet","Púrpura":"Purple","Rosa":"Pink","Naranja":"Orange","Oro":"Gold","Lima":"Lime","Verde":"Green","Cian":"Cyan","Navy":"Navy","Burdeos":"Burgundy","Grafito":"Graphite","Tinta":"Ink","Bosque":"Forest","Ciruela":"Plum","Marino":"Navy","Café":"Brown","Negro":"Black","Blanco":"White","Marfil":"Ivory","Crema":"Cream","Arena":"Sand","Frío":"Cool","Gris":"Grey","Azulado":"Blue tint","Piedra":"Stone","Salvia":"Sage","Rosado":"Rose","Océano":"Ocean","Dorado":"Gold","Atardecer":"Sunset","Enlace":"Link","Cerrar":"Close","Anterior":"Previous","Calendario":"Calendar","¿Vaciar todo y empezar de cero?":"Clear everything and start over?"});Object.keys(UIT).forEach(k=>UIT_ES.add(k));
 Object.assign(UIT,{"Importar":"Import","Deshacer (Ctrl+Z)":"Undo (Ctrl+Z)","Rehacer (Ctrl+Shift+Z)":"Redo (Ctrl+Shift+Z)","Tipografía":"Typography","Moderna":"Modern","Clásica":"Classic","Técnica":"Technical","Copia descargada":"Backup downloaded","Importado":"Imported"});Object.keys(UIT).forEach(k=>UIT_ES.add(k));
+Object.assign(UIT,{"Herramientas":"Tools","Herramientas del CV":"CV tools","Descargar Word":"Download Word","CV bilingüe":"Bilingual CV","Pantalla completa":"Fullscreen","Importar copia":"Import backup","Empezar de cero":"Start over","Ajustar a 1 página":"Fit to 1 page"});Object.keys(UIT).forEach(k=>UIT_ES.add(k));
 function _t(es,en){return uiLang()==='en'?en:es;}
 function uiLang(){return (typeof state!=='undefined'&&state.meta&&state.meta.uiLang)||'es';}
 let _uiApplied='es';
@@ -1557,13 +1594,32 @@ if(dd<=90)return '<span class="exp-badge warn">'+L('Caduca en '+Math.round(dd/30
 return '<span class="exp-badge ok">'+L('Vigente','Valid')+'</span>';}
 function paintDateBtns(){try{document.querySelectorAll('[data-date]').forEach(function(inp){const f=inp.closest('.field');if(!f||f.querySelector('.dp-open'))return;f.style.position='relative';const b=document.createElement('button');b.type='button';b.className='dp-open';b.setAttribute('aria-label','Calendario');b.textContent='📅';f.appendChild(b);});}catch(e){}}
 function paintExpiry(){paintDateBtns();try{document.querySelectorAll('[data-date="dmy"]').forEach(function(inp){const f=inp.closest('.field');if(!f)return;let b=f.querySelector('.exp-badge-slot');if(!b){b=document.createElement('span');b.className='exp-badge-slot';f.appendChild(b);}b.innerHTML=expBadge(inp.value);});}catch(e){}}
-function openActions(){document.getElementById('actionSheet').classList.add('open');setTimeout(()=>pnScrollElement(document.querySelector('.app'),'start'),20);}
-function closeActions(){document.getElementById('actionSheet').classList.remove('open');}
+const OVERLAY_IDS=['tplModal','profilesModal','atsModal','shareModal','letterModal','actionSheet'];
+function overlayOpen(el){return !!(el&&(el.classList.contains('open')||el.classList.contains('show')));}
+function refreshOverlayState(){document.body.classList.toggle('overlay-open',OVERLAY_IDS.some(id=>overlayOpen(document.getElementById(id))));}
+function closeOverlay(id){const el=document.getElementById(id);if(!el)return;el.classList.remove('open','show');el.setAttribute('aria-hidden','true');refreshOverlayState();}
+function closeAllOverlays(except){OVERLAY_IDS.forEach(id=>{if(id!==except)closeOverlay(id);});}
+function openOverlay(id,mode){const el=document.getElementById(id);if(!el)return;closeAllOverlays(id);closeDesktopTools();el.classList.remove('open','show');el.classList.add(mode||'open');el.setAttribute('aria-hidden','false');refreshOverlayState();}
+function closeDesktopTools(){const menu=document.getElementById('desktopTools'),btn=document.querySelector('.tools-trigger');if(menu)menu.classList.remove('open');if(btn)btn.setAttribute('aria-expanded','false');}
+function toggleDesktopTools(force){const menu=document.getElementById('desktopTools'),btn=document.querySelector('.tools-trigger');if(!menu||!btn)return;closeAllOverlays();const open=force==null?!menu.classList.contains('open'):!!force;menu.classList.toggle('open',open);btn.setAttribute('aria-expanded',open?'true':'false');}
+function runAppAction(name){
+ closeDesktopTools();
+ const map={
+  'import-cv':()=>document.getElementById('importCV').click(),'undo':undo,'redo':redo,'share':openShare,'letter':openLetterModal,'pdf':downloadPDFDirect,
+  'word':exportWord,'profiles':openProfiles,'ats':openATS,'bilingual':bilingualPDF,'fullscreen':toggleFull,'fit-one':fitOnePage,
+  'import-json':()=>document.getElementById('importFile').click(),'export-json':exportJSON,'coach':coachToggle,'reset':resetAll
+ };
+ if(map[name])map[name]();
+}
+document.addEventListener('click',function(e){const btn=e.target.closest&&e.target.closest('[data-app-action]');if(btn){e.preventDefault();if(btn.disabled)return;const name=btn.dataset.appAction,now=Date.now();if(now-(btn.__appActionAt||0)<500)return;btn.__appActionAt=now;if(name==='toggle-tools')toggleDesktopTools();else runAppAction(name);return;}if(!e.target.closest||!e.target.closest('.top-menu-wrap'))closeDesktopTools();const modal=e.target.classList&&e.target.classList.contains('modal')?e.target:null;if(modal)closeOverlay(modal.id);});
+document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;const menu=document.getElementById('desktopTools');if(menu&&menu.classList.contains('open')){closeDesktopTools();return;}const open=OVERLAY_IDS.map(id=>document.getElementById(id)).reverse().find(overlayOpen);if(open){closeOverlay(open.id);return;}if(document.body.classList.contains('mw-peek'))mwPeek(false);});
+function openActions(){openOverlay('actionSheet');setTimeout(()=>pnScrollElement(document.querySelector('.app'),'start'),20);}
+function closeActions(){closeOverlay('actionSheet');}
 function startFresh(){state=emptyData(uiLang());hydrate();if(document.body.classList.contains('mw'))mwGo(1);toast('Empezamos de cero ✏️');}
 /* ===== Share (link / email / whatsapp / telegram / native) ===== */
 function shareURL(){try{const c=JSON.parse(JSON.stringify(state));if(c.meta){c.meta.photo=null;c.meta.signature=null;}const j=JSON.stringify(c);return location.origin+location.pathname+'#cv='+encodeURIComponent(btoa(unescape(encodeURIComponent(j))));}catch(e){return location.href;}}
-function openShare(){document.getElementById('shareModal').classList.add('open');setTimeout(()=>pnScrollElement(document.querySelector('.app'),'start'),20);}
-function closeShare(){document.getElementById('shareModal').classList.remove('open');}
+function openShare(){openOverlay('shareModal');setTimeout(()=>pnScrollElement(document.querySelector('.app'),'start'),20);}
+function closeShare(){closeOverlay('shareModal');}
 function shareVia(type){track('cv_shared',{via:type});const url=shareURL();const msg=_t('Mira mi CV de piloto','View my pilot CV');const title=_t('Mi CV de piloto','My pilot CV');const ask=_t('Copia tu enlace:','Copy your link:');const enc=encodeURIComponent(url);const em=encodeURIComponent(msg);try{
  if(type==='copy'){if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(()=>toast('Enlace copiado')).catch(()=>prompt(ask,url));}else prompt(ask,url);}
  else if(type==='whatsapp'){window.open('https://wa.me/?text='+em+'%3A%20'+enc,'_blank');}
@@ -1581,6 +1637,7 @@ function coverPrev(){coverIdx--;coverRegen();}
 function coverNext(){coverIdx++;coverRegen();}
 function coverRand(){coverIdx=Math.floor(Math.random()*coverArr().length);coverRegen();}
 /* boot */
+syncAppVersion();
 $('#editorSections').innerHTML=editorHTML();
 bindWizardTouchNav();
 buildNav();bindStatic();bindPhoto();buildToolbar();buildSummaryPool();
@@ -1588,6 +1645,7 @@ $('#showPhoto').checked=!!state.meta.showPhoto;$('#photoRow').style.display=stat
 try{if(window.self!==window.top){document.body.classList.add('embed');document.documentElement.classList.add('embed-h');}}catch(e){document.body.classList.add('embed');document.documentElement.classList.add('embed-h');}
 rAllLists();renderCV();updateNav();setActive('personal');syncSw();syncSegs();mwSync();applyCoach();bindMobileTouchLayer();
 (function(){try{var il=initialLang();if(!state.meta.lang||state.meta.lang==='es'||state.meta.lang==='en')state.meta.lang=il;state.meta.uiLang=il;rE();buildSummaryPool();renderCV();syncSegs();buildWzGallery();i18nApply(il);try{var u=new URL(location.href);u.searchParams.set('lang',il);history.replaceState({},'',u);}catch(e){}document.documentElement.lang=il;track('cv_app_open',{lang:il});i18nWatch();pnHeightWatch();}catch(e){}})();
+pushHist();
 window.addEventListener('message',function(e){try{var ok=['https://www.pilotnetwork.es','https://pilotnetwork.es'];if(ok.indexOf(e.origin)<0)return;var d=e.data;if(d&&d.type==='pn-language'&&(d.lang==='es'||d.lang==='en')){state.meta.lang=d.lang;rE();buildSummaryPool();renderCV();syncSegs();buildWzGallery();setUILang(d.lang);}}catch(err){}});
 if('ResizeObserver'in window)new ResizeObserver(()=>fitPreview()).observe($('#pvScroll'));
 let resizeRaf=0;
@@ -1596,7 +1654,7 @@ window.addEventListener('resize',onViewportResize,{passive:true});
 if(window.visualViewport)window.visualViewport.addEventListener('resize',onViewportResize,{passive:true});
 document.addEventListener('focusout',()=>setTimeout(syncMobileHeight,180));
 if(mwMedia){const onModeChange=()=>mwSync(true);if(mwMedia.addEventListener)mwMedia.addEventListener('change',onModeChange);else if(mwMedia.addListener)mwMedia.addListener(onModeChange);}
-if(('ontouchstart' in window)||navigator.maxTouchPoints>0||(window.matchMedia&&matchMedia('(pointer:coarse)').matches))document.body.classList.add('touch');
+if(navigator.maxTouchPoints>0||(window.matchMedia&&matchMedia('(pointer:coarse)').matches))document.body.classList.add('touch');
 document.getElementById('cvPaper').addEventListener('pointerdown',cvDown);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitPreview);
 setTimeout(fitPreview,300);
