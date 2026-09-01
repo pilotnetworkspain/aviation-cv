@@ -149,6 +149,9 @@ body.touch.mw .sheet button,body.touch.mw .share-btn{padding:15px 16px}
 .sugg-toggle[aria-expanded="true"] svg{transform:rotate(180deg)}
 #summaryPool{display:flex;flex-direction:column;gap:7px;margin-top:7px}
 #summaryPool[hidden]{display:none!important}
+.summary-editbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px;color:var(--muted2);font-size:11.5px;line-height:1.35}
+.summary-clear{flex:none;border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:7px 10px;border-radius:9px;font:600 11.5px var(--font-ui);cursor:pointer}
+.summary-clear:hover{border-color:var(--blue);color:var(--blue)}
 .chip{text-align:left;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:8px 11px;border-radius:9px;font-size:12.5px;line-height:1.45;transition:.14s;position:relative;padding-right:30px}
 .chip:hover{border-color:var(--blue);background:rgba(91,157,255,.06)}.chip::after{content:"+";position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--blue);font-weight:700;font-size:15px}
 .chip .chip-use{display:none}
@@ -578,6 +581,8 @@ body.mw #wzTop .wz-meta{position:relative}
   body.mw input,body.mw textarea{-webkit-appearance:auto!important;appearance:auto!important}
   body.mw select{-webkit-appearance:menulist!important;appearance:auto!important;background-image:none!important;padding-right:15px}
   body.mw button{touch-action:manipulation!important;pointer-events:auto!important}
+  body.mw .summary-editbar{align-items:flex-start;font-size:12px}
+  body.mw .summary-clear{min-height:44px;padding:10px 12px}
   body.mw .sugg-toggle{width:100%;min-height:48px;padding:12px 2px;font-size:13px}
   body.mw #summaryPool .chip{min-height:52px;padding:13px 48px 13px 14px}
   body.mw .sugg>summary{min-height:44px;padding:11px 2px;position:relative;z-index:2;touch-action:manipulation}
@@ -776,7 +781,7 @@ button,.btn,.iconbtn,.nav,.chip,.pchip,.thm,.seg button,summary,.wz-step,.ord-bt
 input,textarea,select{-webkit-user-select:text!important;user-select:text!important}
 button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
 
-/* === v8.3: safe iOS iframe taps without cancelling native keyboard/select gestures.
+/* === v8.4: native mobile fields plus scoped iOS iframe button fallbacks.
    A bounded viewport restores the three internal scroll panes and keeps fixed
    modals (Letter, Share, Profiles, ATS) inside the visible area. === */
 @media(min-width:1101px) and (pointer:fine){
@@ -813,7 +818,7 @@ button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
   <header class="topbar">
     <div class="brand">
       <div class="glyph"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21.6 2.4 2.7 11.1c-.7.3-.7 1.3.05 1.6l5.2 1.8 1.8 5.2c.25.75 1.3.8 1.6.05l2.05-4.05 4.35 3.2c.5.37 1.2.1 1.35-.5L23 3.7c.2-.85-.6-1.6-1.4-1.3z" fill="#fff"/><path d="M8 14.5 21.6 2.4 9.75 15.75z" fill="#0a1428" opacity=".18"/></svg></div>
-      <div><b>Aviation CV Builder <span class="beta-tag">BETA</span><span class="version-tag" data-app-version>v8.3</span></b><span>by Pilot Network</span></div>
+      <div><b>Aviation CV Builder <span class="beta-tag">BETA</span><span class="version-tag" data-app-version>v8.4</span></b><span>by Pilot Network</span></div>
     </div>
     <div class="mobtab">
       <button id="mt-edit" class="on" onclick="setView('editor')">Editar</button>
@@ -828,7 +833,7 @@ button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
       <button class="btn ghost sm desk" data-app-action="letter" title="Generar carta de presentación"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 8h16M8 12h8M8 16h5"/></svg>Carta</button>
       <div class="top-menu-wrap desk">
         <button class="btn ghost sm tools-trigger" data-app-action="toggle-tools" aria-expanded="false" aria-controls="desktopTools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>Herramientas</button>
-        <div class="tools-menu" id="desktopTools" role="menu"><div class="menu-head"><span>Herramientas del CV</span><b data-app-version>v8.3</b></div>
+        <div class="tools-menu" id="desktopTools" role="menu"><div class="menu-head"><span>Herramientas del CV</span><b data-app-version>v8.4</b></div>
           <button role="menuitem" data-app-action="word"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>Descargar Word</button>
           <button role="menuitem" data-app-action="profiles"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8"/></svg>Mis CVs guardados</button>
           <button role="menuitem" data-app-action="ats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 11 3 3 8-8"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Comprobador ATS</button>
@@ -846,7 +851,7 @@ button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
   </header>
 
   <div class="body view-editor" id="viewport">
-    <div id="wzTop"><div class="wz-meta" data-build="v8.3"><span class="wz-step" id="wzStep">Paso 1</span><div><span class="wz-quality">Calidad <b id="wzQual">0%</b></span><button class="wz-menu" onclick="openActions()" aria-label="Exportar y compartir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></button><button class="wz-eye" onclick="mwPeek(true)" aria-label="Vista previa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Ver</span></button><button class="wz-ctog" onclick="coachToggle()" aria-label="Guía del instructor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></button></div></div><div class="wz-bar"><i id="wzBarFill"></i></div><h2 id="wzTitle"></h2><div class="wz-coach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span id="wzCoach"></span></div></div>
+    <div id="wzTop"><div class="wz-meta" data-build="v8.4"><span class="wz-step" id="wzStep">Paso 1</span><div><span class="wz-quality">Calidad <b id="wzQual">0%</b></span><button class="wz-menu" onclick="openActions()" aria-label="Exportar y compartir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></button><button class="wz-eye" onclick="mwPeek(true)" aria-label="Vista previa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Ver</span></button><button class="wz-ctog" onclick="coachToggle()" aria-label="Guía del instructor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></button></div></div><div class="wz-bar"><i id="wzBarFill"></i></div><h2 id="wzTitle"></h2><div class="wz-coach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span id="wzCoach"></span></div></div>
     <nav class="rail">
       <div class="rail-h">Secciones</div>
       <div id="navList"></div>
@@ -856,7 +861,7 @@ button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
       <div class="mobsel"><select id="mobJump" onchange="jumpTo(this.value)"></select><button class="btn sm" onclick="setView('preview')">Ver CV</button></div>
       <div id="editorSections"></div>
     </main>
-    <div id="wzWelcomeVersion" data-app-version>v8.3</div>
+    <div id="wzWelcomeVersion" data-app-version>v8.4</div>
     <div id="wzWelcome"><div class="wz-hero"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></div><h1>Tu CV de piloto</h1><p class="sub">Te guío paso a paso. En un par de minutos tienes un CV profesional listo para descargar.</p><button class="wz-card primary" onclick="startFresh()"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div><div><b>Empezar de cero <span class="wz-badge">Recomendado</span></b><span>Rellena guiado paso a paso — el mejor resultado, a tu medida</span></div></button><div class="wz-or">o</div><button class="wz-card" onclick="document.getElementById('importCV').click()"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></svg></div><div><b>Importar CV antiguo</b><span>PDF o Word — detecta tus datos (beta, puede fallar en algunos CVs)</span></div></button><div class="wz-beta">🧪 Estamos en <b>beta</b> — algunos detalles pueden fallar. ¡Tu feedback ayuda a mejorarlo!</div></div>
     <div class="designpane" id="designPane"></div>
     <section class="preview">
@@ -884,7 +889,7 @@ button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
 
 <script>
 const STORE=(()=>{try{const t='__pn';localStorage.setItem(t,'1');localStorage.removeItem(t);return{get:k=>localStorage.getItem(k),set:(k,v)=>localStorage.setItem(k,v)};}catch(e){let m={};return{get:k=>k in m?m[k]:null,set:(k,v)=>{m[k]=v}};}})();
-const APP_VERSION='8.3';
+const APP_VERSION='8.4';
 const SKEY='pn_cv_builder_v2';
 function syncAppVersion(){document.body.dataset.buildVersion=APP_VERSION;document.querySelectorAll('[data-app-version]').forEach(el=>el.textContent='v'+APP_VERSION);const wz=document.querySelector('#wzTop .wz-meta');if(wz)wz.dataset.build='v'+APP_VERSION;}
 
@@ -970,15 +975,16 @@ function editorHTML(){return `
 
 <section class="sec" id="sec-summary" data-title="Perfil profesional"><div class="sec-head"><span class="kx">02</span><h2>Perfil profesional</h2></div><p class="sec-sub">3–4 líneas: experiencia, tipo de operación y qué buscas.</p>
 <div class="field"><textarea id="f_summary" data-bind="summary" inputmode="text" enterkeyhint="done" autocapitalize="sentences" style="min-height:120px" placeholder="First Officer con licencia ATPL(A)…"></textarea>
+<div class="summary-editbar"><span>El texto es editable: toca el cuadro para escribir.</span><button type="button" class="summary-clear" onclick="clearSummary()">Borrar texto</button></div>
 <button type="button" class="sugg-toggle" id="summaryToggle" aria-expanded="false" onclick="toggleSummaryExamples()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg><span>Ejemplos redactados — toca para verlos</span></button><div class="pool" id="summaryPool" hidden></div></div></section>
 
 <section class="sec" id="sec-licenses" data-title="Licencias y habilitaciones"><div class="sec-head"><span class="kx">03</span><h2>Licencias y habilitaciones</h2></div><p class="sec-sub">Licencias EASA/AESA, médico y habilitaciones asociadas.</p>
-<div id="licenseList"></div><button class="addbtn" data-add="licenses"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Añadir licencia</button>
+<div id="licenseList"></div><button type="button" class="addbtn" data-add="licenses"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Añadir licencia</button>
 <div class="grid g2" style="margin-top:14px"><div class="field"><label>Certificado médico</label><input type="text" data-bind="certs.medical" placeholder="Clase 1 (válido 06/2027)"></div>
 <div class="field"><label>Habilitaciones <span class="hint">— separadas por coma</span></label><input type="text" data-bind="certs.ratings" data-ac="ratings" autocomplete="off" placeholder="Escribe IR(A), ME, MCC… (autocompleta)"></div></div></section>
 
 <section class="sec" id="sec-types" data-title="Habilitaciones de tipo"><div class="sec-head"><span class="kx">04</span><h2>Habilitaciones de tipo</h2></div><p class="sec-sub">Type ratings actuales o caducados, con año.</p>
-<div id="typeList"></div><button class="addbtn" data-add="typeRatings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Añadir type rating</button></section>
+<div id="typeList"></div><button type="button" class="addbtn" data-add="typeRatings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Añadir type rating</button></section>
 
 <section class="sec" id="sec-hours" data-title="Horas de vuelo"><div class="sec-head"><span class="kx">05</span><h2>Horas de vuelo</h2></div><p class="sec-sub">Rellena solo lo que aplique — los vacíos no aparecen.</p><div class="field" style="margin-bottom:12px"><label class="chkrow"><input type="checkbox" id="hoursChart"> Mostrar las horas como gráfico de barras 📊</label></div>
 <div class="grid g3">
@@ -1007,13 +1013,13 @@ function editorHTML(){return `
 </div></details></section>
 
 <section class="sec" id="sec-exp" data-title="Experiencia"><div class="sec-head"><span class="kx">06</span><h2>Experiencia profesional</h2></div><p class="sec-sub">De más reciente a más antigua. Una línea por logro.</p>
-<div id="expList"></div><button class="addbtn" data-add="experience"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Añadir experiencia</button></section>
+<div id="expList"></div><button type="button" class="addbtn" data-add="experience"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Añadir experiencia</button></section>
 
 <section class="sec" id="sec-edu" data-title="Formación"><div class="sec-head"><span class="kx">07</span><h2>Formación</h2></div><p class="sec-sub">ATO, escuela o universidad, estudios y cursos (MCC/JOC, UPRT, Grado…).</p>
-<div id="eduList"></div><button class="addbtn" data-add="education"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Añadir formación</button></section>
+<div id="eduList"></div><button type="button" class="addbtn" data-add="education"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Añadir formación</button></section>
 
 <section class="sec" id="sec-lang" data-title="Idiomas"><div class="sec-head"><span class="kx">08</span><h2>Idiomas</h2></div><p class="sec-sub">Nivel OACI para inglés. MCER (A1–C2) o "Nativo".</p>
-<div id="langList"></div><button class="addbtn" data-add="languages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Añadir idioma</button></section>
+<div id="langList"></div><button type="button" class="addbtn" data-add="languages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Añadir idioma</button></section>
 
 <section class="sec" id="sec-extras" data-title="Disponibilidad y extras"><div class="sec-head"><span class="kx">09</span><h2>Disponibilidad y extras</h2></div><p class="sec-sub">Disponibilidad, preaviso e información adicional.</p>
 <div class="grid g2"><div class="field"><label>Disponible desde</label><input type="text" data-bind="extras.availableFrom" placeholder="Inmediata / 01-2027"></div>
@@ -1242,8 +1248,9 @@ function bindStatic(){$$('[data-bind]').forEach(el=>{const p=el.dataset.bind,v=g
 document.addEventListener('input',e=>{const el=e.target;if(!el.dataset||el.dataset.list===undefined)return;const{list,idx,field}=el.dataset;const it=state[list][+idx];if(!it)return;it[field]=el.type==='checkbox'?el.checked:el.value;sr();save();});
 document.addEventListener('change',e=>{const el=e.target;if(!el.dataset||el.dataset.list===undefined)return;const{list,idx,field}=el.dataset;const it=state[list][+idx];if(!it)return;it[field]=el.type==='checkbox'?el.checked:el.value;if(field==='current')rE();sr();save();});
 document.addEventListener('change',e=>{const el=e.target;if(!el.classList||!el.classList.contains('lang-sel'))return;setLang(el.value);designAnnounce(_t('Idioma del CV','CV language'),el.options[el.selectedIndex]?el.options[el.selectedIndex].text:'');});
+function addListItem(l){if(!NEW[l]||!state[l])return;state[l].push(NEW[l]());reList(l);sr();save();focusNew(l);}
 document.addEventListener('click',e=>{
-  const add=e.target.closest('[data-add]');if(add){const l=add.dataset.add;state[l].push(NEW[l]());reList(l);sr();save();focusNew(l);return;}
+  const add=e.target.closest('[data-add]');if(add){if(Date.now()-(add.__pnNativeAddAt||0)<750)return;addListItem(add.dataset.add);return;}
   const rem=e.target.closest('[data-remove]');if(rem){state[rem.dataset.remove].splice(+rem.dataset.idx,1);reList(rem.dataset.remove);sr();save();return;}
   const mv=e.target.closest('[data-move]');if(mv){const l=mv.dataset.move,i=+mv.dataset.idx,j=i+ +mv.dataset.dir,a=state[l];if(j<0||j>=a.length)return;[a[i],a[j]]=[a[j],a[i]];reList(l);sr();save();return;}
   const exb=e.target.closest('[data-exb]');if(exb){const ix=+exb.dataset.idx,it=state.experience[ix];it.bullets=(it.bullets?it.bullets.replace(/\s*$/,'')+'\n':'')+(EXB[state.meta.lang]||EXB.en)[+exb.dataset.exb];rE();sr();save();const ta=document.querySelector(`textarea[data-list="experience"][data-idx="${ix}"][data-field="bullets"]`);if(ta){ta.classList.add('example-applied');setTimeout(()=>ta.classList.remove('example-applied'),700);pnScrollElement(ta,'center');}toast('Logro añadido');return;}
@@ -1254,7 +1261,8 @@ function focusNew(l){const id={licenses:'#licenseList',typeRatings:'#typeList',e
 let sumOff=0;
 function toggleSummaryExamples(force){const pool=$('#summaryPool'),btn=$('#summaryToggle');if(!pool||!btn)return;const open=force==null?pool.hidden:!!force;pool.hidden=!open;btn.setAttribute('aria-expanded',open?'true':'false');const tx=btn.querySelector('span');if(tx)tx.textContent=open?_t('Ejemplos redactados — toca uno para usarlo','Written examples — tap one to use it'):_t('Ejemplos redactados — toca para verlos','Written examples — tap to see them');setTimeout(()=>{pnHeight();if(open)pnScrollElement(btn,'start');},40);}
 function nextSummaryExamples(){const arr=SUM[state.meta.lang]||SUM.en;sumOff=(sumOff+3)%arr.length;buildSummaryPool();toast(_t('Ejemplos ','Examples ')+(sumOff+1)+'–'+Math.min(sumOff+3,arr.length)+_t(' de ',' of ')+arr.length);}
-function useSummaryExample(k){const arr=SUM[state.meta.lang]||SUM.en;k=+k;if(!arr[k])return;state.summary=arr[k];const ta=$('#f_summary');if(ta){ta.value=state.summary;ta.classList.add('example-applied');setTimeout(()=>ta.classList.remove('example-applied'),700);pnScrollElement(ta,'center');try{ta.focus({preventScroll:true});}catch(_){}}sr();save();toast('Ejemplo aplicado');}
+function clearSummary(){state.summary='';const ta=$('#f_summary');if(ta){ta.value='';ta.classList.add('example-applied');setTimeout(()=>ta.classList.remove('example-applied'),500);if(!document.body.classList.contains('mw'))try{ta.focus({preventScroll:true});}catch(_){}}sr();save();toast(_t('Texto borrado','Text cleared'));}
+function useSummaryExample(k){const arr=SUM[state.meta.lang]||SUM.en;k=+k;if(!arr[k])return;state.summary=arr[k];const ta=$('#f_summary');if(ta){ta.value=state.summary;ta.classList.add('example-applied');setTimeout(()=>ta.classList.remove('example-applied'),700);pnScrollElement(ta,'center');if(!document.body.classList.contains('mw'))try{ta.focus({preventScroll:true});}catch(_){}}sr();save();toast(_t('Ejemplo aplicado · toca el texto para editarlo','Example applied · tap the text to edit it'));}
 function buildSummaryPool(){const el=$('#summaryPool');if(!el)return;const arr=SUM[state.meta.lang]||SUM.en;const ix=[0,1,2].map(j=>(sumOff+j)%arr.length);el.innerHTML=ix.map(k=>`<button type="button" class="chip" onclick="useSummaryExample(${k})" aria-label="${_t('Usar este ejemplo','Use this example')}">${esc(arr[k])}<span class="chip-use">${_t('Usar','Use')}</span></button>`).join('')+`<button type="button" class="chip refresh" onclick="nextSummaryExamples()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> ${_t('Ver otros ejemplos','See more examples')} · ${sumOff+1}–${Math.min(sumOff+3,arr.length)}/${arr.length}</button>`;}
 
 function bindPhoto(){$('#showPhoto').addEventListener('change',function(){state.meta.showPhoto=this.checked;$('#photoRow').style.display=this.checked?'flex':'none';renderCV();save();});
@@ -1371,9 +1379,8 @@ function bindWizardTouchNav(){
  bind('wzNext',mwNext);bind('wzBack',mwPrev);
 }
 /* Mobile Safari inside the cross-origin Webador iframe can omit the delayed
-   click for a perfectly valid tap. Re-dispatch it from touchend, but never
-   cancel the native touch: keeping that user gesture intact is what allows
-   Add -> focus to open the iOS keyboard and native selects to keep working. */
+   click for a perfectly valid tap. This fallback is deliberately limited to
+   non-field actions. Inputs, selects and Add buttons use their own native path. */
 function pnTouchMode(){return document.body.classList.contains('mw')||document.body.classList.contains('touch');}
 function bindSafeTouchAction(el){
  if(!el||el.__pnSafeTouch||el.id==='wzNext'||el.id==='wzBack')return;el.__pnSafeTouch=true;el.setAttribute('data-pn-touch','safe');
@@ -1385,11 +1392,23 @@ function bindSafeTouchAction(el){
  el.addEventListener('click',e=>{if(!el.__pnDispatchingTouch&&Date.now()-(el.__pnTouchAt||0)<750){e.preventDefault();e.stopImmediatePropagation();}},true);
 }
 function bindSafeTouchTree(root){
- if(!root||root.nodeType!==1)return;const aq='button:not(#wzNext):not(#wzBack),summary,[role="button"]';
+ if(!root||root.nodeType!==1)return;const aq='button:not(#wzNext):not(#wzBack):not([data-add]),summary,[role="button"]';
  if(root.matches(aq))bindSafeTouchAction(root);root.querySelectorAll(aq).forEach(bindSafeTouchAction);
 }
 function bindSafeMobileTouches(){
  bindSafeTouchTree(document.body);if(window.__pnSafeTouchObserver)return;window.__pnSafeTouchObserver=new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(bindSafeTouchTree)));window.__pnSafeTouchObserver.observe(document.body,{childList:true,subtree:true});
+}
+/* Add must create and focus its field directly inside the trusted touchend.
+   Calling button.click() here makes iOS treat the later focus as synthetic and
+   suppresses the software keyboard. The delayed native click is de-duplicated
+   by the regular click handler above. */
+function bindNativeAddTouches(){
+ document.querySelectorAll('[data-add]').forEach(el=>{if(el.__pnNativeAdd)return;el.__pnNativeAdd=true;el.setAttribute('data-pn-touch','native-add');let armed=false,sx=0,sy=0;
+  el.addEventListener('touchstart',e=>{if(!pnTouchMode()||e.touches.length!==1)return;const t=e.touches[0];armed=true;sx=t.clientX;sy=t.clientY;},{passive:true});
+  el.addEventListener('touchmove',e=>{if(!armed||!e.touches.length)return;const t=e.touches[0];if(Math.abs(t.clientX-sx)>14||Math.abs(t.clientY-sy)>14)armed=false;},{passive:true});
+  el.addEventListener('touchend',()=>{if(!pnTouchMode()||!armed)return;armed=false;if(el.disabled)return;el.__pnNativeAddAt=Date.now();addListItem(el.dataset.add);},{passive:true});
+  el.addEventListener('touchcancel',()=>{armed=false;},{passive:true});
+ });
 }
 function mwChrome(){
  const s=MW[mwStep],last=MW.length-1;
@@ -1438,7 +1457,7 @@ const AUTHORITIES_EN=["EASA (AESA)","AESA — Spain","EASA — Ireland (IAA)","E
 function acSource(t){const en=uiLang()==='en';return t==='aircraft'?AIRCRAFT:t==='ratings'?RATINGS:t==='edu'?(en?EDU_PROGRAMS_EN:EDU_PROGRAMS):t==='lic'?(en?LICENCES_EN:LICENCES):t==='auth'?(en?AUTHORITIES_EN:AUTHORITIES):[];}
 function acToken(el){if(el.dataset.ac==='ratings'){const p=el.value.split(',');return p[p.length-1].trim();}return el.value.trim();}
 function acMatch(t,tok){const src=acSource(t);const q=(tok||'').toLowerCase().trim();if(!q)return src.slice(0,8);const nq=q.replace(/[\s.\-()]/g,'');const st=[],inc=[];src.forEach(x=>{const low=x.toLowerCase();const base=low.replace(/[\s.\-()]/g,'');const mf=low.split(' ')[0];const im=(mf?mf[0]:'')+low.slice(mf.length).replace(/[\s.\-()]/g,'');if(low.indexOf(q)===0||base.indexOf(nq)===0||im.indexOf(nq)===0)st.push(x);else if(low.indexOf(q)>-1||base.indexOf(nq)>-1||im.indexOf(nq)>-1)inc.push(x);});return st.concat(inc).slice(0,8);}
-function acEnsure(){let b=document.getElementById('acbox');if(!b){b=document.createElement('div');b.id='acbox';document.body.appendChild(b);const pick=e=>{const it=e.target.closest('.ac-item');if(it){e.preventDefault();acPick(+it.dataset.i);}};b.addEventListener('mousedown',pick);b.addEventListener('touchstart',pick,{passive:false});}return b;}
+function acEnsure(){let b=document.getElementById('acbox');if(!b){b=document.createElement('div');b.id='acbox';document.body.appendChild(b);let touchAt=0;const item=e=>e.target.closest&&e.target.closest('.ac-item');b.addEventListener('mousedown',e=>{const it=item(e);if(it){e.preventDefault();acPick(+it.dataset.i);}});b.addEventListener('touchend',e=>{const it=item(e);if(it){touchAt=Date.now();acPick(+it.dataset.i);}},{passive:true});b.addEventListener('click',e=>{const it=item(e);if(!it)return;if(Date.now()-touchAt<750){e.preventDefault();return;}acPick(+it.dataset.i);});}return b;}
 function acPos(el,b){const r=el.getBoundingClientRect();b.style.left=Math.max(6,r.left)+'px';b.style.width=Math.max(r.width,190)+'px';b.style.top=(r.bottom+4)+'px';const vh=(window.visualViewport&&window.visualViewport.height)||window.innerHeight;const bh=b.offsetHeight;if(r.bottom+6+bh>vh){const tp=r.top-6-bh;b.style.top=(tp>6?tp:6)+'px';}}
 function acShow(el){const t=el.dataset.ac;const items=acMatch(t,acToken(el));if(!items.length){acHide();return;}acEl=el;acType=t;acItems=items;acIdx=-1;const b=acEnsure();b.innerHTML=items.map((x,i)=>'<div class="ac-item" data-i="'+i+'">'+esc(x)+'</div>').join('');b.style.display='block';acPos(el,b);}
 function acPick(i){if(i<0||i>=acItems.length||!acEl)return;const val=acItems[i],el=acEl;if(acType==='ratings'){const p=el.value.split(',');p[p.length-1]=' '+val;el.value=p.join(',').replace(/^\s+/,'')+', ';}else{el.value=val;}acSuppress=true;el.dispatchEvent(new Event('input',{bubbles:true}));acSuppress=false;acHide();try{el.focus();const L=el.value.length;el.setSelectionRange(L,L);}catch(e){}}
@@ -1497,7 +1516,6 @@ function closeLetter(){closeOverlay('letterModal');}
 function letterCopy(){const t=($('#ltText')||{}).value||'';if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(()=>toast('Carta copiada')).catch(()=>toast('Selecciona y copia'));}else toast('Selecciona y copia');}
 function letterWord(){track('cv_letter_word');const html='<html xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"></head><body style="font-family:Arial,sans-serif;font-size:11pt;line-height:1.5">'+letterBodyHTML()+'</body></html>';const blob=new Blob(['\ufeff'+html],{type:'application/msword'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(_t('Carta ','Cover letter ')+(cvFacts().name||'')).replace(/[^\w\s-]/g,'').trim()+'.doc';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),120);toast('Carta en Word descargada');}
 function letterPDF(){track('cv_letter_pdf');const w2=window.open('','_blank');if(!w2){toast('Permite ventanas emergentes para el PDF');return;}w2.document.write('<html><head><meta charset="utf-8"><title>'+_t('Carta de presentación','Cover letter')+'</title></head><body style="font-family:Georgia,serif;font-size:12pt;line-height:1.65;padding:2.5cm;max-width:19cm;color:#111">'+letterBodyHTML()+'</body></html>');w2.document.close();setTimeout(()=>{try{w2.print();}catch(_){}}, 300);}
-document.addEventListener('click',function(e){const th=e.target.closest&&e.target.closest('[data-thm]');if(th){const q=th.dataset.thm.split('|');state.meta.accent=q[0];state.meta.dark=q[1];state.meta.paper=q[2];renderCV();syncSw();syncSegs();buildWzGallery();save();}});
 document.addEventListener('input',function(e){if(!e.target.classList)return;if(e.target.classList.contains('accent-pick')){state.meta.accent=e.target.value;renderCV();syncSw();buildWzGallery();save();designAnnounce(_t('Color principal','Accent colour'),e.target.value);}else if(e.target.classList.contains('dark-pick')){state.meta.dark=e.target.value;renderCV();syncSw();buildWzGallery();save();designAnnounce(_t('Color oscuro','Dark colour'),e.target.value);}else if(e.target.classList.contains('paper-pick')){state.meta.paper=e.target.value;renderCV();syncSw();buildWzGallery();save();designAnnounce(_t('Papel','Paper'),e.target.value);}});
 function toggleFull(){try{var d=document,el=d.documentElement,embedded=window.self!==window.top;if(!d.fullscreenElement&&!d.webkitFullscreenElement){
  if(embedded&&d.fullscreenEnabled===false){var nw=window.open(location.href,'_blank');if(!nw)toast(_t('Webador bloquea la pantalla completa. Abre la app directa.','Webador blocks fullscreen. Open the app directly.'));return;}
@@ -1552,6 +1570,7 @@ Object.assign(UIT,{"Editar":"Edit","Ver CV":"View CV","Secciones":"Sections","Tu
 Object.assign(UIT,{"Toca cualquier ajuste para aplicarlo":"Tap any setting to apply it","Color principal":"Accent colour","Color oscuro":"Dark colour","Tema aplicado":"Theme applied","CV oscuro":"Dark CV","Activado":"On","Desactivado":"Off"});Object.keys(UIT).forEach(k=>UIT_ES.add(k));
 Object.assign(UIT,{"Importar":"Import","Deshacer (Ctrl+Z)":"Undo (Ctrl+Z)","Rehacer (Ctrl+Shift+Z)":"Redo (Ctrl+Shift+Z)","Tipografía":"Typography","Moderna":"Modern","Clásica":"Classic","Técnica":"Technical","Copia descargada":"Backup downloaded","Importado":"Imported"});Object.keys(UIT).forEach(k=>UIT_ES.add(k));
 Object.assign(UIT,{"Herramientas":"Tools","Herramientas del CV":"CV tools","Descargar Word":"Download Word","CV bilingüe":"Bilingual CV","Pantalla completa":"Fullscreen","Importar copia":"Import backup","Empezar de cero":"Start over","Ajustar a 1 página":"Fit to 1 page"});Object.keys(UIT).forEach(k=>UIT_ES.add(k));
+Object.assign(UIT,{"El texto es editable: toca el cuadro para escribir.":"The text is editable: tap the box to type.","Borrar texto":"Clear text","Texto borrado":"Text cleared","Ejemplo aplicado · toca el texto para editarlo":"Example applied · tap the text to edit it"});Object.keys(UIT).forEach(k=>UIT_ES.add(k));
 function _t(es,en){return uiLang()==='en'?en:es;}
 function uiLang(){return (typeof state!=='undefined'&&state.meta&&state.meta.uiLang)||'es';}
 let _uiApplied='es';
@@ -1647,6 +1666,7 @@ $('#editorSections').innerHTML=editorHTML();
 bindWizardTouchNav();
 buildNav();bindStatic();bindPhoto();buildToolbar();buildSummaryPool();
 bindSafeMobileTouches();
+bindNativeAddTouches();
 $('#showPhoto').checked=!!state.meta.showPhoto;$('#photoRow').style.display=state.meta.showPhoto?'flex':'none';paintPhoto();if($('#showQR'))$('#showQR').checked=!!state.meta.showQR;
 try{if(window.self!==window.top){document.body.classList.add('embed');document.documentElement.classList.add('embed-h');}}catch(e){document.body.classList.add('embed');document.documentElement.classList.add('embed-h');}
 rAllLists();renderCV();updateNav();setActive('personal');syncSw();syncSegs();mwSync();applyCoach();
