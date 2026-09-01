@@ -220,8 +220,15 @@ body.touch.mw .sheet button,body.touch.mw .share-btn{padding:15px 16px}
 .exp-badge.bad{background:rgba(255,107,107,.14);color:#ff8a8a;border:1px solid rgba(255,107,107,.32)}
 .exp-badge.warn{background:rgba(255,176,74,.14);color:#ffb04a;border:1px solid rgba(255,176,74,.32)}
 .exp-badge.ok{background:rgba(55,214,122,.12);color:#37d67a;border:1px solid rgba(55,214,122,.28)}
-.dp-open{position:absolute;right:8px;bottom:8px;width:34px;height:30px;border:1px solid var(--line);background:var(--panel2);border-radius:8px;font-size:14px;line-height:1;cursor:pointer;z-index:3;padding:0}
-body.touch .dp-open{width:40px;height:36px;font-size:16px}
+/* v8.5 — the calendar button used to sit absolutely on top of the date input.
+   On a 78px-wide mobile date field it covered the tap point, so tapping the
+   field opened the picker instead of the keyboard. It is now a sibling in a
+   flex row: the input keeps its whole box and the tap is always native. */
+.dp-row{display:flex;align-items:stretch;gap:6px;min-width:0}
+.grid>.dp-pair{grid-column:1/-1}
+.dp-row>input{flex:1 1 auto;min-width:0}
+.dp-open{position:static;flex:0 0 auto;width:38px;align-self:stretch;border:1px solid var(--line);background:var(--panel2);border-radius:10px;font-size:14px;line-height:1;cursor:pointer;z-index:3;padding:0;touch-action:manipulation}
+body.touch .dp-open,body.mw .dp-open{width:44px;font-size:16px}
 .dp-box{position:absolute;z-index:120;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:0 22px 60px -18px rgba(0,0,0,.75);min-width:250px}
 .dp-row{display:flex;gap:8px}
 .dp-row label{display:flex;flex-direction:column;gap:5px;font-size:10.5px;color:var(--muted2);text-transform:uppercase;letter-spacing:.05em;flex:1}
@@ -781,7 +788,9 @@ button,.btn,.iconbtn,.nav,.chip,.pchip,.thm,.seg button,summary,.wz-step,.ord-bt
 input,textarea,select{-webkit-user-select:text!important;user-select:text!important}
 button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
 
-/* === v8.4: native mobile fields plus scoped iOS iframe button fallbacks.
+/* === v8.5: fully native touch fields. Nothing resizes the iframe, scrolls the
+   parent or re-renders structurally while an input, textarea or select holds
+   focus, so the iOS software keyboard opens on the first tap and stays open.
    A bounded viewport restores the three internal scroll panes and keeps fixed
    modals (Letter, Share, Profiles, ATS) inside the visible area. === */
 @media(min-width:1101px) and (pointer:fine){
@@ -818,7 +827,7 @@ button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
   <header class="topbar">
     <div class="brand">
       <div class="glyph"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21.6 2.4 2.7 11.1c-.7.3-.7 1.3.05 1.6l5.2 1.8 1.8 5.2c.25.75 1.3.8 1.6.05l2.05-4.05 4.35 3.2c.5.37 1.2.1 1.35-.5L23 3.7c.2-.85-.6-1.6-1.4-1.3z" fill="#fff"/><path d="M8 14.5 21.6 2.4 9.75 15.75z" fill="#0a1428" opacity=".18"/></svg></div>
-      <div><b>Aviation CV Builder <span class="beta-tag">BETA</span><span class="version-tag" data-app-version>v8.4</span></b><span>by Pilot Network</span></div>
+      <div><b>Aviation CV Builder <span class="beta-tag">BETA</span><span class="version-tag" data-app-version>v8.5</span></b><span>by Pilot Network</span></div>
     </div>
     <div class="mobtab">
       <button id="mt-edit" class="on" onclick="setView('editor')">Editar</button>
@@ -833,7 +842,7 @@ button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
       <button class="btn ghost sm desk" data-app-action="letter" title="Generar carta de presentación"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 8h16M8 12h8M8 16h5"/></svg>Carta</button>
       <div class="top-menu-wrap desk">
         <button class="btn ghost sm tools-trigger" data-app-action="toggle-tools" aria-expanded="false" aria-controls="desktopTools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>Herramientas</button>
-        <div class="tools-menu" id="desktopTools" role="menu"><div class="menu-head"><span>Herramientas del CV</span><b data-app-version>v8.4</b></div>
+        <div class="tools-menu" id="desktopTools" role="menu"><div class="menu-head"><span>Herramientas del CV</span><b data-app-version>v8.5</b></div>
           <button role="menuitem" data-app-action="word"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>Descargar Word</button>
           <button role="menuitem" data-app-action="profiles"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8"/></svg>Mis CVs guardados</button>
           <button role="menuitem" data-app-action="ats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 11 3 3 8-8"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Comprobador ATS</button>
@@ -851,7 +860,7 @@ button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
   </header>
 
   <div class="body view-editor" id="viewport">
-    <div id="wzTop"><div class="wz-meta" data-build="v8.4"><span class="wz-step" id="wzStep">Paso 1</span><div><span class="wz-quality">Calidad <b id="wzQual">0%</b></span><button class="wz-menu" onclick="openActions()" aria-label="Exportar y compartir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></button><button class="wz-eye" onclick="mwPeek(true)" aria-label="Vista previa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Ver</span></button><button class="wz-ctog" onclick="coachToggle()" aria-label="Guía del instructor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></button></div></div><div class="wz-bar"><i id="wzBarFill"></i></div><h2 id="wzTitle"></h2><div class="wz-coach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span id="wzCoach"></span></div></div>
+    <div id="wzTop"><div class="wz-meta" data-build="v8.5"><span class="wz-step" id="wzStep">Paso 1</span><div><span class="wz-quality">Calidad <b id="wzQual">0%</b></span><button class="wz-menu" onclick="openActions()" aria-label="Exportar y compartir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></button><button class="wz-eye" onclick="mwPeek(true)" aria-label="Vista previa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Ver</span></button><button class="wz-ctog" onclick="coachToggle()" aria-label="Guía del instructor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></button></div></div><div class="wz-bar"><i id="wzBarFill"></i></div><h2 id="wzTitle"></h2><div class="wz-coach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span id="wzCoach"></span></div></div>
     <nav class="rail">
       <div class="rail-h">Secciones</div>
       <div id="navList"></div>
@@ -861,7 +870,7 @@ button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
       <div class="mobsel"><select id="mobJump" onchange="jumpTo(this.value)"></select><button class="btn sm" onclick="setView('preview')">Ver CV</button></div>
       <div id="editorSections"></div>
     </main>
-    <div id="wzWelcomeVersion" data-app-version>v8.4</div>
+    <div id="wzWelcomeVersion" data-app-version>v8.5</div>
     <div id="wzWelcome"><div class="wz-hero"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></div><h1>Tu CV de piloto</h1><p class="sub">Te guío paso a paso. En un par de minutos tienes un CV profesional listo para descargar.</p><button class="wz-card primary" onclick="startFresh()"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div><div><b>Empezar de cero <span class="wz-badge">Recomendado</span></b><span>Rellena guiado paso a paso — el mejor resultado, a tu medida</span></div></button><div class="wz-or">o</div><button class="wz-card" onclick="document.getElementById('importCV').click()"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></svg></div><div><b>Importar CV antiguo</b><span>PDF o Word — detecta tus datos (beta, puede fallar en algunos CVs)</span></div></button><div class="wz-beta">🧪 Estamos en <b>beta</b> — algunos detalles pueden fallar. ¡Tu feedback ayuda a mejorarlo!</div></div>
     <div class="designpane" id="designPane"></div>
     <section class="preview">
@@ -889,7 +898,7 @@ button,.btn{-webkit-tap-highlight-color:rgba(91,157,255,.25)}
 
 <script>
 const STORE=(()=>{try{const t='__pn';localStorage.setItem(t,'1');localStorage.removeItem(t);return{get:k=>localStorage.getItem(k),set:(k,v)=>localStorage.setItem(k,v)};}catch(e){let m={};return{get:k=>k in m?m[k]:null,set:(k,v)=>{m[k]=v}};}})();
-const APP_VERSION='8.4';
+const APP_VERSION='8.5';
 const SKEY='pn_cv_builder_v2';
 function syncAppVersion(){document.body.dataset.buildVersion=APP_VERSION;document.querySelectorAll('[data-app-version]').forEach(el=>el.textContent='v'+APP_VERSION);const wz=document.querySelector('#wzTop .wz-meta');if(wz)wz.dataset.build='v'+APP_VERSION;}
 
@@ -1250,14 +1259,22 @@ document.addEventListener('change',e=>{const el=e.target;if(!el.dataset||el.data
 document.addEventListener('change',e=>{const el=e.target;if(!el.classList||!el.classList.contains('lang-sel'))return;setLang(el.value);designAnnounce(_t('Idioma del CV','CV language'),el.options[el.selectedIndex]?el.options[el.selectedIndex].text:'');});
 function addListItem(l){if(!NEW[l]||!state[l])return;state[l].push(NEW[l]());reList(l);sr();save();focusNew(l);}
 document.addEventListener('click',e=>{
-  const add=e.target.closest('[data-add]');if(add){if(Date.now()-(add.__pnNativeAddAt||0)<750)return;addListItem(add.dataset.add);return;}
+  const add=e.target.closest('[data-add]');if(add){const now=Date.now();if(now-(add.__pnAddAt||0)<400)return;add.__pnAddAt=now;addListItem(add.dataset.add);return;}
   const rem=e.target.closest('[data-remove]');if(rem){state[rem.dataset.remove].splice(+rem.dataset.idx,1);reList(rem.dataset.remove);sr();save();return;}
   const mv=e.target.closest('[data-move]');if(mv){const l=mv.dataset.move,i=+mv.dataset.idx,j=i+ +mv.dataset.dir,a=state[l];if(j<0||j>=a.length)return;[a[i],a[j]]=[a[j],a[i]];reList(l);sr();save();return;}
   const exb=e.target.closest('[data-exb]');if(exb){const ix=+exb.dataset.idx,it=state.experience[ix];it.bullets=(it.bullets?it.bullets.replace(/\s*$/,'')+'\n':'')+(EXB[state.meta.lang]||EXB.en)[+exb.dataset.exb];rE();sr();save();const ta=document.querySelector(`textarea[data-list="experience"][data-idx="${ix}"][data-field="bullets"]`);if(ta){ta.classList.add('example-applied');setTimeout(()=>ta.classList.remove('example-applied'),700);pnScrollElement(ta,'center');}toast('Logro añadido');return;}
   const ltn=e.target.closest('[data-lttone]');if(ltn){ltTone=ltn.dataset.lttone;renderTones();letterRegen();return;}
 });
 function reList(l){({licenses:rL,typeRatings:rT,experience:rE,education:rEd,languages:rLa}[l])();i18nApply(uiLang());paintExpiry();}
-function focusNew(l){const id={licenses:'#licenseList',typeRatings:'#typeList',experience:'#expList',education:'#eduList',languages:'#langList'}[l];const c=$(id);if(!c)return;const cards=c.querySelectorAll('.card');const last=cards[cards.length-1];if(!last)return;const inp=last.querySelector('input:not([disabled]),select:not([disabled]),textarea:not([disabled])');last.classList.add('example-applied','pn-new-card');setTimeout(()=>last.classList.remove('example-applied','pn-new-card'),1200);if(inp){try{inp.focus();if(inp.setSelectionRange)inp.setSelectionRange(inp.value.length,inp.value.length);}catch(_){}}requestAnimationFrame(()=>{try{pnHeight();}catch(_){}pnScrollElement(inp||last,document.body.classList.contains('mw')?'center':'start');});setTimeout(()=>pnScrollElement(inp||last,'center'),180);}
+function focusNew(l){const id={licenses:'#licenseList',typeRatings:'#typeList',experience:'#expList',education:'#eduList',languages:'#langList'}[l];const c=$(id);if(!c)return;const cards=c.querySelectorAll('.card');const last=cards[cards.length-1];if(!last)return;last.classList.add('example-applied','pn-new-card');setTimeout(()=>last.classList.remove('example-applied','pn-new-card'),1200);
+ /* v8.5 — on touch we never force focus after Add. iOS treats a programmatic
+    focus as untrusted (no keyboard) and the delayed click on the Add button
+    steals the focus straight back. Create the card, settle the layout once
+    while nothing is focused, and let the user's own tap be 100% native. */
+ if(pnTouchMode()){setTimeout(function(){if(pnBusyFocus())return;try{pnHeight();}catch(_){}pnScrollElement(last,'center',true);},240);return;}
+ const inp=last.querySelector('input:not([disabled]),select:not([disabled]),textarea:not([disabled])');
+ if(inp){try{inp.focus({preventScroll:true});if(inp.setSelectionRange&&(inp.type==='text'||inp.tagName==='TEXTAREA'))inp.setSelectionRange(inp.value.length,inp.value.length);}catch(_){}}
+ requestAnimationFrame(()=>{try{pnHeight();}catch(_){}pnScrollElement(inp||last,'start',true);});}
 let sumOff=0;
 function toggleSummaryExamples(force){const pool=$('#summaryPool'),btn=$('#summaryToggle');if(!pool||!btn)return;const open=force==null?pool.hidden:!!force;pool.hidden=!open;btn.setAttribute('aria-expanded',open?'true':'false');const tx=btn.querySelector('span');if(tx)tx.textContent=open?_t('Ejemplos redactados — toca uno para usarlo','Written examples — tap one to use it'):_t('Ejemplos redactados — toca para verlos','Written examples — tap to see them');setTimeout(()=>{pnHeight();if(open)pnScrollElement(btn,'start');},40);}
 function nextSummaryExamples(){const arr=SUM[state.meta.lang]||SUM.en;sumOff=(sumOff+3)%arr.length;buildSummaryPool();toast(_t('Ejemplos ','Examples ')+(sumOff+1)+'–'+Math.min(sumOff+3,arr.length)+_t(' de ',' of ')+arr.length);}
@@ -1323,7 +1340,12 @@ function updateNav(){let d=0;SECTIONS.forEach(([k])=>{const b=document.querySele
 function jumpTo(k){const el=document.getElementById(secId[k]);if(el){if(isMobileWz())setView('editor');el.scrollIntoView({behavior:'smooth',block:'start'});setActive(k);}}
 function setActive(k){$$('.navitem').forEach(b=>b.classList.toggle('active',b.dataset.nav===k));const sel=$('#mobJump');if(sel&&sel.value!==k)sel.value=k;updateCoach(k);}
 
-let raf=null;function sr(){if(raf)return;raf=requestAnimationFrame(()=>{raf=null;renderCV();updateNav();});}
+let raf=null,_srT=null;
+/* v8.5 — while a field is focused the live preview is refreshed on a short
+   timer instead of every keystroke, so the iframe never reflows mid-keypress. */
+function sr(){
+ if(pnFieldActive()){if(_srT)return;_srT=setTimeout(()=>{_srT=null;try{renderCV();updateNav();}catch(e){}},140);return;}
+ if(raf)return;raf=requestAnimationFrame(()=>{raf=null;renderCV();updateNav();});}
 let sT=null;function save(){clearTimeout(sT);sT=setTimeout(()=>{try{STORE.set(SKEY,JSON.stringify(state));pushHist();}catch(e){}},450);}
 
 function hydrate(){$$('[data-bind]').forEach(el=>{const v=gp(state,el.dataset.bind);if(el.type==='checkbox')el.checked=!!v;else el.value=v==null?'':v;});$('#showPhoto').checked=!!state.meta.showPhoto;$('#photoRow').style.display=state.meta.showPhoto?'flex':'none';paintPhoto();if($('#showQR'))$('#showQR').checked=!!state.meta.showQR;paintSwatches();syncSw();syncSegs();buildSummaryPool();rAllLists();renderCV();updateNav();applyCoach();save();}
@@ -1351,7 +1373,7 @@ function isEditingField(){const a=document.activeElement;return !!(a&&/^(INPUT|T
 function syncMobileHeight(){
  document.documentElement.style.removeProperty('--mw-vh');
 }
-function mwGo(i){setTimeout(function(){try{i18nApply(uiLang());}catch(e){}try{pnHeight();}catch(e){}try{pnScrollElement(document.querySelector('.app'),'start');}catch(e){}},0);
+function mwGo(i){try{if(pnFieldActive())document.activeElement.blur();}catch(e){}setTimeout(function(){try{i18nApply(uiLang());}catch(e){}try{pnHeight();}catch(e){}try{pnScrollElement(document.querySelector('.app'),'start',true);}catch(e){}},60);
  mwStep=Math.max(0,Math.min(MW.length-1,i));const s=MW[mwStep];
  document.body.classList.remove('mw-welcome','mw-sec','mw-design','mw-final');
  document.body.classList.add('mw-'+s.t);
@@ -1382,12 +1404,33 @@ function bindWizardTouchNav(){
    click for a perfectly valid tap. This fallback is deliberately limited to
    non-field actions. Inputs, selects and Add buttons use their own native path. */
 function pnTouchMode(){return document.body.classList.contains('mw')||document.body.classList.contains('touch');}
+/* v8.5 — the browser's delayed click still arrives after the synthetic one. If
+   the handler re-rendered the list (move / delete / add) the original node is
+   gone, so the per-element guard below cannot catch it and the action ran
+   twice — a "move down" moved and moved back, a delete removed two cards.
+   Suppress the trailing trusted click by time and touch position instead. */
+let _stAt=0,_stX=-999,_stY=-999;
+function pnNoteSafeTouch(x,y){_stAt=Date.now();_stX=x;_stY=y;}
+document.addEventListener('click',function(e){
+ if(!e.isTrusted)return;
+ if(Date.now()-_stAt>600)return;
+ if(e.target&&e.target.closest&&e.target.closest('input,textarea,select'))return;
+ if(Math.abs(e.clientX-_stX)>44||Math.abs(e.clientY-_stY)>44)return;
+ e.preventDefault();e.stopImmediatePropagation();
+},true);
 function bindSafeTouchAction(el){
- if(!el||el.__pnSafeTouch||el.id==='wzNext'||el.id==='wzBack')return;el.__pnSafeTouch=true;el.setAttribute('data-pn-touch','safe');
+ if(!el||el.__pnSafeTouch||el.id==='wzNext'||el.id==='wzBack')return;
+ /* v8.5 — never attach the synthetic-click fallback to anything sitting inside
+    a form field wrapper (calendar buttons, badges). Those stay fully native so
+    the tap that reaches the input beside them is never intercepted. */
+ if(el.classList&&el.classList.contains('dp-open'))return;
+ if(el.querySelector&&el.querySelector('input,textarea,select'))return;
+ try{if(el.closest&&el.closest('.field')){const cs=getComputedStyle(el);if(cs.position==='absolute'||cs.position==='fixed')return;}}catch(_){}
+ el.__pnSafeTouch=true;el.setAttribute('data-pn-touch','safe');
  let armed=false,sx=0,sy=0;
  el.addEventListener('touchstart',e=>{if(!pnTouchMode()||e.touches.length!==1)return;const t=e.touches[0];armed=true;sx=t.clientX;sy=t.clientY;},{passive:true});
  el.addEventListener('touchmove',e=>{if(!armed||!e.touches.length)return;const t=e.touches[0];if(Math.abs(t.clientX-sx)>14||Math.abs(t.clientY-sy)>14)armed=false;},{passive:true});
- el.addEventListener('touchend',()=>{if(!pnTouchMode()||!armed)return;armed=false;if(el.disabled||el.getAttribute('aria-disabled')==='true')return;el.__pnDispatchingTouch=true;try{el.click();}finally{el.__pnDispatchingTouch=false;el.__pnTouchAt=Date.now();}},{passive:true});
+ el.addEventListener('touchend',e=>{if(!pnTouchMode()||!armed)return;armed=false;if(el.disabled||el.getAttribute('aria-disabled')==='true')return;const t=(e.changedTouches&&e.changedTouches[0])||null;pnNoteSafeTouch(t?t.clientX:sx,t?t.clientY:sy);el.__pnDispatchingTouch=true;try{el.click();}finally{el.__pnDispatchingTouch=false;el.__pnTouchAt=Date.now();}},{passive:true});
  el.addEventListener('touchcancel',()=>{armed=false;},{passive:true});
  el.addEventListener('click',e=>{if(!el.__pnDispatchingTouch&&Date.now()-(el.__pnTouchAt||0)<750){e.preventDefault();e.stopImmediatePropagation();}},true);
 }
@@ -1398,18 +1441,9 @@ function bindSafeTouchTree(root){
 function bindSafeMobileTouches(){
  bindSafeTouchTree(document.body);if(window.__pnSafeTouchObserver)return;window.__pnSafeTouchObserver=new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(bindSafeTouchTree)));window.__pnSafeTouchObserver.observe(document.body,{childList:true,subtree:true});
 }
-/* Add must create and focus its field directly inside the trusted touchend.
-   Calling button.click() here makes iOS treat the later focus as synthetic and
-   suppresses the software keyboard. The delayed native click is de-duplicated
-   by the regular click handler above. */
-function bindNativeAddTouches(){
- document.querySelectorAll('[data-add]').forEach(el=>{if(el.__pnNativeAdd)return;el.__pnNativeAdd=true;el.setAttribute('data-pn-touch','native-add');let armed=false,sx=0,sy=0;
-  el.addEventListener('touchstart',e=>{if(!pnTouchMode()||e.touches.length!==1)return;const t=e.touches[0];armed=true;sx=t.clientX;sy=t.clientY;},{passive:true});
-  el.addEventListener('touchmove',e=>{if(!armed||!e.touches.length)return;const t=e.touches[0];if(Math.abs(t.clientX-sx)>14||Math.abs(t.clientY-sy)>14)armed=false;},{passive:true});
-  el.addEventListener('touchend',()=>{if(!pnTouchMode()||!armed)return;armed=false;if(el.disabled)return;el.__pnNativeAddAt=Date.now();addListItem(el.dataset.add);},{passive:true});
-  el.addEventListener('touchcancel',()=>{armed=false;},{passive:true});
- });
-}
+/* v8.5 — Add buttons are fully native: the delegated click handler below is the
+   only path. No touch handler, no synthetic click, no data-pn-touch attribute. */
+function bindNativeAddTouches(){}
 function mwChrome(){
  const s=MW[mwStep],last=MW.length-1;
  const T=document.getElementById('wzTitle');if(T)T.textContent=s.title?_t(s.title,UIT[s.title]||s.title):'';
@@ -1457,14 +1491,21 @@ const AUTHORITIES_EN=["EASA (AESA)","AESA — Spain","EASA — Ireland (IAA)","E
 function acSource(t){const en=uiLang()==='en';return t==='aircraft'?AIRCRAFT:t==='ratings'?RATINGS:t==='edu'?(en?EDU_PROGRAMS_EN:EDU_PROGRAMS):t==='lic'?(en?LICENCES_EN:LICENCES):t==='auth'?(en?AUTHORITIES_EN:AUTHORITIES):[];}
 function acToken(el){if(el.dataset.ac==='ratings'){const p=el.value.split(',');return p[p.length-1].trim();}return el.value.trim();}
 function acMatch(t,tok){const src=acSource(t);const q=(tok||'').toLowerCase().trim();if(!q)return src.slice(0,8);const nq=q.replace(/[\s.\-()]/g,'');const st=[],inc=[];src.forEach(x=>{const low=x.toLowerCase();const base=low.replace(/[\s.\-()]/g,'');const mf=low.split(' ')[0];const im=(mf?mf[0]:'')+low.slice(mf.length).replace(/[\s.\-()]/g,'');if(low.indexOf(q)===0||base.indexOf(nq)===0||im.indexOf(nq)===0)st.push(x);else if(low.indexOf(q)>-1||base.indexOf(nq)>-1||im.indexOf(nq)>-1)inc.push(x);});return st.concat(inc).slice(0,8);}
-function acEnsure(){let b=document.getElementById('acbox');if(!b){b=document.createElement('div');b.id='acbox';document.body.appendChild(b);let touchAt=0;const item=e=>e.target.closest&&e.target.closest('.ac-item');b.addEventListener('mousedown',e=>{const it=item(e);if(it){e.preventDefault();acPick(+it.dataset.i);}});b.addEventListener('touchend',e=>{const it=item(e);if(it){touchAt=Date.now();acPick(+it.dataset.i);}},{passive:true});b.addEventListener('click',e=>{const it=item(e);if(!it)return;if(Date.now()-touchAt<750){e.preventDefault();return;}acPick(+it.dataset.i);});}return b;}
+function acEnsure(){let b=document.getElementById('acbox');if(!b){b=document.createElement('div');b.id='acbox';document.body.appendChild(b);let touchAt=0;const item=e=>e.target.closest&&e.target.closest('.ac-item');b.addEventListener('mousedown',e=>{const it=item(e);if(it){e.preventDefault();acPick(+it.dataset.i);}});/* v8.5 — consume the tap here: the trailing synthetic mouse events would land
+   outside the (now hidden) list and blur the field, closing the iOS keyboard.
+   focus() inside this trusted touchend keeps the keyboard up. */
+ b.addEventListener('touchend',e=>{const it=item(e);if(it){e.preventDefault();touchAt=Date.now();acPick(+it.dataset.i);}},{passive:false});b.addEventListener('click',e=>{const it=item(e);if(!it)return;if(Date.now()-touchAt<750){e.preventDefault();return;}acPick(+it.dataset.i);});}return b;}
 function acPos(el,b){const r=el.getBoundingClientRect();b.style.left=Math.max(6,r.left)+'px';b.style.width=Math.max(r.width,190)+'px';b.style.top=(r.bottom+4)+'px';const vh=(window.visualViewport&&window.visualViewport.height)||window.innerHeight;const bh=b.offsetHeight;if(r.bottom+6+bh>vh){const tp=r.top-6-bh;b.style.top=(tp>6?tp:6)+'px';}}
 function acShow(el){const t=el.dataset.ac;const items=acMatch(t,acToken(el));if(!items.length){acHide();return;}acEl=el;acType=t;acItems=items;acIdx=-1;const b=acEnsure();b.innerHTML=items.map((x,i)=>'<div class="ac-item" data-i="'+i+'">'+esc(x)+'</div>').join('');b.style.display='block';acPos(el,b);}
 function acPick(i){if(i<0||i>=acItems.length||!acEl)return;const val=acItems[i],el=acEl;if(acType==='ratings'){const p=el.value.split(',');p[p.length-1]=' '+val;el.value=p.join(',').replace(/^\s+/,'')+', ';}else{el.value=val;}acSuppress=true;el.dispatchEvent(new Event('input',{bubbles:true}));acSuppress=false;acHide();try{el.focus();const L=el.value.length;el.setSelectionRange(L,L);}catch(e){}}
 function acHide(){const b=document.getElementById('acbox');if(b)b.style.display='none';acEl=null;acItems=[];acIdx=-1;}
 function acHi(){const b=document.getElementById('acbox');if(!b)return;const its=b.querySelectorAll('.ac-item');for(let i=0;i<its.length;i++)its[i].classList.toggle('on',i===acIdx);const on=b.querySelector('.ac-item.on');if(on)on.scrollIntoView({block:'nearest'});}
 document.addEventListener('input',e=>{if(acSuppress)return;if(e.target&&e.target.dataset&&e.target.dataset.ac)acShow(e.target);});
-document.addEventListener('focusin',e=>{if(e.target&&e.target.dataset&&e.target.dataset.ac)acShow(e.target);});
+/* v8.5 — on touch the suggestion box must not open just because a field took
+   focus: it is a fixed overlay and would cover the fields underneath, so the
+   next tap would hit the list instead of the input. It opens on typing only. */
+document.addEventListener('focusin',e=>{if(e.target&&e.target.dataset&&e.target.dataset.ac){if(pnTouchMode())return;acShow(e.target);}});
+document.addEventListener('touchstart',e=>{try{if(!e.target.closest||!e.target.closest('#acbox'))acHide();}catch(_){}},{passive:true,capture:true});
 document.addEventListener('focusout',e=>{if(e.target&&e.target.dataset&&e.target.dataset.ac)setTimeout(acHide,180);});
 document.addEventListener('keydown',e=>{const b=document.getElementById('acbox');if(!acEl||!b||b.style.display==='none')return;if(e.key==='ArrowDown'){e.preventDefault();acIdx=Math.min(acItems.length-1,acIdx+1);acHi();}else if(e.key==='ArrowUp'){e.preventDefault();acIdx=Math.max(0,acIdx-1);acHi();}else if(e.key==='Enter'){if(acIdx>=0){e.preventDefault();acPick(acIdx);}}else if(e.key==='Escape'){acHide();}});
 window.addEventListener('scroll',()=>{const b=document.getElementById('acbox');if(acEl&&b&&b.style.display!=='none')acPos(acEl,b);},true);
@@ -1576,13 +1617,19 @@ function uiLang(){return (typeof state!=='undefined'&&state.meta&&state.meta.uiL
 let _uiApplied='es';
 function i18nApply(lang){lang=(lang==='en')?'en':'es';try{if(lang==='es'&&_uiApplied==='es'){document.documentElement.lang='es';return;}const scope=document.body;const w=document.createTreeWalker(scope,NodeFilter.SHOW_TEXT,null,false);const nodes=[];while(w.nextNode()){const n=w.currentNode;const v=n.nodeValue;if(!v||!v.trim()||!n.parentNode||/^(SCRIPT|STYLE|NOSCRIPT|TEMPLATE)$/.test(n.parentNode.tagName||''))continue;let p=n.parentNode,skip=false;while(p){if(p.id==='cvPaper'||(p.classList&&p.classList.contains('lang-sel'))){skip=true;break;}p=p.parentNode;}if(!skip)nodes.push(n);}nodes.forEach(n=>{const cur=n.nodeValue.trim();if(UIT_ES.has(cur))n.__es=cur;else if(n.__es===undefined)return;else if(cur!==(UIT[n.__es]||n.__es))return;const es=n.__es;const lead=(n.nodeValue.match(/^\s*/)||[''])[0];const trail=(n.nodeValue.match(/\s*$/)||[''])[0];const nv=lead+(lang==='en'?(UIT[es]||es):es)+trail;if(n.nodeValue!==nv)n.nodeValue=nv;});scope.querySelectorAll('[placeholder]').forEach(el=>{if(el.closest('#cvPaper'))return;if(el.__ph===undefined){const ph=(el.getAttribute('placeholder')||'').trim();if(UIT_ES.has(ph))el.__ph=ph;else return;}const pv=lang==='en'?(UIT[el.__ph]||el.__ph):el.__ph;if(el.getAttribute('placeholder')!==pv)el.setAttribute('placeholder',pv);});scope.querySelectorAll('[title]').forEach(el=>{if(el.closest('#cvPaper'))return;if(el.__ti===undefined){const t=(el.getAttribute('title')||'').trim();if(UIT_ES.has(t))el.__ti=t;else return;}const tv=lang==='en'?(UIT[el.__ti]||el.__ti):el.__ti;if(el.getAttribute('title')!==tv)el.setAttribute('title',tv);});scope.querySelectorAll('[aria-label]').forEach(el=>{if(el.closest('#cvPaper'))return;if(el.__ar===undefined){const a=(el.getAttribute('aria-label')||'').trim();if(UIT_ES.has(a))el.__ar=a;else return;}const av=lang==='en'?(UIT[el.__ar]||el.__ar):el.__ar;if(el.getAttribute('aria-label')!==av)el.setAttribute('aria-label',av);});document.documentElement.lang=lang;_uiApplied=lang;}catch(e){}}
 let _i18nBusy=false,_i18nT=null;
-function i18nWatch(){try{if(window.__i18nObs)return;const target=document.body;if(!target||!window.MutationObserver)return;const obs=new MutationObserver(function(muts){if(_i18nBusy||uiLang()!=='en')return;let relevant=false;for(const m of muts){let n=m.target;let inCV=false;while(n){if(n.id==='cvPaper'){inCV=true;break;}n=n.parentNode;}if(!inCV){relevant=true;break;}}if(!relevant)return;clearTimeout(_i18nT);_i18nT=setTimeout(function(){_i18nBusy=true;try{obs.disconnect();}catch(e){}try{i18nApply('en');}catch(e){}try{obs.takeRecords();obs.observe(target,{childList:true,subtree:true,characterData:true});}catch(e){}_i18nBusy=false;},120);});obs.observe(target,{childList:true,subtree:true,characterData:true});window.__i18nObs=obs;}catch(e){}}
+function i18nWatch(){try{if(window.__i18nObs)return;const target=document.body;if(!target||!window.MutationObserver)return;const obs=new MutationObserver(function(muts){if(_i18nBusy||uiLang()!=='en')return;let relevant=false;for(const m of muts){let n=m.target;let inCV=false;while(n){if(n.id==='cvPaper'){inCV=true;break;}n=n.parentNode;}if(!inCV){relevant=true;break;}}if(!relevant)return;clearTimeout(_i18nT);_i18nT=setTimeout(function run(){if(pnFieldActive()){_i18nT=setTimeout(run,260);return;}_i18nBusy=true;try{obs.disconnect();}catch(e){}try{i18nApply('en');}catch(e){}try{obs.takeRecords();obs.observe(target,{childList:true,subtree:true,characterData:true});}catch(e){}_i18nBusy=false;},120);});obs.observe(target,{childList:true,subtree:true,characterData:true});window.__i18nObs=obs;}catch(e){}}
 function initialLang(){try{const p=new URLSearchParams(location.search).get('lang');return p==='en'?'en':'es';}catch(e){return 'es';}}
 function setUILang(l){l=(l==='en')?'en':'es';state.meta.uiLang=l;_i18nBusy=true;try{buildNav();rAllLists();buildSummaryPool();buildToolbar();renderCV();syncSegs();mwChrome();i18nApply(l);}catch(e){}finally{_i18nBusy=false;}try{const u=new URL(location.href);u.searchParams.set('lang',l);history.replaceState({},'',u);}catch(e){}try{document.documentElement.lang=l;}catch(e){}save();}
-function pnScrollElement(el,block){try{if(!el)return;block=block||'start';const r=el.getBoundingClientRect();const offset=Math.max(0,Math.round(r.top+(window.scrollY||0)));if(window.self!==window.top){parent.postMessage({type:'pn-cv-scroll',offset:offset,block:block},'*');}else if(el.scrollIntoView){el.scrollIntoView({behavior:'smooth',block:block});}}catch(e){}}
-function pnHeight(){try{if(window.self===window.top)return;const a=document.querySelector('.app');let h=0;if(a){const r=a.getBoundingClientRect();h=Math.ceil(r.height);}if(!h)h=document.documentElement.scrollHeight;h=h+8;if(Math.abs((window.__pnH||0)-h)<12)return;window.__pnH=h;parent.postMessage({type:'pn-cv-height',height:h},'*');}catch(e){}}
+function pnScrollElement(el,block,force){try{if(!el)return;if(!force&&pnBusyFocus())return;block=block||'start';const r=el.getBoundingClientRect();const offset=Math.max(0,Math.round(r.top+(window.scrollY||0)));if(window.self!==window.top){parent.postMessage({type:'pn-cv-scroll',offset:offset,block:block},'*');}else if(el.scrollIntoView){el.scrollIntoView({behavior:'smooth',block:block});}}catch(e){}}
+function pnHeight(){try{if(window.self===window.top)return;if(pnBusyFocus())return;const a=document.querySelector('.app');let h=0;if(a){const r=a.getBoundingClientRect();h=Math.ceil(r.height);}if(!h)h=document.documentElement.scrollHeight;h=h+8;if(Math.abs((window.__pnH||0)-h)<12)return;window.__pnH=h;parent.postMessage({type:'pn-cv-height',height:h},'*');}catch(e){}}
 let _pnFocused=false;
-function pnHeightWatch(){try{if(window.self===window.top)return;let t=null;const ping=()=>{if(_pnFocused)return;clearTimeout(t);t=setTimeout(pnHeight,220);};if(window.ResizeObserver){const ro=new ResizeObserver(ping);const a=document.querySelector('.app');if(a)ro.observe(a);}new MutationObserver(function(muts){for(const m of muts){if(m.type==='childList'&&(m.addedNodes.length||m.removedNodes.length)){ping();return;}}}).observe(document.body,{childList:true,subtree:true});window.addEventListener('resize',ping);document.addEventListener('focusin',function(e){const tg=e.target;if(tg&&(tg.tagName==='INPUT'||tg.tagName==='TEXTAREA'||tg.tagName==='SELECT')){_pnFocused=true;if(document.body.classList.contains('mw'))setTimeout(()=>pnScrollElement(tg,'center'),90);}});document.addEventListener('focusout',function(e){const tg=e.target;if(tg&&(tg.tagName==='INPUT'||tg.tagName==='TEXTAREA'||tg.tagName==='SELECT')){_pnFocused=false;setTimeout(pnHeight,150);}});setInterval(function(){if(!_pnFocused)pnHeight();},2500);ping();}catch(e){}}
+/* v8.5 — a native field is focused: iOS is opening or holding the software
+   keyboard. Nothing may resize the iframe, scroll the parent or re-run the
+   i18n sweep until the field is released. */
+function pnFieldActive(){try{const a=document.activeElement;if(!a||!a.tagName)return false;if(!/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))return false;const t=(a.type||'').toLowerCase();return t!=='hidden'&&t!=='file'&&t!=='button'&&t!=='submit';}catch(e){return false;}}
+function pnKeyboardOpen(){try{const vv=window.visualViewport;return !!(vv&&(window.innerHeight-vv.height)>120);}catch(e){return false;}}
+function pnBusyFocus(){return _pnFocused||pnFieldActive()||pnKeyboardOpen();}
+function pnHeightWatch(){try{if(window.self===window.top)return;let t=null;const ping=()=>{if(_pnFocused)return;clearTimeout(t);t=setTimeout(pnHeight,220);};if(window.ResizeObserver){const ro=new ResizeObserver(ping);const a=document.querySelector('.app');if(a)ro.observe(a);}new MutationObserver(function(muts){for(const m of muts){if(m.type==='childList'&&(m.addedNodes.length||m.removedNodes.length)){ping();return;}}}).observe(document.body,{childList:true,subtree:true});window.addEventListener('resize',ping);document.addEventListener('focusin',function(e){const tg=e.target;if(tg&&(tg.tagName==='INPUT'||tg.tagName==='TEXTAREA'||tg.tagName==='SELECT')){_pnFocused=true;clearTimeout(t);}},true);document.addEventListener('focusout',function(e){const tg=e.target;if(tg&&(tg.tagName==='INPUT'||tg.tagName==='TEXTAREA'||tg.tagName==='SELECT')){_pnFocused=false;setTimeout(function(){if(!pnBusyFocus())pnHeight();},420);}},true);setInterval(function(){if(!pnBusyFocus())pnHeight();},2500);ping();}catch(e){}}
 function track(ev,params){try{if(window.gtag)gtag('event',ev,params||{});}catch(e){}}
 function buildOrderPanel(){const host=document.getElementById('orderPanel');if(!host)return;const blks=[].slice.call(document.querySelectorAll('#cvPaper .blk[data-sec]'));const seen={},items=[];blks.forEach(b=>{const k=b.dataset.sec;if(!k||seen[k])return;seen[k]=1;const hh=b.querySelector('h1,h2,h3,.sh,.st,.blk-h');const label=((hh?hh.textContent:k)||k).trim()||k;items.push({k:k,label:label});});if(!items.length){host.innerHTML='<p class="sec-sub" style="margin:0">'+_t('Rellena alguna sección para poder reordenarla.','Fill in a section to be able to reorder it.')+'</p>';return;}host.innerHTML=items.map((it,i)=>`<div class="ord-row"><span class="ord-name">${it.label.replace(/</g,'&lt;')}</span><span class="ord-btns"><button data-ordmove="${it.k}|up" ${i===0?'disabled':''} title="${_t('Subir','Move up')}">▲</button><button data-ordmove="${it.k}|down" ${i===items.length-1?'disabled':''} title="${_t('Bajar','Move down')}">▼</button></span></div>`).join('');}
 function moveSection(key,dir){const blks=[].slice.call(document.querySelectorAll('#cvPaper .blk[data-sec]'));const seq=[];const seen={};blks.forEach(b=>{const k=b.dataset.sec;if(k&&!seen[k]){seen[k]=1;seq.push(k);}});const i=seq.indexOf(key);if(i<0)return;const j=dir==='up'?i-1:i+1;if(j<0||j>=seq.length)return;seq.splice(i,1);seq.splice(j,0,key);state.meta.order=seq;renderCV();save();buildOrderPanel();}
@@ -1606,7 +1653,7 @@ if(y&&m&&d)out=p2(d)+'/'+p2(m)+'/'+y;else if(y&&m)out=p2(m)+'/'+y;else if(y)out=
 dpEl.value=out;dpEl.dispatchEvent(new Event('input',{bubbles:true}));dpHide();paintExpiry();}
 document.addEventListener('input',function(e){if(e.target.closest&&e.target.closest('[data-date="dmy"]'))paintExpiry();});
 document.addEventListener('focusin',function(e){const el=e.target.closest&&e.target.closest('[data-date]');if(el){if(!document.body.classList.contains('touch'))dpShow(el);}else if(!e.target.closest||!e.target.closest('.dp-box'))dpHide();});
-document.addEventListener('click',function(e){const cb=e.target.closest&&e.target.closest('.dp-open');if(cb){const inp=cb.parentNode.querySelector('[data-date]');if(inp)dpShow(inp);}});
+document.addEventListener('click',function(e){const cb=e.target.closest&&e.target.closest('.dp-open');if(cb){const sc=cb.closest('.field')||cb.parentNode;const inp=sc.querySelector('[data-date]');if(inp)dpShow(inp);}});
 document.addEventListener('click',function(e){const t=e.target;if(t.closest&&t.closest('.dp-ok')){dpApply();return;}if(t.closest&&t.closest('.dp-clear')){if(dpEl){dpEl.value='';dpEl.dispatchEvent(new Event('input',{bubbles:true}));}dpHide();return;}if(t.closest&&t.closest('.dp-box'))return;if(t.closest&&t.closest('[data-date]'))return;if(t.closest&&t.closest('.dp-open'))return;dpHide();});
 document.addEventListener('scroll',function(){if(dpEl&&dpBox&&dpBox.style.display==='block')acPos(dpEl,dpBox);},true);
 /* ===== expiry warnings ===== */
@@ -1616,7 +1663,7 @@ if(dd<0)return '<span class="exp-badge bad">'+L('Caducado','Expired')+'</span>';
 if(dd<=30)return '<span class="exp-badge bad">'+L('Caduca en '+dd+' d','Expires in '+dd+'d')+'</span>';
 if(dd<=90)return '<span class="exp-badge warn">'+L('Caduca en '+Math.round(dd/30)+' meses','Expires in '+Math.round(dd/30)+' months')+'</span>';
 return '<span class="exp-badge ok">'+L('Vigente','Valid')+'</span>';}
-function paintDateBtns(){try{document.querySelectorAll('[data-date]').forEach(function(inp){const f=inp.closest('.field');if(!f||f.querySelector('.dp-open'))return;f.style.position='relative';const b=document.createElement('button');b.type='button';b.className='dp-open';b.setAttribute('aria-label','Calendario');b.textContent='📅';f.appendChild(b);});}catch(e){}}
+function paintDateBtns(){try{document.querySelectorAll('[data-date]').forEach(function(inp){const f=inp.closest('.field');if(!f||f.querySelector('.dp-open'))return;f.classList.add('dp-field');const par=f.parentElement;if(par&&par.classList&&par.classList.contains('field')&&par.querySelector('.field'))par.classList.add('dp-pair');let row=inp.parentNode;if(!row||!row.classList||!row.classList.contains('dp-row')){row=document.createElement('div');row.className='dp-row';inp.parentNode.insertBefore(row,inp);row.appendChild(inp);}const b=document.createElement('button');b.type='button';b.className='dp-open';b.setAttribute('aria-label','Calendario');b.textContent='📅';row.appendChild(b);});}catch(e){}}
 function paintExpiry(){paintDateBtns();try{document.querySelectorAll('[data-date="dmy"]').forEach(function(inp){const f=inp.closest('.field');if(!f)return;let b=f.querySelector('.exp-badge-slot');if(!b){b=document.createElement('span');b.className='exp-badge-slot';f.appendChild(b);}b.innerHTML=expBadge(inp.value);});}catch(e){}}
 const OVERLAY_IDS=['tplModal','profilesModal','atsModal','shareModal','letterModal','actionSheet'];
 function overlayOpen(el){return !!(el&&(el.classList.contains('open')||el.classList.contains('show')));}
